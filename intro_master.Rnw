@@ -1,0 +1,184 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{beamerarticle}
+
+
+
+\usepackage{amsmath,amssymb,array,blindtext, cclicenses, comment,eucal, graphicx, booktabs, pdflscape, pifont, mdframed}
+\usepackage[english]{babel}
+
+
+
+\newenvironment{warning}
+  {\par\begin{mdframed}[linewidth=1pt,linecolor=black]%
+    \begin{list}{}{\leftmargin=1cm
+                   \labelwidth=\leftmargin}\item[\Large\ding{43}]}
+  {\end{list}\end{mdframed}\par}
+
+
+\title[Introduction to R at CDC] % (optional, only for long titles)
+{Introduction to R at CDC}
+\author{James Durant\inst{1}}
+\institute{
+  \inst{1}%
+ Science Support Branch Division of Community Health Investigations, ATSDR
+}
+
+\subtitle{\includegraphics[width=1cm]{images/Rlogo}}
+% Logo
+
+\logo{\includegraphics[width=\paperwidth]{images/footer}}
+
+\date{} % (optional)
+
+
+
+
+\begin{document}
+<<include=FALSE, cache=FALSE>>=
+#comment
+library(stringr)
+library(knitr)
+library(miniCRAN)
+library(igraph)
+library(kableExtra)
+opts_chunk$set(concordance=TRUE)
+opts_knit$set(self.contained=FALSE)
+
+#
+options(width=60)
+
+set.seed(13456)
+
+today <- format(Sys.Date(), "%m-%d-%Y")
+myDepFun <- function (pkg, availPkgs, repos = getOption("repos"), type = "source", 
+          suggests = TRUE, enhances = FALSE, includeBasePkgs = FALSE, 
+          ...) 
+{
+  if (!requireNamespace("igraph")) {
+    stop(igraphNotAvailableMessage)
+  }
+  if (missing(availPkgs)) {
+    availPkgs <- pkgAvail(repos = repos, type = type)
+  }
+  pkgs <- availPkgs
+  rownames(pkgs) <- as.vector(pkgs[, "Package"])
+  allPkgs <- rownames(pkgs)
+  if (!length(allPkgs)) 
+    stop("no packages in specified repositories")
+  pkgEdge <- function(p, type = c("Imports", "Depends", "LinkingTo"), 
+                      pdb) {
+    do.call(rbind, lapply(type, function(t) addDepType(p, 
+                                                       t, pdb = pdb)))
+  }
+  pkgEdges <- function(pp, type = c("Imports", "Depends", 
+                                    "LinkingTo"), pdb) {
+    do.call(rbind, lapply(pp, pkgEdge, type = type, pdb = pdb))
+  }
+  pkg_orig <- pkg
+  if (suggests) {
+    edges1 <- pkgEdges(pkg, type = c("Suggests"), availPkgs)
+    p_sug <- unique(unlist(tools::package_dependencies(pkg, 
+                                                       db = availPkgs, which = "Suggests", recursive = FALSE)))
+    pkg <- unique(c(p_sug, pkg))
+  }
+  if (enhances) {
+    edges2 <- pkgEdges(pkg_orig, type = c("Enhances"), availPkgs)
+    p_enh <- unique(unlist(tools::package_dependencies(pkg_orig, 
+                                                       db = availPkgs, which = "Enhances", recursive = FALSE)))
+    pkg <- unique(c(p_enh, pkg))
+  }
+  p_dep <- unique(unlist(tools::package_dependencies(pkg, 
+                                                     db = availPkgs, which = c("Imports", "Depends", "LinkingTo"), 
+                                                     recursive = TRUE)))
+  pkg <- unique(c(p_dep, pkg))
+  edges <- pkgEdges(pkg, type = c("Imports", "Depends", "LinkingTo"), 
+                    availPkgs)
+  if (suggests) {
+    edges <- rbind(edges, edges1)
+  }
+  if (enhances) {
+    edges <- rbind(edges, edges2)
+  }
+  nedges <- nrow(edges)
+  if (nedges && !includeBasePkgs) 
+    edges <- edges[!(edges[["dep"]] %in% basePkgs()), ]
+  vert <- unique(c(pkg_orig, edges[["dep"]], edges[["package"]]))
+  ret <- igraph::graph.data.frame(d = edges, directed = TRUE, 
+                                  vertices = vert)
+  class(ret) <- c("pkgDepGraph", "igraph")
+  attr(ret, "pkgs") <- pkg_orig
+  ret
+}
+
+# code to get number of packages
+xLines <- readLines("https://cran.r-project.org/web/packages/")
+xContrib <- grep("Currently, the CRAN package repository features", xLines, value=TRUE)
+xPacks <- prettyNum(str_extract(xContrib, "[0-9]+"), big.mark=",")
+
+# code to get base packages
+packLines <- readLines("https://stat.ethz.ch/R-manual/R-devel/doc/html/packages.html")
+defaultPacks <- XML::readHTMLTable(packLines, col.names=FALSE)[[1]]
+names(defaultPacks) <- c("Package", "Description")
+
+@
+
+
+ {
+ \setbeamertemplate{logo}{}
+ \setbeamertemplate{background}{\includegraphics[width=\paperwidth,height=\paperheight]{images/header3}}
+ \begin{frame}
+
+
+ 	\maketitle
+ 	 \vspace*{1.0cm}
+ 	 \includegraphics[width=1in]{images/SSB_pt_range}
+   \centering
+
+   % \tiny{R-logo \cc \ccsa \url{https://creativecommons.org/licenses/by-sa/4.0/}}\par
+ \end{frame}
+ }
+
+
+\only<article>{
+  \begin{abstract}
+R is a free data analysis programming language that was developed by Robert Gentleman and Ross Ihakka at the University of Aukland, New Zealand\footnote{GNU General Public License V2 see \url{https://www.r-project.org/COPYING}}. R is a programming language. This is important to recognize! Learning R, as with learning any language, takes time and practice. Even the most committed person cannot learn an entire language in a day or even a few weeks. There is a learning curve involved to understand the syntax and R coding environment.
+
+\vspace{3mm}
+
+The following excerpts describing R are from the R project website:
+\vspace{3mm}
+
+"R is a language and environment for statistical computing and graphics … R provides a wide variety of statistical (linear and nonlinear modelling, classical statistical tests, time-series analysis, classification, clustering, …) and graphical techniques, and is highly extensible … One of R’s strengths is the ease with which well-designed publication-quality plots can be produced, including mathematical symbols and formulae where needed."
+
+
+\vspace{3mm}
+
+
+The purpose of this course is to provide you with the basics to get started, 
+where to turn for help, and provide an overview of R's capabilities. If successful,
+this course will motivate you to use R and take the time to practice using R for
+your projects.
+
+  \end{abstract}
+}
+
+
+\only<article>{
+\newpage
+\tableofcontents
+}
+
+\only<presentation>{
+\begin{frame}{Outline}
+\tableofcontents
+\end{frame}
+}
+
+
+<<intro, child='./Rnw_lessons/intro_2_R.Rnw'>>=
+@
+
+<<running R, child='./Rnw_lessons/running_R.Rnw'>>=
+@
+
+\end{document}

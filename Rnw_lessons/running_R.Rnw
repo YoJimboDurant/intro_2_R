@@ -1,0 +1,383 @@
+% !Rnw root = Master.Rnw
+
+
+\section{Running R}
+\subsection{R GUI}
+\begin{frame}[fragile]{R GUI}
+Under Windows, R runs in a graphical user interface (GUI) environment. \only<presentation>{This R's GUI, with an R Console open:}
+\begin{figure}
+\centering
+    \includegraphics[width=0.7\textwidth]{images/Rconsole.PNG}
+  \caption{R's GUI}
+  \label{fig:RGUI}
+\end{figure}
+
+\only<article>{
+Figure \ref{fig:RGUI} shows R's GUI, with the R Console. The R Console interprets the 
+R commands and provides the output. Commands can be typed in directly, or a whole set
+of commands can be run from a script that you can open in the R GUI or load from an external
+file.
+}
+\end{frame}
+
+\begin{frame}[fragile]{The R Console}
+The R Console is the interpreter for R. 
+\begin{itemize}
+\item Command can be typed in and ENTER key pressed. 
+\item The interpreter will examine the command and either prompt for more $+$ (continuiation prompt) or attempt to execute the command. 
+\item Comments: Any line begining with \texttt{\#} is a comment and is ignored. Anything after \texttt{\#} is ignored until end of line.
+\item Semicolons \texttt{;} can separate commands on same line
+\item Braces (\texttt{\{} and \texttt{\}}) can group commands together.
+\end{itemize}
+\end{frame}
+
+
+
+\subsection{Basic Sytax}
+{
+\setbeamertemplate{logo}{}
+
+\begin{frame}[fragile]{Basic Example Operations in Console}
+<<>>=
+#Basic Operations
+1+1
+sqrt(5000)
+'Hello World'
+1+1; 1-1; 3/3;4*2; 2*pi;pi%%pi
+@
+\end{frame}
+
+<<remove, echo=FALSE>>=
+rm(list=ls())
+@
+
+\begin{frame}[fragile]{Assignments}
+Variables are stored in R by \textit{assigning} them. You can see what variables are in R's memory environment by using the function \texttt{objects()}. You can use \texttt{\hlkwb{=}} or  \texttt{\hlkwb{<-}} for assignment. 
+
+\begin{itemize}
+\item[\Large\ding{43}]\emph{Note that R is case sensitive!}
+\item[\Large\ding{43}]\emph{Object names cannot start with a number!}
+\end{itemize}
+
+<<variables>>=
+#Variable Assignments
+x = 7
+#or
+x <- 7 #  <- assignment operator (Shortcut key: Alt + -) in Rstudio
+print(x)
+
+print(X) # ERROR!
+
+y <- 10-9
+y #Running variable auto prints
+@
+\end{frame}
+
+\only<article>{
+The arrow keys can be useful to scroll through your command history. UP will give you the previous commands, and down will move foward in your command history. That way, if you make a typo, you can correct your previous commands easily. You can also use the command \texttt{history()} to see all the past commands you have run.
+}
+
+\begin{frame}[fragile]{Objects and Clearing Environment}
+To see what objects are stored in memory:
+<<console>>=
+objects()
+@
+
+To clear all objects from memory:
+<<console2, eval=FALSE>>=
+rm(list=ls())
+@
+\end{frame}
+
+\begin{frame}[fragile]{Logical Comparisons}
+To use logical comparisons, use the symbols \texttt{<, >, >=, <=, ==, !=, \%in\%}
+<<logic, tidy=TRUE>>=
+x > 2
+x < 0
+x >= 4
+x <= 5
+x == 1
+x != 1
+@
+\end{frame}
+
+\begin{frame}[fragile]{Atomic structures}
+Objects can have classes. Atomic structures are the lowest level of class.
+<<atomic>>=#Variable classes
+class(x)
+x <- 1.7
+class(x)
+y <- 'Hello World!'
+class(y)
+z <- TRUE
+class(z)
+@
+\end{frame}
+
+\begin{frame}[fragile]{Complex and Raw class}
+
+\only<article>{In addition to the classes above, there are complex number classes and the raw class. Raw classes are used to hold raw bytes. For the most part, beginers will probably not need these classes, but for advanced programming applications, they can be quite useful.}
+
+<<more class>>=
+a_complex_number <- 1+0i
+class(a_complex_number)
+xx <- charToRaw("I am not raw")
+xx
+class(xx)
+rawToChar(xx)
+@
+\end{frame}
+
+
+
+\subsection{Data Structures}
+\subsubsection{Vectors}
+\begin{frame}[fragile]{Numeric Vectors}
+\begin{itemize}
+\item Data structures hold data. 
+\item There are different classes of data structures. 
+\item Simpliest data structure is a vector.
+\item All items in vector must have same atomic class.
+\end{itemize}
+\only<article>{The vector is the building block of more complex structures, so understanding their basic operations is essential.}
+<<vector>>=
+X <- c(10.4, 5.6, 3.1, 6.4, 21.7)   # creates a numeric vector
+1/X                                
+Y <- 1/X
+X**2
+# assigns 1/X to Y
+summary(Y)
+@
+\end{frame}
+\only<article>{
+The \texttt{c} function is concatnate. It combines individual datum 
+into a vector. 
+}
+
+\begin{frame}[fragile]{Regular and Random Sequences}
+\begin{itemize}
+\item R can be used to create regular sequencies of numbers using \texttt{seq}. 
+\item Random numbers at created using random number generating functions (e.g. \texttt{rnorm}).
+\end{itemize}
+rumbers 
+<<sequences>>=
+#regular sequences
+seq(from = -5, to = 5, by = 2)
+1:15
+
+# use rnorm
+randomNums <- rnorm(1000)
+summary(randomNums)
+@
+\only<article>{
+You can find out which distributions are supported by typing \texttt{help(distributions)}. You can control type of random number generation in R, and set random number generator seed numbers  - see \texttt{help(RNG).}
+} 
+\end{frame}
+
+
+\begin{frame}[fragile]{Character Vectors}
+Character vectors behave in a different manner than numeric vectors. 
+<<vector2>>=
+Stooges <- c("Moe", "Larry", "Curly")    
+lastNames <- c("Howard", "Fine", "Howard")
+1/Stooges # Error
+ThreeStooges <- paste(Stooges, lastNames) 
+ThreeStooges # prints
+@
+\only<article>{\texttt{paste()} pastes the contents two vectors together item-by-item. If the vector lengths are different, R will issue a warning, and "recycle" to the top of the shorter vector.}
+\end{frame}
+
+
+\begin{frame}[fragile]{Logical Vectors}
+ Logical vectors can be created as well, either directly by assignment or evaluating a vector.
+<<vector3>>=
+logicVector1 <- c(TRUE, FALSE, FALSE, TRUE)    
+logicVector2 <- c(T,F,F,T) #T or F means TRUE or FALSE
+(logicVector3 <- X < 10)
+summary(logicVector3)
+(logicVector4 <- lastNames == "Howard")
+@
+\end{frame}
+
+\begin{frame}[fragile, allowframebreaks]{Factor Vectors}
+ Factor variables are used to indicate discrete classification, or grouping. 
+<<vectorfactor>>=
+factorStates <- as.factor(sample(sample(state.abb, 10), 100, 
+                                 replace = TRUE))  
+factorStates
+summary(factorStates)
+@
+\end{frame}
+
+
+
+\only<article>{
+\vspace{1cm}
+\begin{warning}
+The behavior of the \texttt{summary()} and other functions change depending on 
+the class of the vector. Numeric vector results in a simple numeric summary, while
+logical vectors give you counts of \texttt{TRUE} and \texttt{FALSE} in the vector.
+A summary of a factor vector gives you a count of the factor levels.
+\end{warning}
+}
+
+\begin{frame}[fragile, allowframebreaks]{Indexing Vectors}
+Vectors can be subset by using square brackets \texttt{[]}. To perform the subsetting, you
+can use either:
+
+\begin{itemize}
+\item Numeric vector
+\item Logical vector
+\end{itemize}
+Numeric vector index
+<<vectorIndex>>=
+ThreeStooges[1]
+ThreeStooges[2]
+ThreeStooges[2:3]
+ThreeStooges[c(1,3)]
+@
+
+Logical vector indexing:
+<<vectindex2>>=
+ThreeStooges[lastNames == "Howard"]
+X[X>5]
+@
+\end{frame}
+\only<article>{
+The numeric index vector should not exceed the length of the indexed vector. For instance,
+\texttt{ThreeStooges[4]} will result in an missing value \Sexpr{ThreeStooges[4]}.
+}
+
+\begin{frame}[fragile]{Vector Manipulations}
+\begin{itemize}
+\item You can index a vector and use the assignment to change its value:
+<<vector_manip>>=
+ThreeStooges[2] <- "James Durant"
+ThreeStooges
+X[X<5] <- 0
+X
+X[X<5] <- rnorm(100) #warning
+X[X>50] <- rnorm(100) 
+@
+\end{itemize}
+\end{frame}
+\only<article>{Note the replacement vector must be either 1 - which replaces all values, or of equal length to the replacement. If the index results in a zero length vector, R will not substitute the values.}
+
+\begin{frame}[fragile]{Missing Values}
+\begin{itemize}
+\item Missing, not available or unknown values are coded with \texttt{NA}.
+\item \texttt{is.na(x)} gives logical vector of length \texttt{x} with value of \texttt{TRUE} for \texttt{NA} values in vector \texttt{x}.
+
+<<>>=
+x <- c(1:3,NA)
+is.na(x)
+x == NA
+@
+\end{itemize}
+\end{frame}
+
+
+\only<article>{
+\vspace{5mm}
+\begin{warning}
+\texttt{x == NA} will evaluate the following:
+\begin{itemize}
+\item is 1 equal to unknown? R doesn't know!
+\item is 2 equal to unknown? R doesn't know!
+\item is 3 equal to unknown? R doesn't know!
+\item is unknown equal to unknown? R doesn't know!
+\end{itemize}
+\texttt{is.na(x)} will evaluate each element of vector and see if it is a missing value. So what is evaluated is:
+\begin{itemize}
+\item is 1 an unknown? FALSE
+\item is 2 an unknown? FALSE
+\item is 3 an unknown? FALSE
+\item is unknown an unknown? TRUE
+\end{itemize}
+\end{warning}
+}
+
+\begin{frame}[fragile]{Not a Number Values}
+\begin{itemize}
+\item Results of math computations that are not nubmers are coded as \texttt{NaN}.
+\item \texttt{is.na(x)} gives logical vector of length \texttt{x} with value of \texttt{TRUE} for \texttt{NaN} values or \texttt{NA} values in vector \texttt{x}.
+\item \texttt{is.nan(x)} will only produce \texttt{TRUE} values for \texttt{NaN} values in vector \texttt{x}
+
+<<notanumber>>=
+x[5] <- 0/0
+x[6] <- Inf - Inf
+is.na(x)
+is.nan(x)
+@
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Vector Calculations}
+\begin{itemize}
+\item You can calculate values using numeric vectors:
+<<>>=
+X1 <- c(1,2,3,4,5)
+X2 <-c(1,2,3)
+X1 + X2
+X2 <- c(X2, 4, 5)
+X1 + X2
+@
+\end{itemize}
+\end{frame}
+
+\subsubsection{Arrays}
+\begin{frame}[fragile]{Arrays}
+Arrays are multiple dimension collection of data enteries.
+\begin{itemize}
+\item All items in array must be in same type
+\item Arrays are indexed using \texttt{[]} brackets
+\item Multiple dimensions can be accessed in array
+\end{itemize}
+\end{frame}
+
+\only<article>{If you create a 1 dimensional array, it will usually be treated as a vector, see section 5.1 of \textemph{An Introduction to R}.}
+
+\begin{frame}[fragile]{Array Example}
+To create a 3 by 4 by 2 array:
+
+<<>>=
+set.seed(1)
+h <- rnorm(24)
+Z <- array(h, dim = c(3,4,2)) 
+@
+
+Alternative approach to creating an array is to change the dim attribute of a vector:
+
+<<>>=
+Z1 <-h
+dim(Z1)  <- c(3,4,2)
+identical(Z,Z1)
+@
+
+\end{frame}
+
+\begin{onlyenv}<article>
+The order of the filling of an array is to fill the first, then increase the index on the second, and finally, when the second dimension is filled, it will move to the next highest dimension.  
+
+<<>>=
+q <- 1:24
+dim(q) <- c(3,4,2)
+print(q)
+@
+
+Arrays can be indexed. For instance, to see the observation with index \texttt{[1,2,2]}:
+<<>>=
+Z[1,2,2]
+@
+
+Blanks in an index will select all values. To select all observations with index of 1 in the third position:
+
+<<>>=
+Z[,,1]
+@
+\end{onlyenv}
+
+
+
+
+}
