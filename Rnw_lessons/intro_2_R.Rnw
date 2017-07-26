@@ -1,4 +1,4 @@
-% !Rnw root = Master.Rnw
+% !Rnw root = ../intro_master.Rnw
 
 \only<article>{
 \newpage

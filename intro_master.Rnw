@@ -3,7 +3,9 @@
 
 
 
-\usepackage{amsmath,amssymb,array,blindtext, cclicenses, comment,eucal, graphicx, booktabs, pdflscape, pifont, mdframed}
+\usepackage{amsmath,amssymb,array, blindtext, booktabs, cclicenses, color, comment, eucal, graphicx, 
+hyperref, inputenc, pdflscape, pifont, mdframed}
+
 \usepackage[english]{babel}
 
 
@@ -34,6 +36,19 @@
 
 
 \begin{document}
+
+<<include=FALSE, cache=FALSE>>=
+# # this attempts to create the slides for xelatex
+knit_hooks$set(document = function(x) {sub('\\usepackage[]{color}', '\\usepackage{xcolor}', x, fixed = TRUE)})
+x <- readLines("intro_master.Rnw")
+x <- grep("^\\\\documentclass", x, invert=TRUE, value=TRUE)
+x <- grep("^\\\\usepackage\\{beamerarticle\\}", x, invert=TRUE, value=TRUE)
+x <- c("\\documentclass[10pt]{beamer}",
+   "\\geometry{paper=a6paper,landscape}", x)
+write(x, "slides.Rnw")
+#  try(knit("slides.Rnw"))
+@
+
 <<include=FALSE, cache=FALSE>>=
 #comment
 library(stringr)
@@ -181,4 +196,8 @@ your projects.
 <<running R, child='./Rnw_lessons/running_R.Rnw'>>=
 @
 
+<<include=FALSE, cache=FALSE>>=
+# # this attempts to create the slides for xelatex
+try(knit("slides.Rnw"))
+@
 \end{document}

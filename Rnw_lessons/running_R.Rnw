@@ -1,4 +1,4 @@
-% !Rnw root = Master.Rnw
+% !Rnw root = ../intro_master.Rnw
 
 
 \section{Running R}
@@ -379,5 +379,63 @@ Z[,,1]
 
 
 
+\subsubsection{Matrices}
+\begin{frame}[fragile]{Matrix Facilities}
+A matrix in R is a special case of the array. There are several operators and functions that will apply only to maticies. A matrix is a expected class of the data argument to simple chi-square tests and Fisher's exact test:
 
+To create a matrix:
+<<theone>>=
+TeaTasting <- matrix(c(3, 1, 1, 3),
+       nrow = 2,
+       dimnames = list(Guess = c("Milk", "Tea"),
+                       Truth = c("Milk", "Tea")))
+
+TeaTasting
+@
+
+\only<presentation>{
+The output of the Fisher exact test is shown in the handout.
 }
+
+\end{frame}
+
+
+\begin{onlyenv}<article>
+The output for the Fisher exact test is:
+<<fisher>>=
+fisher.test(TeaTasting, alternative = "greater")
+@
+\end{onlyenv}
+
+\begin{frame}[fragile]{Array Example - Mantel-Haenszel test}
+Example from Agresti (1990), pages 231--237, Penicillin and Rabbits
+Investigation of the effectiveness of immediately injected or 1.5
+hours delayed penicillin in protecting rabbits against a lethal
+injection with beta-hemolytic streptococci.
+<<>>=
+Rabbits <-
+array(c(0, 0, 6, 5,
+        3, 0, 3, 6,
+        6, 2, 0, 4,
+        5, 6, 1, 0,
+        2, 5, 0, 0),
+      dim = c(2, 2, 5),
+      dimnames = list(
+          Delay = c("None", "1.5h"),
+          Response = c("Cured", "Died"),
+          Penicillin.Level = c("1/8", "1/4", "1/2", "1", "4")))
+@
+
+\only<presentation>{
+An example and output of the Mantel-Haenszel test is shown in the handout.
+}
+\end{frame}
+
+\begin{onlyenv}<article>
+
+The output for the Mantel-Haenszel exact test is:
+<<mantel2, results='markup'>>=
+Rabbits
+mantelhaen.test(Rabbits)
+@
+\end{onlyenv}
