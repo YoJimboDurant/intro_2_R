@@ -439,3 +439,36 @@ Rabbits
 mantelhaen.test(Rabbits)
 @
 \end{onlyenv}
+
+\begin{frame}[fragile]{Array Example - Mantel-Haenszel test}
+Example from Mannocci (2009) Ital J. Public Health. 2009;6(4):338–40 \url{http://ijphjournal.it/article/viewFile/5765/5509}.
+<<>>=
+mi_array <-
+array(c(4,2,62,224,
+        9,12,33,390,
+        4,33,26,330,
+        6,65,9,362,
+        6,93,5,301),
+      dim = c(2, 2, 5),
+      dimnames = list(
+          Alcohol = c("Yes", "No"),
+          Response = c("MI", "Control"),
+          Age.Group = c("25-29", "30-34", "35-39", 
+                        "40-44", "45-49")))
+@
+
+\only<presentation>{
+An example and output of the Mantel-Haenszel test is shown in the handout.
+}
+
+\begin{onlyenv}<article>
+
+The output for the Mantel-Haenszel exact test is:
+<<mantel_mi, results='markup'>>=
+mi_array
+mantelhaen.test(mi_array)
+@
+
+\end{onlyenv}
+
+\end{frame}
