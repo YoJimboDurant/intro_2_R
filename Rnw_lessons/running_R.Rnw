@@ -7,7 +7,7 @@
 Under Windows, R runs in a graphical user interface (GUI) environment. \only<presentation>{This R's GUI, with an R Console open:}
 \begin{figure}
 \centering
-    \includegraphics[width=0.7\textwidth]{images/Rconsole.PNG}
+    \includegraphics[width=0.7\textwidth]{images/Rconsole}
   \caption{R's GUI}
   \label{fig:RGUI}
 \end{figure}
