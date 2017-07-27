@@ -407,42 +407,16 @@ fisher.test(TeaTasting, alternative = "greater")
 @
 \end{onlyenv}
 
-\begin{frame}[fragile]{Array Example - Mantel-Haenszel test}
-Example from Agresti (1990), pages 231--237, Penicillin and Rabbits
-Investigation of the effectiveness of immediately injected or 1.5
-hours delayed penicillin in protecting rabbits against a lethal
-injection with beta-hemolytic streptococci.
-<<>>=
-Rabbits <-
-array(c(0, 0, 6, 5,
-        3, 0, 3, 6,
-        6, 2, 0, 4,
-        5, 6, 1, 0,
-        2, 5, 0, 0),
-      dim = c(2, 2, 5),
-      dimnames = list(
-          Delay = c("None", "1.5h"),
-          Response = c("Cured", "Died"),
-          Penicillin.Level = c("1/8", "1/4", "1/2", "1", "4")))
-@
-
-\only<presentation>{
-An example and output of the Mantel-Haenszel test is shown in the handout.
-}
-\end{frame}
-
-\begin{onlyenv}<article>
-
-The output for the Mantel-Haenszel exact test is:
-<<mantel2, results='markup'>>=
-Rabbits
-mantelhaen.test(Rabbits)
-@
-\end{onlyenv}
 
 \begin{frame}[fragile]{Array Example - Mantel-Haenszel test}
-Example from Mannocci (2009) Ital J. Public Health. 2009;6(4):338–40 \url{http://ijphjournal.it/article/viewFile/5765/5509}.
-<<>>=
+Example from Mannocci (2009) Ital J. Public Health. 2009;6(4):338–40 \url{http://ijphjournal.it/article/viewFile/5765/5509}. Looking at Oral contraceptive use
+and myocradial infarction (controling for 5 age groups)
+
+% secondary citation (Shapiro S, Slone D, Rosenberg L, Kaufman DW, Stolley PD,
+% Miettinen OS. Oral contraceptive use in relation to myocardial
+% infarction. Lancet 1979;1(8119):743-7.))
+
+<<results = 'hide'>>=
 mi_array <-
 array(c(4,2,62,224,
         9,12,33,390,
@@ -455,6 +429,8 @@ array(c(4,2,62,224,
           Response = c("MI", "Control"),
           Age.Group = c("25-29", "30-34", "35-39", 
                         "40-44", "45-49")))
+
+mantelhaen.test(mi_array)
 @
 
 \only<presentation>{
@@ -463,12 +439,11 @@ An example and output of the Mantel-Haenszel test is shown in the handout.
 
 \begin{onlyenv}<article>
 
-The output for the Mantel-Haenszel exact test is:
+The array and the output for the Mantel-Haenszel exact test is:
 <<mantel_mi, results='markup'>>=
 mi_array
 mantelhaen.test(mi_array)
 @
-
 \end{onlyenv}
 
 \end{frame}
