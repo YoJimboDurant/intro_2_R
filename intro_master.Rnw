@@ -82,7 +82,7 @@ myDepFun <- function (pkg, availPkgs, repos = getOption("repos"), type = "source
     stop("no packages in specified repositories")
   pkgEdge <- function(p, type = c("Imports", "Depends", "LinkingTo"), 
                       pdb) {
-    do.call(rbind, lapply(type, function(t) addDepType(p, 
+    do.call(rbind, lapply(type, function(t) miniCRAN:::addDepType(p, 
                                                        t, pdb = pdb)))
   }
   pkgEdges <- function(pp, type = c("Imports", "Depends", 
