@@ -105,3 +105,21 @@ knitr::kable(defaultPacks, booktabs=TRUE, caption = "Standard R Library", format
 @
 When R is installed, standard packages are installed along with the installation. These provide a number of graphical, statistical, and developmental capabilities to R. Table 2 lists the standard packages that come with R.
 }
+
+\begin{frame}[fragile]{Package Dependencies}
+Packages can call other packages - the type of calls can be:
+\begin{itemize}
+  \item Imports - when package loads, the imported package loads
+  \item Depends - similiar to imports
+  \item Suggests - some functions require to run (but package is not immediately loaded)
+  \item Links to - compiled code is used
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{Package Dependencies - Openair}
+<<echo=FALSE, message=FALSE, warning=FALSE>>=
+x <- myDepFun("openair")
+plot(x)
+@
+\end{frame}
