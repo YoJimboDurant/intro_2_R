@@ -1,0 +1,86 @@
+```{r get_pack, echo=FALSE, warning=FALSE, results='hold', message=FALSE}
+library(stringr)
+library(knitr)
+library(miniCRAN)
+library(igraph)
+library(kableExtra)
+opts_chunk$set(concordance=TRUE)
+opts_knit$set(self.contained=FALSE)
+
+#
+options(width=60)
+
+set.seed(13456)
+
+today <- format(Sys.Date(), "%m-%d-%Y")
+myDepFun <- function (pkg, availPkgs, repos = getOption("repos"), type = "source", 
+                      suggests = TRUE, enhances = FALSE, includeBasePkgs = FALSE, 
+                      ...) 
+{
+  if (!requireNamespace("igraph")) {
+    stop(igraphNotAvailableMessage)
+  }
+  if (missing(availPkgs)) {
+    availPkgs <- pkgAvail(repos = repos, type = type)
+  }
+  pkgs <- availPkgs
+  rownames(pkgs) <- as.vector(pkgs[, "Package"])
+  allPkgs <- rownames(pkgs)
+  if (!length(allPkgs)) 
+    stop("no packages in specified repositories")
+  pkgEdge <- function(p, type = c("Imports", "Depends", "LinkingTo"), 
+                      pdb) {
+    do.call(rbind, lapply(type, function(t) miniCRAN:::addDepType(p, 
+                                                                  t, pdb = pdb)))
+  }
+  pkgEdges <- function(pp, type = c("Imports", "Depends", 
+                                    "LinkingTo"), pdb) {
+    do.call(rbind, lapply(pp, pkgEdge, type = type, pdb = pdb))
+  }
+  pkg_orig <- pkg
+  if (suggests) {
+    edges1 <- pkgEdges(pkg, type = c("Suggests"), availPkgs)
+    p_sug <- unique(unlist(tools::package_dependencies(pkg, 
+                                                       db = availPkgs, which = "Suggests", recursive = FALSE)))
+    pkg <- unique(c(p_sug, pkg))
+  }
+  if (enhances) {
+    edges2 <- pkgEdges(pkg_orig, type = c("Enhances"), availPkgs)
+    p_enh <- unique(unlist(tools::package_dependencies(pkg_orig, 
+                                                       db = availPkgs, which = "Enhances", recursive = FALSE)))
+    pkg <- unique(c(p_enh, pkg))
+  }
+  p_dep <- unique(unlist(tools::package_dependencies(pkg, 
+                                                     db = availPkgs, which = c("Imports", "Depends", "LinkingTo"), 
+                                                     recursive = TRUE)))
+  pkg <- unique(c(p_dep, pkg))
+  edges <- pkgEdges(pkg, type = c("Imports", "Depends", "LinkingTo"), 
+                    availPkgs)
+  if (suggests) {
+    edges <- rbind(edges, edges1)
+  }
+  if (enhances) {
+    edges <- rbind(edges, edges2)
+  }
+  nedges <- nrow(edges)
+  if (nedges && !includeBasePkgs) 
+    edges <- edges[!(edges[["dep"]] %in% basePkgs()), ]
+  vert <- unique(c(pkg_orig, edges[["dep"]], edges[["package"]]))
+  ret <- igraph::graph.data.frame(d = edges, directed = TRUE, 
+                                  vertices = vert)
+  class(ret) <- c("pkgDepGraph", "igraph")
+  attr(ret, "pkgs") <- pkg_orig
+  ret
+}
+
+# code to get number of packages
+xLines <- readLines("https://cran.r-project.org/web/packages/")
+xContrib <- grep("Currently, the CRAN package repository features", xLines, value=TRUE)
+xPacks <- prettyNum(str_extract(xContrib, "[0-9]+"), big.mark=",")
+
+# code to get base packages
+packLines <- readLines("https://stat.ethz.ch/R-manual/R-devel/doc/html/packages.html")
+defaultPacks <- XML::readHTMLTable(packLines, col.names=FALSE)[[1]]
+names(defaultPacks) <- c("Package", "Description")
+```
+

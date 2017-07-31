@@ -1,0 +1,13 @@
+---
+title: "Introduction to R at CDC"
+subtitle: \includegraphics[width=1cm]{images/Rlogo.png}
+author: James Durant
+institute: ATSDR Division of Community Health Investigations
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+fontsize: 11pt
+output: 
+  beamer_presentation: 
+    latex_engine: xelatex
+    keep_tex: yes
+---
+`r xclass="beamer"`
