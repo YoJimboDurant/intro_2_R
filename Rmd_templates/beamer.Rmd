@@ -4,7 +4,7 @@ subtitle: \includegraphics[width=1cm]{images/Rlogo.png}
 author: James Durant
 institute: ATSDR Division of Community Health Investigations
 date: "`r format(Sys.time(), '%B %d, %Y')`"
-fontsize: 11pt
+fontsize: 10pt
 output: 
   beamer_presentation: 
     latex_engine: xelatex

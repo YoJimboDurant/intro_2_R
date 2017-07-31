@@ -1,0 +1,19 @@
+## RGUI
+Windows, R runs in a graphical user interface (GUI) environment. This R's GUI, with an R Console open:
+![R's console](images/Rconsole.png)
+
+<article>
+Figure \ref{fig:RGUI} shows R's GUI, with the R Console. The R Console interprets the 
+R commands and provides the output. Commands can be typed in directly, or a whole set
+of commands can be run from a script that you can open in the R GUI or load from an external
+file.
+<\article>
+
+## The R Console
+The R Console is the interpreter for R.
+
+- Command can be typed in and ENTER key pressed.
+- The interpreter will examine the command and either prompt for more  (continuation prompt) or attempt to execute the command.
+- Comments: Any line beginning with is a comment and is ignored. Anything after is ignored until end of line.
+- Semicolons can separate commands on same line
+- Braces ( and ) can group commands together.
