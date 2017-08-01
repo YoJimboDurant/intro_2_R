@@ -5,6 +5,8 @@ author: James Durant
 institute: ATSDR Division of Community Health Investigations
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 fontsize: 10pt
+header-includes:
+   - \usepackage{booktabs}
 output: 
   beamer_presentation: 
     latex_engine: xelatex

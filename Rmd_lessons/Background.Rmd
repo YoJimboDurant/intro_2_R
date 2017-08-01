@@ -68,7 +68,7 @@ knitr::kable(z,  col.names = c(NULL,NULL), booktabs=TRUE, caption = "Available T
 
 if(xclass =="beamer"){
   kable(z, col.names =c(NULL,NULL), format = "latex", booktabs = T, caption = "Available Task Views on CRAN") %>%
-  kableExtra::kable_styling(font_size = 8)
+  kableExtra::kable_styling(font_size = 6)
 }
 ```
 
@@ -83,8 +83,9 @@ knitr::kable(cbind(as.character(defaultPacks$Package[1:14]),as.character(default
 
 if(xclass =="beamer"){
   kable(cbind(as.character(defaultPacks$Package[1:14]),as.character(defaultPacks$Package[15:28])), format = "latex", booktabs = T, caption = "R Standard Library") %>%
-  kableExtra::kable_styling(font_size = 8)
+  kableExtra::kable_styling(font_size = 6)
 }
 ```
+<article>
 These are installed by default and provide a number of graphical, statistical, and developmental capabilities to R.
-
+<\article>

@@ -13,7 +13,7 @@ file.
 The R Console is the interpreter for R.
 
 - Command can be typed in and ENTER key pressed.
-- The interpreter will examine the command and either prompt for more  (continuation prompt) or attempt to execute the command.
-- Comments: Any line beginning with is a comment and is ignored. Anything after is ignored until end of line.
+- The interpreter will examine the command and either prompt for more  *+* (continuation prompt) or attempt to execute the command.
+- Comments: Any line beginning with *#* is a comment and is ignored. Anything after is ignored until end of line.
 - Semicolons can separate commands on same line
-- Braces ( and ) can group commands together.
+- Braces *{* and *}* can group commands together.
