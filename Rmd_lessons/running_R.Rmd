@@ -17,3 +17,10 @@ The R Console is the interpreter for R.
 - Comments: Any line beginning with *#* is a comment and is ignored. Anything after is ignored until end of line.
 - Semicolons can separate commands on same line
 - Braces *{* and *}* can group commands together.
+
+## Your first function - help.start()
+```{r help.start, eval=FALSE}
+help.start()
+```
+![R help](images/The_R_Language1.png)
+
