@@ -36,6 +36,7 @@ hyperref, inputenc, pdflscape, pifont, mdframed}
 
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 
 <<include=FALSE, cache=FALSE>>=
 # # this attempts to create the slides for xelatex
