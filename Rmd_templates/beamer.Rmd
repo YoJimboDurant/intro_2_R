@@ -9,6 +9,7 @@ header-includes:
    - \usepackage{booktabs}
 output: 
   beamer_presentation: 
+    slide_level: 2
     latex_engine: xelatex
     keep_tex: yes
 ---

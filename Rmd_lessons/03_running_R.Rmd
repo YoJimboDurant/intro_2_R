@@ -20,13 +20,26 @@ The R Console is the interpreter for R.
 - Braces *{* and *}* can group commands together.
 
 
-
 ## Your first function - help.start()
 ```{r help.start, eval=FALSE}
 help.start()
 ```
 ![R help](images/The_R_Language1.png)
+## Your second function - help()
+```{r help, eval=FALSE}
+help("lm")  # inside () is arguments passed to function help
+help("help")
+?help   # abbriviate the help with ?
+help(package="stats") # arguments can be by order or named
+```
+<article>
+We should spend some time talking about function arguments. As you can see by the help page for help, there are several arguments that can passed to the `r knitr::inline_expr('help()')` function. If these are passed in order of the function's expected arguments, its, expecting the topic first, then package (which if not specified defaults to NULL), etc. Arguments can be partially matched by title. 
+<\article>
 
+## Your third function - help.search()
+```{r help.search, eval=FALSE}
+help.search("generalized linear model")
+```
 ## RStudio
 Integrated Development Environments (IDE's) such as RStudio come with features to make coding and running code easier. RStudio's features  include:
 
@@ -51,3 +64,201 @@ Features to note in RStudio:
 - Information on the many hot keys and functionality in RStudio can be found at: https://www.rstudio.com/wp-content/uploads/2016/01/rstudio-IDE-cheatsheet.pdf
 - For instance, you can place the cursor anywhere in your Rscript in RStudio and press *<Control>* and *B*, and RStudio will run your code from the start until it reaches the position of the cursor. You can also press *<Alt>* and *-* and RStudio will place and assignment (<-).
 <\article>
+
+## Basic Example Operations in Console
+```{r}
+#Basic Operations
+1+1
+sqrt(5000)
+'Hello World'
+1+1; 1-1; 3/3;4*2; 2*pi;pi%%pi
+```
+
+## Assignments
+Variables are stored in R by _assigning_ them. You can see what variables are in R's memory environment by using the function `r knitr::inline_expr('objects()')`. You can use `r knitr::inline_expr('<-')` or `r knitr::inline_expr('=')` for assignment. 
+
+* Note that R is case sensitive!
+* Object names cannot start with a number!
+```{r error=TRUE} 
+#Variable Assignments
+x = 7
+
+x <- 7 #  <- assignment operator 
+# (Shortcut key: Alt + -) in Rstudio
+print(x)
+print(X) # ERROR!
+
+y <- 10-9 ; y #Running variable auto prints
+```
+
+<article>
+The arrow keys can be useful to scroll through your command history. UP will give you the previous commands, and down will move foward in your command history. That way, if you make a typo, you can correct your previous commands easily. You can also use the command \texttt{history()} to see all the past commands you have run.
+<\article>
+
+## Objects and Clearing Environment
+
+To see what objects are stored in memory:
+```{r}
+objects()
+```
+
+To clear all objects from memory:
+```{r}
+rm(list=ls())
+```
+
+## Logical Comparisons
+
+To use logical comparisons, use the symbols \texttt{<, >, >=, <=, ==, !=, \%in\%}
+```{r logic}
+x <- 1
+x > 2
+x < 0
+x >= 4
+x <= 5
+x == 1
+x != 1
+```
+
+## Atomic structures
+Objects can have classes. Atomic structures are the lowest level of class.
+```{r atomic}
+#Variable classes
+class(x)
+x <- 1.7
+class(x)
+y <- 'Hello World!'
+class(y)
+z <- TRUE
+class(z)
+```
+
+## Complex and Raw class
+
+<article>
+In addition to the classes above, there are complex number classes and the raw class. Raw classes are used to hold raw bytes. For the most part, beginers will probably not need these classes, but for advanced programming applications, they can be quite useful.}
+<\article>
+
+```{r more_class} 
+a_complex_number <- 1+0i
+class(a_complex_number)
+xx <- charToRaw("I am not raw")
+xx
+class(xx)
+rawToChar(xx)
+```
+
+# Data Structures
+## Numeric Vectors
+
+- Data structures hold data. 
+- There are different classes of data structures. 
+- Simpliest data structure is a vector.
+- All items in vector must have same atomic class.
+
+<article>
+The vector is the building block of more complex structures, so understanding their basic operations is essential.
+<\article>
+```{r vector}
+X <- c(10.4, 5.6, 3.1, 6.4, 21.7)   # creates a numeric vector
+1/X                                
+Y <- 1/X
+X**2
+# assigns 1/X to Y
+summary(Y)
+```
+<article>
+The `r knitr::inline_expr('c')` function is concatnate. It combines individual datum 
+into a vector that contains  data. Also note that for the mathmatical functions the 
+operations are performed on each datum.
+<\article>
+
+
+## Regular and Random Sequences
+
+- R can be used to create regular sequencies of numbers using \texttt{seq}. 
+- Random numbers at created using random number generating functions (e.g. \texttt{rnorm}).
+
+rumbers 
+```{r sequences}
+#regular sequences
+seq(from = -5, to = 5, by = 2)
+1:15
+
+# use rnorm (see ?rnorm)
+randomNums <- rnorm(1000)
+summary(randomNums)
+```
+<article>
+You can find out which distributions are supported by typing `r knitr::inline_expr('?distributions')`. You can control type of random number generation in R, and set random number generator seed numbers  - see `r knitr::inline_expr('?RNG')`.
+<\article> 
+
+
+## Character Vectors
+Character vectors behave in a different manner than numeric vectors. 
+```{r vector2, error=TRUE}
+Stooges <- c("Moe", "Larry", "Curly")    
+lastNames <- c("Howard", "Fine", "Howard")
+1/Stooges # Error
+ThreeStooges <- paste(Stooges, lastNames) 
+ThreeStooges # prints
+```
+<article>
+The `r knitr::inline_expr('paste()')` function pastes the contents two vectors together item-by-item. If the vector lengths are different, R will issue a warning, and "recycle" to the top of the shorter vector.
+<\article>
+
+## Logical Vectors
+ Logical vectors can be created as well, either directly by assignment or evaluating a vector.
+```{r vector3}
+logicVector1 <- c(TRUE, FALSE, FALSE, TRUE)    
+logicVector2 <- c(T,F,F,T) #T or F means TRUE or FALSE
+(logicVector3 <- X < 10)
+summary(logicVector3)
+(logicVector4 <- lastNames == "Howard")
+```
+
+
+## Subsetting Vectors
+ Logical vectors can be created as well, either directly by assignment or evaluating a vector.
+```{r vector4}
+V <- 1:10
+V[V<5]
+V[V==5]
+lastNames[1]
+logicVector1[logicVector1]
+```
+
+## Factor Vectors
+ Factor variables are used to indicate discrete classification, or grouping. 
+```{r vectorfactor}
+factorStates <- as.factor(sample(sample(state.abb, 10), 100, 
+                                 replace = TRUE))  
+factorStates
+summary(factorStates)
+```
+
+<article>
+\begin{warning}
+The behavior of the \texttt{summary()} and other functions change depending on 
+the class of the vector. Numeric vector results in a simple numeric summary, while
+logical vectors give you counts of \texttt{TRUE} and \texttt{FALSE} in the vector.
+A summary of a factor vector gives you a count of the factor levels.
+\end{warning}
+<\article>
+
+## Coercion
+- Numbers concatnated together will create a numeric vector
+- Charcter strings will create a character vector
+- Numeric data and character data concatnation will make a character
+- conversion of one type of data into another will:
+    + result in either NA (character to number - unless the string is a number)
+    + result in a factor level number (if factor)
+
+----
+   
+```{r dangerfactor}
+as.numeric(factorStates)
+class(c("One", 2, 3, "four"))
+as.numeric(factor(c(10,20,30)))
+as.numeric(as.character((factor(c(10,20,30)))))
+```

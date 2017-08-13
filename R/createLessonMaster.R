@@ -3,7 +3,7 @@ createLessonMaster <- function(RmdFiles, type=c("article","beamer"),
   outType = match.arg(type)
   stopifnot(all(file.exists(RmdFiles)))
   dir.create(path = "./working_rmd", showWarnings = FALSE)
-  outFiles <- paste("./working_rmd", gsub(".*/.+/", "", RmdFiles), sep="/")
+  outFiles <- paste("./working_rmd", gsub(".*/", "", RmdFiles), sep="/")
   print(outFiles)
 
   
