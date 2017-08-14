@@ -190,7 +190,7 @@ randomNums <- rnorm(1000)
 summary(randomNums)
 ```
 <article>
-You can find out which distributions are supported by typing `r knitr::inline_expr('?distributions')`. You can control type of random number generation in R, and set random number generator seed numbers  - see `r knitr::inline_expr('?RNG')`.
+You can find out which distributions are supported by typing ```{r} knitr::inline_expr('?distributions')```. You can control type of random number generation in R, and set random number generator seed numbers  - see `r knitr::inline_expr('?RNG')`.
 <\article> 
 
 
@@ -239,10 +239,7 @@ summary(factorStates)
 
 <article>
 \begin{warning}
-The behavior of the \texttt{summary()} and other functions change depending on 
-the class of the vector. Numeric vector results in a simple numeric summary, while
-logical vectors give you counts of \texttt{TRUE} and \texttt{FALSE} in the vector.
-A summary of a factor vector gives you a count of the factor levels.
+The behavior of the `r knitr::inline_expr('summary()')` and other functions change depending on  the class of the vector. Numeric vector results in a simple numeric summary, while logical vectors give you counts of `r knitr::inline_expr('TRUE')` and `r knitr::inline_expr('FALSE')` in the vector. A summary of a factor vector gives you a count of the factor levels.
 \end{warning}
 <\article>
 
@@ -262,3 +259,136 @@ class(c("One", 2, 3, "four"))
 as.numeric(factor(c(10,20,30)))
 as.numeric(as.character((factor(c(10,20,30)))))
 ```
+
+## Vector Manipulations
+
+- You can index a vector and use the assignment to change its value:
+```{r vector_manip}
+ThreeStooges[2] <- "James Durant"
+ThreeStooges
+X[X<5] <- 0
+X
+X[X<5] <- rnorm(100) #warning
+X[X>50] <- rnorm(100) 
+```
+
+<article>
+Note the replacement vector must be either 1 - which replaces all values, or of equal length to the replacement. If the index results in a zero length vector, R will not substitute the values.}
+<\article>
+
+## Missing Values
+
+- Missing, not available or unknown values are coded with `r knitr::inline_expr('NA')`.
+- `r knitr::inline_expr('is.na(x)')` gives logical vector of length `r knitr::inline_expr('x')` with value of `r knitr::inline_expr('TRUE')` for `r knitr::inline_expr('NA')` values in vector `r knitr::inline_expr('x')`.
+
+```{r nas}
+x <- c(1:3,NA)
+is.na(x)
+x == NA
+```
+
+
+<article>=
+\vspace{5mm}
+\begin{warning}
+`r knitr::inline_expr('x == NA')` will evaluate the following:
+
+- is 1 equal to unknown? R doesn't know!
+- is 2 equal to unknown? R doesn't know!
+- is 3 equal to unknown? R doesn't know!
+- is unknown equal to unknown? R doesn't know!
+`r knitr::inline_expr('is.na(x)')` will evaluate each element of vector and see if it is a missing value. So what is evaluated is:
+
+- is 1 an unknown? FALSE
+- is 2 an unknown? FALSE
+- is 3 an unknown? FALSE
+- is unknown an unknown? TRUE
+\end{warning}
+<\article>
+
+## Setting vector elements to NA
+If you have a missing code in your data (e.g. -999), then you will need to set that value to `r knitr::inline_expr('NA')`. To do that, you must pass `r knitr::inline_expr('is.na')` a logical vector. 
+
+```{r makeanna}
+mydata <- c( 1, 2.4, pi, 40, -999)
+mean(mydata)
+is.na(mydata) <- mydata == -999
+mean(mydata)
+mean(mydata, na.rm=TRUE)
+```
+
+R by default will assume you do *NOT* want to drop `r knitr::inline_expr('NA')` values. 
+
+## Not a Number Values
+
+- Results of math computations that are not nubmers are coded as `r knitr::inline_expr('NaN')`.
+- `r knitr::inline_expr('is.na(x)')` gives logical vector of length `r knitr::inline_expr('x')` with value of `r knitr::inline_expr('TRUE')` for `r knitr::inline_expr('NaN')` values or `r knitr::inline_expr('NA')` values in vector `r knitr::inline_expr('x')`.
+-  `r knitr::inline_expr('is.nan(x)')` will only produce `r knitr::inline_expr('TRUE')` values for `r knitr::inline_expr('NaN')` values in vector `r knitr::inline_expr('x')`
+
+```{r notanumber}
+x[5] <- 0/0
+x[6] <- Inf - Inf
+is.na(x)
+is.nan(x)
+```
+
+
+## Vector Calculations and Concatnation
+- You can calculate values using numeric vectors:
+```{r vectorcals}
+X1 <- c(1,2,3,4,5)
+X2 <-c(1,2,3)
+X1 + X2
+X2 <- c(X2, 4, 5)
+X1 + X2
+```
+
+<article>
+Note the fact that when vector lengths are not the same, R will recycle the shorter vector. It will also issue a warning if the longer vector is not divisible by the shorter vector.
+<\article>
+
+
+# The Matrix
+
+
+## Matrix Facilities
+- A matrix in R is a 2 dimensional vector. 
+- There are several operators and functions that will apply only to maticies. 
+- A matrix is a expected class of the data argument to simple chi-square tests and Fisher's exact test:
+
+To create a matrix:
+```{r theone}
+TeaTasting <- matrix(c(3, 1, 1, 3),
+       nrow = 2,
+       dimnames = list(Guess = c("Milk", "Tea"),
+                       Truth = c("Milk", "Tea")))
+
+TeaTasting
+```
+
+
+<article>
+The output for the Fisher exact test is:
+```{r fisher}
+fisher.test(TeaTasting, alternative = "greater")
+```
+<\article>
+
+
+## Other Ways to Create Matrix
+Other ways to create a matrix are with `r knitr::inline_expr('rbind')` and `r knitr::inline_expr('cbind')`
+
+- `r knitr::inline_expr('rbind')` joins 2 or more vectors by as rows.
+- `r knitr::inline_expr('cbind')` joins 2 or more vectors by column.
+
+```{r rbind}
+rbind(c(1,2), c(3,4))
+cbind(c(1,2), c(3,4))
+matrix(c(1,2,3,4), ncol=2)
+```
+
+- `r knitr::inline_expr('matrix')` will be by column unless `r knitr::inline_expr('matrix (..., byrow=TRUE)')`.
+
+
+## Arrays
+
