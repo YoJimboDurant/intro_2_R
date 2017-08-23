@@ -35,6 +35,7 @@ help(package="stats") # arguments can be by order or named
 ```
 <article>
 We should spend some time talking about function arguments. As you can see by the help page for help, there are several arguments that can passed to the `help` function. If these are passed in order of the function's expected arguments, its, expecting the topic first, then package (which if not specified defaults to NULL), etc. Arguments can be partially matched by title. 
+
 <\article>
 
 ## Your third function - help.search()
@@ -77,6 +78,7 @@ sqrt(5000)
 
 ## Assignments
 Variables are stored in R by _assigning_ them. You can see what variables are in R's memory environment by using the function `objects()`. You can use `<-` or `=` for assignment. 
+
 
 * Note that R is case sensitive!
 * Object names cannot start with a number!
@@ -205,6 +207,7 @@ ThreeStooges <- paste(Stooges, lastNames)
 ThreeStooges # prints
 ```
 <article>
+
 The `paste()` function pastes the contents two vectors together item-by-item. If the vector lengths are different, R will issue a warning, and "recycle" to the top of the shorter vector.
 <\article>
 

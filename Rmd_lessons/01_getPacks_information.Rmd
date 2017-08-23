@@ -1,4 +1,5 @@
 ```{r get_pack, echo=FALSE, warning=FALSE, results='hold', message=FALSE}
+rm(list=ls())
 library(stringr)
 library(knitr)
 library(miniCRAN)
