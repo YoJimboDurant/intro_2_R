@@ -25,6 +25,7 @@ The R Console is the interpreter for R.
 help.start()
 ```
 ![R help](images/The_R_Language1.png)
+
 ## Your second function - help()
 ```{r help, eval=FALSE}
 help("lm")  # inside () is arguments passed to function help
@@ -33,7 +34,7 @@ help("help")
 help(package="stats") # arguments can be by order or named
 ```
 <article>
-We should spend some time talking about function arguments. As you can see by the help page for help, there are several arguments that can passed to the `r knitr::inline_expr('help()')` function. If these are passed in order of the function's expected arguments, its, expecting the topic first, then package (which if not specified defaults to NULL), etc. Arguments can be partially matched by title. 
+We should spend some time talking about function arguments. As you can see by the help page for help, there are several arguments that can passed to the `help` function. If these are passed in order of the function's expected arguments, its, expecting the topic first, then package (which if not specified defaults to NULL), etc. Arguments can be partially matched by title. 
 <\article>
 
 ## Your third function - help.search()
@@ -43,7 +44,7 @@ help.search("generalized linear model")
 ## RStudio
 Integrated Development Environments (IDE's) such as RStudio come with features to make coding and running code easier. RStudio's features  include:
 
-- Window for writing and highlighting code
+- Window for writing and highlighting code (and identifying errors)
 - Window that contains the RConsole interpreter
 - Hot keys, word completion, auto-parenthesis
 - Show what is available in your environment
@@ -75,7 +76,7 @@ sqrt(5000)
 ```
 
 ## Assignments
-Variables are stored in R by _assigning_ them. You can see what variables are in R's memory environment by using the function `r knitr::inline_expr('objects()')`. You can use `r knitr::inline_expr('<-')` or `r knitr::inline_expr('=')` for assignment. 
+Variables are stored in R by _assigning_ them. You can see what variables are in R's memory environment by using the function `objects()`. You can use `<-` or `=` for assignment. 
 
 * Note that R is case sensitive!
 * Object names cannot start with a number!
@@ -92,7 +93,7 @@ y <- 10-9 ; y #Running variable auto prints
 ```
 
 <article>
-The arrow keys can be useful to scroll through your command history. UP will give you the previous commands, and down will move foward in your command history. That way, if you make a typo, you can correct your previous commands easily. You can also use the command \texttt{history()} to see all the past commands you have run.
+The arrow keys can be useful to scroll through your command history. UP will give you the previous commands, and down will move foward in your command history. That way, if you make a typo, you can correct your previous commands easily. You can also use the command `history()` to see all the past commands you have run.
 <\article>
 
 ## Objects and Clearing Environment
@@ -109,7 +110,7 @@ rm(list=ls())
 
 ## Logical Comparisons
 
-To use logical comparisons, use the symbols \texttt{<, >, >=, <=, ==, !=, \%in\%}
+To use logical comparisons, use the symbols `<, >, >=, <=, ==, !=, \%in\%'`
 ```{r logic}
 x <- 1
 x > 2
@@ -168,7 +169,7 @@ X**2
 summary(Y)
 ```
 <article>
-The `r knitr::inline_expr('c')` function is concatnate. It combines individual datum 
+The `c` function is concatnate. It combines individual datum 
 into a vector that contains  data. Also note that for the mathmatical functions the 
 operations are performed on each datum.
 <\article>
@@ -190,7 +191,7 @@ randomNums <- rnorm(1000)
 summary(randomNums)
 ```
 <article>
-You can find out which distributions are supported by typing ```{r} knitr::inline_expr('?distributions')```. You can control type of random number generation in R, and set random number generator seed numbers  - see `r knitr::inline_expr('?RNG')`.
+You can find out which distributions are supported by typing ```{r} knitr::inline_expr('?distributions')```. You can control type of random number generation in R, and set random number generator seed numbers  - see `?RNG`.
 <\article> 
 
 
@@ -204,7 +205,7 @@ ThreeStooges <- paste(Stooges, lastNames)
 ThreeStooges # prints
 ```
 <article>
-The `r knitr::inline_expr('paste()')` function pastes the contents two vectors together item-by-item. If the vector lengths are different, R will issue a warning, and "recycle" to the top of the shorter vector.
+The `paste()` function pastes the contents two vectors together item-by-item. If the vector lengths are different, R will issue a warning, and "recycle" to the top of the shorter vector.
 <\article>
 
 ## Logical Vectors
@@ -239,7 +240,7 @@ summary(factorStates)
 
 <article>
 \begin{warning}
-The behavior of the `r knitr::inline_expr('summary()')` and other functions change depending on  the class of the vector. Numeric vector results in a simple numeric summary, while logical vectors give you counts of `r knitr::inline_expr('TRUE')` and `r knitr::inline_expr('FALSE')` in the vector. A summary of a factor vector gives you a count of the factor levels.
+The behavior of the `summary()` and other functions change depending on  the class of the vector. Numeric vector results in a simple numeric summary, while logical vectors give you counts of `TRUE` and `FALSE` in the vector. A summary of a factor vector gives you a count of the factor levels.
 \end{warning}
 <\article>
 
@@ -278,8 +279,8 @@ Note the replacement vector must be either 1 - which replaces all values, or of 
 
 ## Missing Values
 
-- Missing, not available or unknown values are coded with `r knitr::inline_expr('NA')`.
-- `r knitr::inline_expr('is.na(x)')` gives logical vector of length `r knitr::inline_expr('x')` with value of `r knitr::inline_expr('TRUE')` for `r knitr::inline_expr('NA')` values in vector `r knitr::inline_expr('x')`.
+- Missing, not available or unknown values are coded with `NA`.
+- `is.na(x)` gives logical vector of length `x` with value of `TRUE` for `NA` values in vector `x`.
 
 ```{r nas}
 x <- c(1:3,NA)
@@ -291,13 +292,13 @@ x == NA
 <article>=
 \vspace{5mm}
 \begin{warning}
-`r knitr::inline_expr('x == NA')` will evaluate the following:
+`x == NA` will evaluate the following:
 
 - is 1 equal to unknown? R doesn't know!
 - is 2 equal to unknown? R doesn't know!
 - is 3 equal to unknown? R doesn't know!
 - is unknown equal to unknown? R doesn't know!
-`r knitr::inline_expr('is.na(x)')` will evaluate each element of vector and see if it is a missing value. So what is evaluated is:
+`is.na(x)` will evaluate each element of vector and see if it is a missing value. So what is evaluated is:
 
 - is 1 an unknown? FALSE
 - is 2 an unknown? FALSE
@@ -307,7 +308,7 @@ x == NA
 <\article>
 
 ## Setting vector elements to NA
-If you have a missing code in your data (e.g. -999), then you will need to set that value to `r knitr::inline_expr('NA')`. To do that, you must pass `r knitr::inline_expr('is.na')` a logical vector. 
+If you have a missing code in your data (e.g. -999), then you will need to set that value to `NA`. To do that, you must pass `is.na` a logical vector. 
 
 ```{r makeanna}
 mydata <- c( 1, 2.4, pi, 40, -999)
@@ -317,13 +318,12 @@ mean(mydata)
 mean(mydata, na.rm=TRUE)
 ```
 
-R by default will assume you do *NOT* want to drop `r knitr::inline_expr('NA')` values. 
+R by default will assume you do *NOT* want to drop `NA` values. 
 
 ## Not a Number Values
 
-- Results of math computations that are not nubmers are coded as `r knitr::inline_expr('NaN')`.
-- `r knitr::inline_expr('is.na(x)')` gives logical vector of length `r knitr::inline_expr('x')` with value of `r knitr::inline_expr('TRUE')` for `r knitr::inline_expr('NaN')` values or `r knitr::inline_expr('NA')` values in vector `r knitr::inline_expr('x')`.
--  `r knitr::inline_expr('is.nan(x)')` will only produce `r knitr::inline_expr('TRUE')` values for `r knitr::inline_expr('NaN')` values in vector `r knitr::inline_expr('x')`
+- Results of math computations that are not nubmers are coded as `NaN`.
+- `is.nan(x)` gives logical vector of length `x` with value of `r knitr::inline_expr('TRUE')` for `NaN` values.
 
 ```{r notanumber}
 x[5] <- 0/0
@@ -376,10 +376,10 @@ fisher.test(TeaTasting, alternative = "greater")
 
 
 ## Other Ways to Create Matrix
-Other ways to create a matrix are with `r knitr::inline_expr('rbind')` and `r knitr::inline_expr('cbind')`
+Other ways to create a matrix are with `rbind` and `cbind`
 
-- `r knitr::inline_expr('rbind')` joins 2 or more vectors by as rows.
-- `r knitr::inline_expr('cbind')` joins 2 or more vectors by column.
+- `rbind` joins 2 or more vectors by as rows.
+- `cbind` joins 2 or more vectors by column.
 
 ```{r rbind}
 rbind(c(1,2), c(3,4))
@@ -387,8 +387,80 @@ cbind(c(1,2), c(3,4))
 matrix(c(1,2,3,4), ncol=2)
 ```
 
-- `r knitr::inline_expr('matrix')` will be by column unless `r knitr::inline_expr('matrix (..., byrow=TRUE)')`.
+- `matrix` will fill the matix by column unless otherwise told to do so: `matrix (..., byrow=TRUE)`.
 
 
-## Arrays
+# Arrays
 
+## Creating Arrays
+Arrays are multiple dimension collection of data enteries.
+
+- All items in array must be in same type
+- Arrays are indexed using \texttt{[]} brackets
+- Multiple dimensions can be accessed in array
+
+<article>
+If you create a 1 dimensional array, it will usually be treated as a vector, see section 5.1 of *An Introduction to R*.
+<\article>
+
+## Array Example
+To create a 3 by 4 by 2 array:
+
+```{r array1}
+set.seed(1)
+h <- rnorm(24)
+Z <- array(h, dim = c(3,4,2))
+```
+
+Alternative approach to creating an array is to change the dim attribute of a vector:
+
+```{r array2}
+Z1 <-h
+dim(Z1)  <- c(3,4,2)
+identical(Z,Z1)
+```
+
+<article>
+The order of the filling of an array is to fill the first, then increase the index on the second, and finally, when the second dimension is filled, it will move to the next highest dimension.  
+<\article>
+
+```{r array3}
+q <- 1:24
+dim(q) <- c(3,4,2)
+print(q)
+```
+
+Arrays can be indexed. For instance, to see the observation with index `[1,2,2]`:
+```{r array4}
+Z[1,2,2]
+```
+Blanks in an index will select all values. To select all observations with index of 1 in the third position:
+
+```{r array5}
+Z[,,1]
+```
+
+## Array Example - Mantel-Haenszel test
+Example from Mannocci (2009) Ital J. Public Health. 2009;6(4):338–40 http://ijphjournal.it/article/viewFile/5765/5509. Looking at Oral contraceptive use
+and myocradial infarction (controling for 5 age groups)
+
+% secondary citation (Shapiro S, Slone D, Rosenberg L, Kaufman DW, Stolley PD,
+% Miettinen OS. Oral contraceptive use in relation to myocardial
+% infarction. Lancet 1979;1(8119):743-7.))
+
+```{r mhtest}
+mi_array <-
+array(c(4,2,62,224,
+        9,12,33,390,
+        4,33,26,330,
+        6,65,9,362,
+        6,93,5,301),
+      dim = c(2, 2, 5),
+      dimnames = list(
+          Alcohol = c("Yes", "No"),
+          Response = c("MI", "Control"),
+          Age.Group = c("25-29", "30-34", "35-39", 
+                        "40-44", "45-49")))
+
+mantelhaen.test(mi_array)
+```

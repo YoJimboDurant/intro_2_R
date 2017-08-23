@@ -16,7 +16,7 @@ R script that went to R's webpage, and extracted the number of packages, and ins
 <\article>
 
 ## Packages Extend R's Capabilities
-There are over  _packages_ on the comprehensive R archive network (_CRAN_). A _package_ is a collection of functions, data, and compiled code, usually designed to work together. 
+There are over `r xPacks` _packages_ on the comprehensive R archive network (_CRAN_). A _package_ is a collection of functions, data, and compiled code, usually designed to work together. 
 
 - Some R packages supply utilities and functionality, such as additional graphics, data handling, or interfaces to other software.
 - Some packages are science or domain specific - see https://cran.r-project.org/web/views/.

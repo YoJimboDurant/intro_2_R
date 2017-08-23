@@ -1,0 +1,31 @@
+---
+title: |
+    | An Introduction to Rmarkdown
+    | (with a few pro tips)
+author: "[Brock Stewart](mailto:jnn6@cdc.gov?Subject=Your%20March%202017%20RUG%20Rmarkdown%20talk)"
+institute: "CDC/DTBE"
+abstract: "The Markdown language, created in 2004, provides a super-simple syntax for creating good-looking, professional documents in a wide range of formats, including HTML, LaTeX, and WORD.  Rmarkdown, created in 2014, allows us to include R code and its output in a Markdown document.  Given Rmarkdown's ease-of-use and continually-increasing feature set, you should now strongly consider creating all of your documents using Rmarkdown -- whether they contain R code and analyses or not -- including: notes to yourself; notes to colleagues; reports to colleagues; standardized recurring reports; scientific journal articles; and even public-facing web pages.  In this talk I will cover Markdown and Rmarkdown at an introductory level.  Since it's so simple and feature-rich, I'm sure by the end you'll feel confident and motivated enough to begin making your own documents with Rmarkdown."
+date: | #"`r Sys.Date()`"
+    | CDC/ATSDR R User Group (RUG) Monthly Meeting
+    | March 30, 2017
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: "show"
+    code_download: true
+    css: Brock_Stewart_RUG_CDC_Rmarkdown_March-2017.css
+    highlight: kate
+    includes:
+      in_header: PersistantHeaders.js
+---
+
+![](images/Rlogo_small.png)
+`r xclass="word"`
+
+```{r Rmd_lessons/01_getPacks_information.Rmd, child = './working_rmd/01_getPacks_information.Rmd'}
+```
+```{r Rmd_lessons/02_Background.Rmd, child = './working_rmd/02_Background.Rmd'}
+```
+```{r Rmd_lessons/03_running_R.Rmd, child = './working_rmd/03_running_R.Rmd'}
+```

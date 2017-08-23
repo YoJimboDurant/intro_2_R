@@ -1,0 +1,18 @@
+# R Command Line
+
+## Excel Data
+ 
+The _readxl_ package provides 3 functions for importing Excel Spreadsheets:
+
+```{r read_excel}
+library(readxl)
+fddf <- read_excel("./data/FoodData.xlsx")
+```
+
+## Comma Separated Values
+Data from https://www.cdc.gov/growthcharts/percentile_data_files.htm
+```{r read_csv}
+lms_chart <- read.csv("https://www.cdc.gov/growthcharts/data/zscore/wtageinf.csv")
+```
+
+## SAS Export Files
