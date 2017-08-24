@@ -1,0 +1,44 @@
+
+#Tables and Catagorical Analysis
+
+## Libraries
+```{r}
+library(Epi)
+library(compareGroups)
+library(pander)
+library(epiR)
+library(magrittr)
+library(tidyr)
+library(dplyr)
+data(bdendo)
+data(bdendo11)
+```
+## $\Chi^2$ Test
+
+```{r}
+bdendo11$d <- ifelse(bdendo11$d ==0, "Control", "Case")
+matched_est_tab <- table(bdendo11$est, bdendo11$d)
+pander(matched_est_tab)
+barplot(matched_est_tab, beside = TRUE, legend = TRUE, xlab = "Estrogen Use History")
+```
+## Flipping Matrix
+```{r}
+matched_est_tab <- rbind(yes = matched_est_tab[2,], no = matched_est_tab[1,]) 
+pander(matched_est_tab)
+```
+```{r}
+chitest1 <- chisq.test(matched_est_tab)
+pander(chitest1)
+```
+## Fisher's Exact Test
+```{r}
+fishtest1 <- fisher.test(matched_est_tab)
+pander(fishtest1)
+```
+
+## Two -Anaysis of Odds Ratio
+```{r}
+epi.2by2(matched_est_tab, method="case.control", units=1)
+```
+
+
