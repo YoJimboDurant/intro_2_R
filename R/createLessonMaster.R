@@ -1,4 +1,4 @@
-createLessonMaster <- function(RmdFiles, type=c("article","beamer"),
+createLessonMaster <- function(RmdFiles, type=c("article","beamer","tangohtml"),
                                headFile = "./Rmd_templates/beamer.Rmd"){
   outType = match.arg(type)
   stopifnot(all(file.exists(RmdFiles)))
@@ -7,7 +7,16 @@ createLessonMaster <- function(RmdFiles, type=c("article","beamer"),
   print(outFiles)
 
   
-    if(outType == "beamer"){
+  if(outType == "tangohtml"){
+    xRmdFiles <- lapply(RmdFiles, RmdFlip)
+    lapply(seq_along(xRmdFiles), function(i){
+      write(xRmdFiles[[i]], outFiles[[i]])
+    })
+    
+    headMaster <- readLines(headFile)
+  }
+  
+  if(outType == "beamer"){
       xRmdFiles <- lapply(RmdFiles, RmdFlip)
       lapply(seq_along(xRmdFiles), function(i){
         write(xRmdFiles[[i]], outFiles[[i]])

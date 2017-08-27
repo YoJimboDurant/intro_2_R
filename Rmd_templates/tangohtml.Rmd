@@ -1,7 +1,6 @@
 ---
 title: |
     | An Introduction R
-    | (with a few pro tips)
 author: "[James Durant](mailto:hzd3@cdc.gov?Subject=Your%20Intro%to%20R%20%20talk)"
 institute: "ATSDR DCHI"
 abstract: "Lots of words"
@@ -17,12 +16,11 @@ output:
     includes:
       in_header: PersistantHeaders.js
 ---
+<script src="js/hideOutput.js"></script>
 
 ![](images/Rlogo_small.png)
-`r xclass="word"`
-```{r Rmd_lessons/01_getPacks_information.Rmd, child = './working_rmd/01_getPacks_information.Rmd'}
-```
-```{r Rmd_lessons/02_Background.Rmd, child = './working_rmd/02_Background.Rmd'}
-```
-```{r Rmd_lessons/03_running_R.Rmd, child = './working_rmd/03_running_R.Rmd'}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+xclass <- "tango"
 ```
