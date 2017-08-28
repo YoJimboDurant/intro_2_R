@@ -20,6 +20,7 @@ The R Console is the interpreter for R.
 - Braces *{* and *}* can group commands together.
 
 
+
 ## Your first function - help.start()
 ```{r help.start, eval=FALSE}
 help.start()
@@ -68,16 +69,22 @@ Features to note in RStudio:
 <\article>
 
 ## Basic Example Operations in Console
-```{r}
+```{r, eval=FALSE}
 #Basic Operations
 1+1
 sqrt(5000)
 'Hello World'
-1+1; 1-1; 3/3;4*2; 2*pi;pi%%pi
+1+1 
+1-1 
+3/3
+4*2 
+2*pi
+pi%%pi
+5 %/% 2
 ```
 
 
-
+<iframe width='100%' height='300' src='http://www.r-fiddle.org/#/embed' allowfullscreen='allowfullscreen' frameborder='0'></iframe>
 
 
 ## Assignments
