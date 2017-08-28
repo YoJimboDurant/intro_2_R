@@ -67,7 +67,7 @@ Broadly speaking there are 4 types of packages - utility packages that provide s
 On the CRAN, _Task Views_ (Table 1) organize packages useful for certain applications  https://cran.r-project.org/web/views/. 
 
 
-```{r task_views, echo = FALSE}
+```{r task_views, echo = FALSE, warning=FALSE, message=FALSE}
 x <- ctv::available.views(repos = "https://cran.rstudio.com/")
 x1 <- plyr::ldply(x[1:17], function(x) data.frame(Topic = x$name))
 x2 <- plyr::ldply(x[18:34], function(x) data.frame(Topic1 = x$name)) 
@@ -83,9 +83,16 @@ z <- cbind(x1, x2)
 
 ##Standard Library
 When R is installed, standard packages (Table 2) are installed along with the installation.
-```{r std_packs, echo=FALSE}
+```{r std_packs, echo=FALSE, warning=FALSE, message=FALSE}
 knitr::kable(cbind(as.character(defaultPacks$Package[1:14]),as.character(defaultPacks$Package[15:28])),  col.names = c(NULL,NULL), booktabs=TRUE, caption = "R Standard Library")
 ```
 <article>
 These are installed by default and provide a number of graphical, statistical, and developmental capabilities to R.
 <\article>
+
+# Cheat Sheets
+- For quick reference guides, several resources are available online
+- https://www.rstudio.com/wp-content/uploads/2016/05/base-r.pdf
+- https://cran.r-project.org/doc/contrib/Short-refcard.pdf
+- http://rug.biotech.cdc.gov/cheatsheets.html
+

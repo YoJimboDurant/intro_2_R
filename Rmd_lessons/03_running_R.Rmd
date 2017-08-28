@@ -184,9 +184,7 @@ operations are performed on each datum.
 ## Regular and Random Sequences
 
 - R can be used to create regular sequencies of numbers using \texttt{seq}. 
-- Random numbers at created using random number generating functions (e.g. \texttt{rnorm}).
-
-rumbers 
+- Random numbers at created using random number generating functions (e.g. \texttt{rnorm}). numbers 
 ```{r sequences}
 #regular sequences
 seq(from = -5, to = 5, by = 2)
@@ -265,8 +263,9 @@ The behavior of the `summary()` and other functions change depending on  the cla
 ```{r dangerfactor}
 as.numeric(factorStates)
 class(c("One", 2, 3, "four"))
-as.numeric(factor(c(10,20,30)))
-as.numeric(as.character((factor(c(10,20,30)))))
+(dontdothis <-as.numeric(factor(c(10,20,30))))
+(lookout <- as.numeric(c("One", 2, 3, "four")))
+(dothis <- as.numeric(as.character((factor(c(10,20,30))))))
 ```
 
 ## Vector Manipulations
@@ -331,7 +330,7 @@ R by default will assume you do *NOT* want to drop `NA` values.
 ## Not a Number Values
 
 - Results of math computations that are not nubmers are coded as `NaN`.
-- `is.nan(x)` gives logical vector of length `x` with value of `r knitr::inline_expr('TRUE')` for `NaN` values.
+- `is.nan(x)` gives logical vector of length `x` with value of `r `TRUE` for `NaN` values.
 
 ```{r notanumber}
 x[5] <- 0/0
@@ -355,12 +354,67 @@ X1 + X2
 Note the fact that when vector lengths are not the same, R will recycle the shorter vector. It will also issue a warning if the longer vector is not divisible by the shorter vector.
 <\article>
 
+# Exercies
+- Create a cevtor with the words: `cat`, `dog`, `fish`
+- Print the second element of the vector you just created
+- replace `fish` with `rabbit`
+- print the vector using the print function.
+
+
+# Regular Expressions
+- They are powerful!
+[xkcd](https://imgs.xkcd.com/comics/regular_expressions.png)
+https://xkcd.com/208/
+- These are used in commands such as grep, grepl, gsub etc. and are
+very powerful tools for the programmer. They are common in many
+languages, including R.
+
+
+
+Represent language using:
+- literals
+- matacharacters 
+- literals are the words/text and metacharacters are the grammar
+  (describe a class of words)
+- find classes of words or patterns
+
+## Regular Expression Functions 
+ - `grep` , `grepl`, `sub` and `gsub`
+   + `grep` searches and returns matching string or index in vector
+   + `grepl` searches and returns a vector of TRUE/FALSE is matches occur
+   + `sub` substitutes first match for the second argument
+   +  `gsub` substitutes all matches for the second argument
+   + `regexpr` and `gregexpr` seaches character vector and returns index and length of match
+ -  documentation is challenging - 2 good videos to watch
+   + https://www.youtube.com/watch?v=NvHjYOilOf8
+   + https://www.youtube.com/watch?v=q8SzNKib5-4
+   
+```{r regex}
+grep("A", state.name)                      # Capital A - return index  
+grep("A", state.name, value=TRUE)          # Capital A return value  
+grep("A", state.name, ignore.case = TRUE)  # ignore case - A or a
+grep("A", state.name, ignore.case = TRUE, 
+     invert = TRUE, value = TRUE )         # ignore case - NO A's
+grep("^A", state.name, value=TRUE)         # states that start with an A
+grep("a$", state.name, value=TRUE)         # ends with a
+grep("^A|^V", state.name, value = TRUE)    # Start with either A or V
+grep("^A.+b", state.name, value = TRUE)    # Start with either A followed by any
+                                           # number of characters then b.
+
+ThreeStooges <- gsub("James", "Jim", ThreeStooges)  # Globally substitutes 
+                                                       # Jim for James
+ThreeStooges
+```
+
+
+
 
 # The Matrix
 
 
 ## Matrix Facilities
 - A matrix in R is a 2 dimensional vector. 
+- A matrix is indexed by `[row#,column#]` where row# is and column# is column#. 
 - There are several operators and functions that will apply only to maticies. 
 - A matrix is a expected class of the data argument to simple chi-square tests and Fisher's exact test:
 
@@ -372,15 +426,15 @@ TeaTasting <- matrix(c(3, 1, 1, 3),
                        Truth = c("Milk", "Tea")))
 
 TeaTasting
+TeaTasting[2,1]
 ```
 
 
-<article>
+
 The output for the Fisher exact test is:
 ```{r fisher}
 fisher.test(TeaTasting, alternative = "greater")
 ```
-<\article>
 
 
 ## Other Ways to Create Matrix
@@ -496,9 +550,20 @@ state_df <- data.frame(state = state.name, abbrev = state.abb,
 class(state_df)
 summary(state_df)
 str(state_df)
+head(state_df)
+tail(state_df)
 ```
+<article>
+- The `summary()` function will return a summary of each vector within the `data.frame` by
+its class. For instance, a summary of min, quartiles, mean, and max values for numeric 
+vectors is returned.
+- The `str()` function with a `data.frame` will show the class and the first 5 data 
+in the vectors.
+- The `head()` and `tail()` will show the top and bottom rows of the `data.frame` respectively.
 
-## Index Data Frame Columns
+<\article>
+
+## Data Frame Columns
 To access and individual data frame we can use the `$` after the `data.frame` object. 
 For instance, if we wanted to add a column of square kilometers to state_df:
 
@@ -507,7 +572,7 @@ state_df$km_sq <- state_df$area * 2.5899
 summary(state_df)
 ```
 
-```{r dataframe_dollar}
+```{r dataframe_bracket}
 state_df[,"km_sq"] # return numeric vector class
 state_df[1:10,c("km_sq", "state")] # first 10 rows of columns km_sq and state
 ```
@@ -518,7 +583,7 @@ You can also use the name of the column inside the `[]`. For instance:
 ## Attaching Data Frames
 You can also use the function `attach(data.frame)` to make the variables inside the 
 data frame available directly. To reverse this, you use `detach(data.frame)`.
-```{r dataframe_dollar}
+```{r dataframe_multi}
 attach(state_df)
 hectares <- area * 100
 detach(state_df)
@@ -534,19 +599,27 @@ south <- state_df[state_df$region == "South",]
 south
 ```
 
+## Conditioning New Variables Based on Another
+- use `ifelse()` function to create a new variable based on another variable
+```{r ifelse}
+south$size <- ifelse(south$area > 41000, "Big", "Small")
+head(south)
+```
+
+
 ## Ordering Data Frames
 To order the data in our south `data.frame` we use the function `order()`. If we wanted
 to order the south by area:
 
 
-```{r select}
+```{r select2}
 south <- south[order(south$area),]
 south
 ```
 
 
 To perform order by increasing value:
-```{r select}
+```{r select3}
 south <- south[order(south$area, decreasing = TRUE),]
 south
 ```
@@ -554,12 +627,68 @@ south
 
 # Tibbles
 Tibbles were an enhancement to `data.frame` objects. The word tibble is jargon for
-the `tbl_df` class object T-B-L = tibble. Tibbles were created as part of the `dplyr`
+the `tbl_df` class object (T-B-L = tibble). Tibbles were created as part of the `dplyr`
 package by Hadley Wickham (https://priceonomics.com/hadley-wickham-the-man-who-revolutionized-r/).  
 
-# Functions
+## Creating a Tibble
+Tibbles can be created directly using the `data_frame()` in the dplyr package.
+```{r tibble}
+rm(list=ls())
+library(dplyr)
+state_df <- data_frame(state = state.name, abbrev = state.abb, 
+                       region = state.region, area = state.area)
+class(state_df)
+summary(state_df)
+state_df
+```
+
+- Note the character vectors (state and abbrev) were not coerced into factors
+- prints class and top rows by defaults
+- `[]` will return a tibble, `[[]]` will return a vector
+- some legacy functions will not work with tibbles (use `as.data.frame()` to coerce back
+to `data.frame` class).
+
+## Working with Tibbles
+- Use dplyr's verbs to 
+- To add a columns and filter to South region:
+```{r}
+south <- mutate(state_df, area_km = area * 2.5999, hectares = area_km * 100) %>%
+  filter(region == "South")
+
+south
+```
+- The `%>%` is a pipe - it takes the output of `mutate()` and sends it to `filter()`.
+- The final output is sent to the `tbl_df` south.
+
+To learn more on dplyr:
+go to http://rug.biotech.cdc.gov/presentations.html
+seach for dplyr (Presentations by Trey Spiller, and Steve Pittard)
+
 
 # Lists
+- An R list is an object  that contains a collection of objects.
+- Objects in list can be of multiple classes and lengths e.g. a numeric vector, a logical value, a matrix, a complex vector, a character array, a function, and so on. 
+
+## Creating a list
+
+```{r}
+mylst <- list(name = "Jim", dog = "Jade", 
+              children.ages = c(19,17), 
+              walks = TRUE)
+```
+
+## Accessing List Components
+
+- You can access lists objects with `[]` (returns list with object) or `[[]]` reutrn original class of object.
+- You can also use the `$` if elements of the list are named.
+
+```{r}
+mylst[1]
+mylst[[2]]
+mylst$children.ages
+```
+
+
 
 # Packages - installation and maintence
 
@@ -570,8 +699,10 @@ To install a a package, you will need to run the `install.packages()`. For our d
 install.packages("Epi")
 install.packages("compareGroups")
 install.packages("epiR")
+install.packages("epitools")
 install.packages("pander")
 install.packages("tidyverse")
+install.packages("EpiCurve")
 ```
 - Install package downloads the needed code from the CRAN repository into the library directory.
 - you only need to use `install.packages()` once per installation to install a package on the system. 
@@ -585,3 +716,14 @@ library("Epi")
 ```
 - Libraries with functions of the same name will mask the function. R will issue a warning if this occurs.
 - You can specify which library with the `::`. For instance, `dplyr::select()`
+
+
+# Functions
+A function can be available inside R or created by a user. To see the code of a 
+function, you can type the name of the function without the `()` for instance:
+```{r}
+read.csv
+```
+
+- you see the function call, with the arguments in parenthesis (file, header, sep, quote, dec, fill, and comment char, and ...).
+- The `...` passes additional arguments to the function `read.table()` which called by `read.csv`. 
