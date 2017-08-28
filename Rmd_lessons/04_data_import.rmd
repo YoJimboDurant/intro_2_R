@@ -110,7 +110,6 @@ Create a table of Chemicals that have had more than 1evacuations ordered (bonus 
 evac_ordered <- ntis_2014[ntis_2014$EVAC_ORD == "Y",]
 ntis_evac <- table(evac_ordered$CHEM1)
 ntis_evac <- ntis_evac[order(ntis_evac, decreasing = TRUE)]
-ntis_evac
 
 par(mar=c(5,15,4,2))
 barplot(ntis_evac[ntis_evac >1], main = "Number of NTIS Evaculation Incidents, 2014", col="darkblue", las=1, cex.names = 0.75, horiz = TRUE)
@@ -156,6 +155,7 @@ points(x = bp_sal, y = sal_mmwr$`Salmonellosis previous 52 weeks median`[order(s
 points(x = bp_sal, y = sal_mmwr$`Salmonellosis previous 52 weeks maximum`[order(sal_mmwr$`Salmonellosis current`)], pch =17)
 legend("topleft", pch = c(19,17), legend = c("52 wk. Median", "52 wk. Maximum"))
 ```
+
 ## xy Plots
 
 ```{r}
