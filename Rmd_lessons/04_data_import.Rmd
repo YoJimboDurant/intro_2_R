@@ -10,7 +10,9 @@ fddf <- read_excel("../data/FoodData.xlsx")
 ```
 
 - in addition to local files, you can also use http, https, and ftp locations.
+
 ## Comma Separated Values
+
 Data from https://www.cdc.gov/growthcharts/percentile_data_files.htm
 ```{r read_csv}
 lms_chart <- read.csv("https://www.cdc.gov/growthcharts/data/zscore/wtageinf.csv")
