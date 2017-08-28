@@ -237,7 +237,7 @@ lastNames[c(1,3)]
 logicVector1[logicVector1]
 ```
 
-## Factor Vectors
+## Factors
  Factor variables are used to indicate discrete classification, or grouping. 
 ```{r vectorfactor}
 factorStates <- as.factor(sample(sample(state.abb, 10), 100, 
@@ -404,14 +404,13 @@ matrix(c(1,2,3,4), ncol=2)
 Arrays are multiple dimension collection of data enteries.
 
 - All items in array must be in same type
-- Arrays are indexed using \texttt{[]} brackets
+- Arrays are indexed using `[]` brackets
 - Multiple dimensions can be accessed in array
 
 <article>
 If you create a 1 dimensional array, it will usually be treated as a vector, see section 5.1 of *An Introduction to R*.
 <\article>
 
-## Array Example
 To create a 3 by 4 by 2 array:
 
 ```{r array1}
@@ -420,7 +419,7 @@ h <- rnorm(24)
 Z <- array(h, dim = c(3,4,2))
 ```
 
-Alternative approach to creating an array is to change the dim attribute of a vector:
+Alternative approach to creating an array is to change the dimension attribute of a vector using the function `dim`:
 
 ```{r array2}
 Z1 <-h
@@ -438,6 +437,7 @@ dim(q) <- c(3,4,2)
 print(q)
 ```
 
+## Indexing Arrays
 Arrays can be indexed. For instance, to see the observation with index `[1,2,2]`:
 ```{r array4}
 Z[1,2,2]
@@ -449,7 +449,7 @@ Z[,,1]
 ```
 
 ## Array Example - Mantel-Haenszel test
-Example from (Shapiro S, Slone D, Rosenberg L, Kaufman DW, Stolley PD,  Miettinen OS. Oral contraceptive use in relation to myocardial infarction. Lancet 1979;1(8119):743-7. See also Mannocci (2009) Ital J. Public Health. 2009;6(4):338–40 http://ijphjournal.it/article/viewFile/5765/5509. Test for association of oral contraceptive Use and myocradial infarction (controling for 5 age groups)
+Example from (Shapiro S, Slone D, Rosenberg L, Kaufman DW, Stolley PD,  Miettinen OS. Oral contraceptive use in relation to myocardial infarction. Lancet 1979;1(8119):743-7. See also Mannocci (2009) Ital J. Public Health. 2009;6(4):338–40 http://ijphjournal.it/article/viewFile/5765/5509. To perform the MH-test for association of oral contraceptive Use and myocradial infarction (controling for 5 age groups):
 
 ```{r mhtest}
 mi_array <-
@@ -470,10 +470,96 @@ mantelhaen.test(mi_array)
 
 
 # Data Frames
+Data Frames are matrix-like structures, but the columns can have different classes.
+The `data.frame` is one of the more common data structures you will encounter if you use
+R for data analysis. 
+
+## Features of Data Frames
+Import features of `data.frame`s:
+
+- Components must be vectors, factors, numeric matrices, or other `data.frames`.
+- Numeric vectors, logicals and factors are includes as is.
+- *BY DEFAULT CHARACTER VECTORS ARE COERCED INTO FACTORS*
+- Vectors must have same length
+- Row and column elements may be extracted with index notation `[row,column]`
+- Columns may be manipulated using the `$`.
+
+## Creating a Data Frame
+Data frames may be created by ysing the `data.frame` function.
+
+For example, if we wanted to create a `data.frame` called state_df from the pre-installed
+vectors of state.name, state.abb, region, and state.area:
+```{r dataframe}
+rm(list=ls()) # clean up environment
+state_df <- data.frame(state = state.name, abbrev = state.abb, 
+                       region = state.region, area = state.area)
+class(state_df)
+summary(state_df)
+str(state_df)
+```
+
+## Index Data Frame Columns
+To access and individual data frame we can use the `$` after the `data.frame` object. 
+For instance, if we wanted to add a column of square kilometers to state_df:
+
+```{r dataframe_dollar}
+state_df$km_sq <- state_df$area * 2.5899
+summary(state_df)
+```
+
+```{r dataframe_dollar}
+state_df[,"km_sq"] # return numeric vector class
+state_df[1:10,c("km_sq", "state")] # first 10 rows of columns km_sq and state
+```
+
+You can also use the name of the column inside the `[]`. For instance:
+
+
+## Attaching Data Frames
+You can also use the function `attach(data.frame)` to make the variables inside the 
+data frame available directly. To reverse this, you use `detach(data.frame)`.
+```{r dataframe_dollar}
+attach(state_df)
+hectares <- area * 100
+detach(state_df)
+```
+
+
+## Selecting Rows in Data Frames
+You may need to extract information by different conditionals from a `data.frame`. 
+You can use logical statements to subset rows.
+
+```{r select}
+south <- state_df[state_df$region == "South",]
+south
+```
+
+## Ordering Data Frames
+To order the data in our south `data.frame` we use the function `order()`. If we wanted
+to order the south by area:
+
+
+```{r select}
+south <- south[order(south$area),]
+south
+```
+
+
+To perform order by increasing value:
+```{r select}
+south <- south[order(south$area, decreasing = TRUE),]
+south
+```
+
 
 # Tibbles
+Tibbles were an enhancement to `data.frame` objects. The word tibble is jargon for
+the `tbl_df` class object T-B-L = tibble. Tibbles were created as part of the `dplyr`
+package by Hadley Wickham (https://priceonomics.com/hadley-wickham-the-man-who-revolutionized-r/).  
 
 # Functions
+
+# Lists
 
 # Packages - installation and maintence
 

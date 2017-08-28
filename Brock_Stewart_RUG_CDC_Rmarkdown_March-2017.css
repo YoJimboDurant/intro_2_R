@@ -77,8 +77,8 @@ body div.main-container, .main-container, .container-fluid {
   max-width:100%;
 /*  margin-right:408.5px;*/
   background:#eee;
-  background-image: url('bin/background/padded/padded/padded_@2X.png');
-/*  background-image: url('bin/background/padded.png');*/
+/*  background-image: url('bin/background/padded/padded/padded_@2X.png'); */
+  background-image: url('bin/background/padded.png');
   background-attachment: fixed;
 }
 

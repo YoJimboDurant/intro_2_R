@@ -15,6 +15,17 @@ R also supports something called "reproducible research" - which means it can ge
 R script that went to R's webpage, and extracted the number of packages, and inserted it into the document.
 <\article>
 
+
+## CDC R User's Group
+- Founded in 2013, the CDC R User's Group is a standing committee of the CDC Statistics Advisory Group.
+- Share learning experiences and create channels of communication for R user's at CDC
+   + Listserv (http://rug.biotech.cdc.gov/listserv.html)
+   + Forum (https://community.biotech.cdc.gov/forum/51-rug/)
+   + Monthly Meetings
+   + Mentoring
+   + Training
+- Learn more at http://rug.biotech.cdc.gov/
+
 ## Packages Extend R's Capabilities
 There are over `r xPacks` _packages_ on the comprehensive R archive network (_CRAN_). A _package_ is a collection of functions, data, and compiled code, usually designed to work together. 
 
