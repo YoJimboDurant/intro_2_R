@@ -370,8 +370,11 @@ Note the fact that when vector lengths are not the same, R will recycle the shor
 
 # Regular Expressions
 - They are powerful!
-[xkcd](https://imgs.xkcd.com/comics/regular_expressions.png)
-https://xkcd.com/208/
+
+![xkcd](https://imgs.xkcd.com/comics/regular_expressions.png)
+
+(https://xkcd.com/208/)
+
 - These are used in commands such as grep, grepl, gsub etc. and are
 very powerful tools for the programmer. They are common in many
 languages, including R.
@@ -379,6 +382,7 @@ languages, including R.
 
 
 Represent language using:
+
 - literals
 - matacharacters 
 - literals are the words/text and metacharacters are the grammar
@@ -405,8 +409,9 @@ grep("A", state.name, ignore.case = TRUE,
 grep("^A", state.name, value=TRUE)         # states that start with an A
 grep("a$", state.name, value=TRUE)         # ends with a
 grep("^A|^V", state.name, value = TRUE)    # Start with either A or V
-grep("^A.+b", state.name, value = TRUE)    # Start with either A followed by any
-                                           # number of characters then b.
+
+                                           # Start with either A followed by any
+grep("^A.+b", state.name, value = TRUE)    # number of characters then b.
 
 ThreeStooges <- gsub("James", "Jim", ThreeStooges)  # Globally substitutes 
                                                        # Jim for James
@@ -510,7 +515,11 @@ Z[,,1]
 ```
 
 ## Array Example - Mantel-Haenszel test
-Example from (Shapiro S, Slone D, Rosenberg L, Kaufman DW, Stolley PD,  Miettinen OS. Oral contraceptive use in relation to myocardial infarction. Lancet 1979;1(8119):743-7. See also Mannocci (2009) Ital J. Public Health. 2009;6(4):338–40 http://ijphjournal.it/article/viewFile/5765/5509. To perform the MH-test for association of oral contraceptive Use and myocradial infarction (controling for 5 age groups):
+Example from (Shapiro S, Slone D, Rosenberg L, Kaufman DW, Stolley PD,  Miettinen OS. Oral contraceptive use in relation to myocardial infarction. Lancet 1979;1(8119):743-7. See also Mannocci (2009) Ital J. Public Health. 2009;6(4):338 - 340 http://ijphjournal.it/article/viewFile/5765/5509. 
+
+To perform the MH-test for association of oral contraceptive use and myocradial infarction (controling for 5 age groups), 
+- Create an array of dimension 2,2,5 (binary response, binary risk factor, 5 age strata),
+- then use `mantelhaen.test` to test the association.
 
 ```{r mhtest}
 mi_array <-
@@ -633,9 +642,11 @@ south
 
 
 # Tibbles
-Tibbles were an enhancement to `data.frame` objects. The word tibble is jargon for
+Tibbles are an enhancement to `data.frame` objects. The word tibble is jargon for
 the `tbl_df` class object (T-B-L = tibble). Tibbles were created as part of the `dplyr`
 package by Hadley Wickham (https://priceonomics.com/hadley-wickham-the-man-who-revolutionized-r/).  
+- Many newer data importation functions will return `tbl_df` class objects. 
+- Behavior is similiar to `data.frame` but not exactly the same.
 
 ## Creating a Tibble
 Tibbles can be created directly using the `data_frame()` in the dplyr package.
@@ -649,15 +660,15 @@ summary(state_df)
 state_df
 ```
 
-- Note the character vectors (state and abbrev) were not coerced into factors
-- prints class and top rows by defaults
-- `[]` will return a tibble, `[[]]` will return a vector
+- Note the character vectors (state and abbrev) were not coerced into factors.
+- Tibble print method prints class and top rows by defaults.
+- `[]` will return a tibble, `[[]]` will return a vector.
 - some legacy functions will not work with tibbles (use `as.data.frame()` to coerce back
 to `data.frame` class).
 
 ## Working with Tibbles
 - Use dplyr's verbs to 
-- To add a columns and filter to South region:
+- To calculate $km^2$ and hectares and filter to South region:
 ```{r}
 south <- mutate(state_df, area_km = area * 2.5999, hectares = area_km * 100) %>%
   filter(region == "South")

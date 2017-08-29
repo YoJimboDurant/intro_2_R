@@ -209,7 +209,7 @@ EpiCurve(cruise, date = "Date", period="day")
 The meal seat variable is a little difficult to interpret:
 
 ```{r}
-table(cruise$Meal_seat)
+summary(factor(cruise$Meal_seat))
 ```
 
 
@@ -232,6 +232,16 @@ cruise$Meal_seat[grep("Crew|My Time|Romeo \\& Juliet",
 table(cruise$Meal_seat)
 ```
 
+<article>
+Note that the `|` means logical OR. So in the top statement, we are searching for 
+"Crew" OR "Staff". We are ignoring the case. The next statement had ` ?` which means
+an optional match in this context. So we are matching strings like "mytime", "My Time",
+and "My time".  We have to use the escapes with the ampersand `\\&` because without the 
+escapes it will be interpretted as logical AND. The final statement inverts the logic,
+so it will replace everything that does NOT match Crew, My Time, and Romeo & Juliet
+with Other.
+
+<\article>
 To graph our recoded variables in the Epi-Curve function:
 ```{r}
 # we will use nceh colors
@@ -241,6 +251,27 @@ EpiCurve(cruise, date="Date", period = "day", cutvar = "Meal_seat", colors = nce
 ```
 
 ## Boxplots
-Boxplots are useful summaries for 
+Boxplots are useful summaries for continious data. 
+
+### Basic Boxplots
+
+- The argument `notch` will create an approximate confidence limit for the median value.
+- The argument `range` will set the fence range. By default it is 1.5.
+
+```{r boxplot}
+boxplot(cruise$Age, notch=TRUE, col = nceh_cols[1],
+        main = "Boxplot of Age of Cases")
+```
 
 
+
+### Formula Interface Boxplots
+You can condition your boxplots using the formula interface. This is very useful
+for identifying potential interactive variables in the dataset.
+
+```{r bxp form}
+boxplot(Age ~ Sex, data = cruise, notch= TRUE, col = nceh_cols[1:2], main = "Age of Cases by Sex")
+
+boxplot(Age ~ Sex + PsCrw, data = cruise, col = nceh_cols[1:4], main = "Age of Cases by Sex and Passenger/Crew")
+
+```
