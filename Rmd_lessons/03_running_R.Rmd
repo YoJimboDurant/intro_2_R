@@ -1,0 +1,747 @@
+# R Command Line
+## RGUI
+Windows, R runs in a graphical user interface (GUI) environment. This R's GUI, with an R Console open:
+![R's console](images/Rconsole.png)
+
+<article>
+Figure \ref{fig:RGUI} shows R's GUI, with the R Console. The R Console interprets the 
+R commands and provides the output. Commands can be typed in directly, or a whole set
+of commands can be run from a script that you can open in the R GUI or load from an external
+file.
+<\article>
+
+## The R Console
+The R Console is the interpreter for R.
+
+- Command can be typed in and ENTER key pressed.
+- The interpreter will examine the command and either prompt for more  *+* (continuation prompt) or attempt to execute the command.
+- Comments: Any line beginning with *#* is a comment and is ignored. Anything after is ignored until end of line.
+- Semicolons can separate commands on same line
+- Braces *{* and *}* can group commands together.
+
+
+
+## Your first function - help.start()
+```{r help.start, eval=FALSE}
+help.start()
+```
+![R help](images/The_R_Language1.png)
+
+## Your second function - help()
+```{r help, eval=FALSE}
+help("lm")  # inside () is arguments passed to function help
+help("help")
+?help   # abbriviate the help with ?
+help(package="stats") # arguments can be by order or named
+```
+<article>
+We should spend some time talking about function arguments. As you can see by the help page for help, there are several arguments that can passed to the `help` function. If these are passed in order of the function's expected arguments, its, expecting the topic first, then package (which if not specified defaults to NULL), etc. Arguments can be partially matched by title. 
+
+<\article>
+
+## Your third function - help.search()
+```{r help.search, eval=FALSE}
+help.search("generalized linear model")
+```
+## RStudio
+Integrated Development Environments (IDE's) such as RStudio come with features to make coding and running code easier. RStudio's features  include:
+
+- Window for writing and highlighting code (and identifying errors)
+- Window that contains the RConsole interpreter
+- Hot keys, word completion, auto-parenthesis
+- Show what is available in your environment
+- Window to interactively store plots, show files, and show help
+- Data importation wizards
+
+## RStudio Desktop
+![Rstudio](./images/Rstudio.png)
+<article>
+Features to note in RStudio:
+
+- RStudio contains 4 main windows. 
+- These windows can be adjusted or even repositioned inside the container.
+- To open a new code listing, you select File -> New File -> Rscript.
+- You can save the file with the extension ".R" so RStudio will know it is an R file next time you open it.
+- You can type code into the console, or type it into your Rscript file. Highlight the portion of the code in the Rscript and press <Control> and <Enter> and it will run the highlighted code to the RConsole. 
+- RStudio will highlight potential errors in your code as you type (linting)
+- Information on the many hot keys and functionality in RStudio can be found at: https://www.rstudio.com/wp-content/uploads/2016/01/rstudio-IDE-cheatsheet.pdf
+- For instance, you can place the cursor anywhere in your Rscript in RStudio and press *<Control>* and *B*, and RStudio will run your code from the start until it reaches the position of the cursor. You can also press *<Alt>* and *-* and RStudio will place and assignment (<-).
+<\article>
+
+## Basic Example Operations in Console
+```{r, eval=FALSE}
+#Basic Operations
+1+1
+sqrt(5000)
+'Hello World'
+1+1 
+1-1 
+3/3
+4*2 
+2*pi
+pi%%pi
+5 %/% 2
+```
+
+
+<iframe width='100%' height='300' src='http://www.r-fiddle.org/#/embed' allowfullscreen='allowfullscreen' frameborder='0'></iframe>
+
+
+## Assignments
+Variables are stored in R by _assigning_ them. You can see what variables are in R's memory environment by using the function `objects()`. You can use `<-` or `=` for assignment. 
+
+
+* Note that R is case sensitive!
+* Object names cannot start with a number!
+```{r error=TRUE} 
+#Variable Assignments
+x = 7
+
+x <- 7 #  <- assignment operator 
+# (Shortcut key: Alt + -) in Rstudio
+print(x)
+print(X) # ERROR!
+
+y <- 10-9 ; y #Running variable auto prints
+```
+
+<article>
+The arrow keys can be useful to scroll through your command history. UP will give you the previous commands, and down will move foward in your command history. That way, if you make a typo, you can correct your previous commands easily. You can also use the command `history()` to see all the past commands you have run.
+<\article>
+
+## Objects and Clearing Environment
+
+To see what objects are stored in memory:
+```{r}
+objects()
+```
+
+To clear all objects from memory:
+```{r}
+rm(list=ls())
+```
+
+## Logical Comparisons
+
+To use logical comparisons, use the symbols `<, >, >=, <=, ==, !=, %in%`
+```{r logic}
+x <- 1
+x > 2
+x < 0
+x >= 4
+x <= 5
+x == 1
+x != 1
+```
+
+## Atomic structures
+Objects can have classes. Atomic structures are the lowest level of class.
+```{r atomic}
+#Variable classes
+class(x)
+x <- 1.7
+class(x)
+y <- 'Hello World!'
+class(y)
+z <- TRUE
+class(z)
+```
+
+## Complex and Raw class
+
+<article>
+In addition to the classes above, there are complex number classes and the raw class. Raw classes are used to hold raw bytes. For the most part, beginers will probably not need these classes, but for advanced programming applications, they can be quite useful.}
+<\article>
+
+```{r more_class} 
+a_complex_number <- 1+0i
+class(a_complex_number)
+xx <- charToRaw("I am not raw")
+xx
+class(xx)
+rawToChar(xx)
+```
+
+# Data Structures
+## Numeric Vectors
+
+- Data structures hold data. 
+- There are different classes of data structures. 
+- Simpliest data structure is a vector.
+- All items in vector must have same atomic class.
+
+<article>
+The vector is the building block of more complex structures, so understanding their basic operations is essential.
+<\article>
+```{r vector}
+X <- c(10.4, 5.6, 3.1, 6.4, 21.7)   # creates a numeric vector
+1/X                                
+Y <- 1/X
+X**2
+# assigns 1/X to Y
+summary(Y)
+```
+<article>
+The `c` function is concatnate. It combines individual datum 
+into a vector that contains  data. Also note that for the mathmatical functions the 
+operations are performed on each datum.
+<\article>
+
+
+## Regular and Random Sequences
+
+- R can be used to create regular sequencies of numbers using \texttt{seq}. 
+- Random numbers at created using random number generating functions (e.g. \texttt{rnorm}). numbers 
+```{r sequences}
+#regular sequences
+seq(from = -5, to = 5, by = 2)
+1:15
+
+# use rnorm (see ?rnorm)
+randomNums <- rnorm(1000)
+summary(randomNums)
+```
+<article>
+You can find out which distributions are supported by typing ```{r} knitr::inline_expr('?distributions')```. You can control type of random number generation in R, and set random number generator seed numbers  - see `?RNG`.
+<\article> 
+
+
+## Character Vectors
+Character vectors behave in a different manner than numeric vectors. 
+```{r vector2, error=TRUE}
+Stooges <- c("Moe", "Larry", "Curly")    
+lastNames <- c("Howard", "Fine", "Howard")
+1/Stooges # Error
+ThreeStooges <- paste(Stooges, lastNames) 
+ThreeStooges # prints
+```
+<article>
+
+The `paste()` function pastes the contents two vectors together item-by-item. If the vector lengths are different, R will issue a warning, and "recycle" to the top of the shorter vector.
+<\article>
+
+## Logical Vectors
+ Logical vectors can be created as well, either directly by assignment or evaluating a vector.
+```{r vector3}
+logicVector1 <- c(TRUE, FALSE, FALSE, TRUE)    
+logicVector2 <- c(T,F,F,T) #T or F means TRUE or FALSE
+(logicVector3 <- X < 10)
+summary(logicVector3)
+(logicVector4 <- lastNames == "Howard")
+```
+
+
+## Subsetting Vectors
+ Logical vectors are often used to subset other vectors. TRUE values are retained, while FALSE are discarded. Numeric values can also be used to subset vectors.
+```{r vector4}
+V <- 1:10
+V[V<5]
+V[V==5]
+lastNames[1]
+lastNames[c(1,3)]
+logicVector1[logicVector1]
+```
+
+## Factors
+ Factor variables are used to indicate discrete classification, or grouping. 
+```{r vectorfactor}
+factorStates <- as.factor(sample(sample(state.abb, 10), 100, 
+                                 replace = TRUE))  
+factorStates
+summary(factorStates)
+```
+
+<article>
+\begin{warning}
+The behavior of the `summary()` and other functions change depending on  the class of the vector. Numeric vector results in a simple numeric summary, while logical vectors give you counts of `TRUE` and `FALSE` in the vector. A summary of a factor vector gives you a count of the factor levels.
+\end{warning}
+<\article>
+
+## Coercion
+- Numbers concatnated together will create a numeric vector
+- Charcter strings will create a character vector
+- Numeric data and character data concatnation will make a character
+- conversion of one type of data into another will:
+    + result in either NA (character to number - unless the string is a number)
+    + result in a factor level number (if factor)
+
+----
+   
+```{r dangerfactor}
+as.numeric(factorStates)
+class(c("One", 2, 3, "four"))
+(dontdothis <-as.numeric(factor(c(10,20,30))))
+(lookout <- as.numeric(c("One", 2, 3, "four")))
+(dothis <- as.numeric(as.character((factor(c(10,20,30))))))
+```
+
+## Vector Manipulations
+
+- You can index a vector and use the assignment to change its value:
+```{r vector_manip}
+ThreeStooges[2] <- "James Durant"
+ThreeStooges
+X[X<5] <- 0
+X
+X[X<5] <- rnorm(100) #warning
+X[X>50] <- rnorm(100) 
+```
+
+<article>
+Note the replacement vector must be either 1 - which replaces all values, or of equal length to the replacement. If the index results in a zero length vector, R will not substitute the values.}
+<\article>
+
+## Missing Values
+
+- Missing, not available or unknown values are coded with `NA`.
+- `is.na(x)` gives logical vector of length `x` with value of `TRUE` for `NA` values in vector `x`.
+
+```{r nas}
+x <- c(1:3,NA)
+is.na(x)
+x == NA
+```
+
+
+<article>=
+\vspace{5mm}
+\begin{warning}
+`x == NA` will evaluate the following:
+
+- is 1 equal to unknown? R doesn't know!
+- is 2 equal to unknown? R doesn't know!
+- is 3 equal to unknown? R doesn't know!
+- is unknown equal to unknown? R doesn't know!
+`is.na(x)` will evaluate each element of vector and see if it is a missing value. So what is evaluated is:
+
+- is 1 an unknown? FALSE
+- is 2 an unknown? FALSE
+- is 3 an unknown? FALSE
+- is unknown an unknown? TRUE
+\end{warning}
+<\article>
+
+## Setting vector elements to NA
+If you have a missing code in your data (e.g. -999), then you will need to set that value to `NA`. To do that, you must pass `is.na` a logical vector. 
+
+```{r makeanna}
+mydata <- c( 1, 2.4, pi, 40, -999)
+mean(mydata)
+is.na(mydata) <- mydata == -999
+mean(mydata)
+mean(mydata, na.rm=TRUE)
+```
+
+R by default will assume you do *NOT* want to drop `NA` values. 
+
+## Not a Number Values
+
+- Results of math computations that are not nubmers are coded as `NaN`.
+- `is.nan(x)` gives logical vector of length `x` with value of `r `TRUE` for `NaN` values.
+
+```{r notanumber}
+x[5] <- 0/0
+x[6] <- Inf - Inf
+is.na(x)
+is.nan(x)
+```
+
+
+## Vector Calculations and Concatnation
+- You can calculate values using numeric vectors:
+```{r vectorcals}
+X1 <- c(1,2,3,4,5)
+X2 <-c(1,2,3)
+X1 + X2
+X2 <- c(X2, 4, 5)
+X1 + X2
+```
+
+<article>
+Note the fact that when vector lengths are not the same, R will recycle the shorter vector. It will also issue a warning if the longer vector is not divisible by the shorter vector.
+<\article>
+
+# Exercies
+- Create a cevtor with the words: `cat`, `dog`, `fish`
+- Print the second element of the vector you just created
+- replace `fish` with `rabbit`
+- print the vector using the print function.
+
+
+# Regular Expressions
+- They are powerful!
+
+![xkcd](https://imgs.xkcd.com/comics/regular_expressions.png)
+
+(https://xkcd.com/208/)
+
+- These are used in commands such as grep, grepl, gsub etc. and are
+very powerful tools for the programmer. They are common in many
+languages, including R.
+
+
+
+Represent language using:
+
+- literals
+- matacharacters 
+- literals are the words/text and metacharacters are the grammar
+  (describe a class of words)
+- find classes of words or patterns
+
+## Regular Expression Functions 
+ - `grep` , `grepl`, `sub` and `gsub`
+   + `grep` searches and returns matching string or index in vector
+   + `grepl` searches and returns a vector of TRUE/FALSE is matches occur
+   + `sub` substitutes first match for the second argument
+   +  `gsub` substitutes all matches for the second argument
+   + `regexpr` and `gregexpr` seaches character vector and returns index and length of match
+ -  documentation is challenging - 2 good videos to watch
+   + https://www.youtube.com/watch?v=NvHjYOilOf8
+   + https://www.youtube.com/watch?v=q8SzNKib5-4
+   
+```{r regex}
+grep("A", state.name)                      # Capital A - return index  
+grep("A", state.name, value=TRUE)          # Capital A return value  
+grep("A", state.name, ignore.case = TRUE)  # ignore case - A or a
+grep("A", state.name, ignore.case = TRUE, 
+     invert = TRUE, value = TRUE )         # ignore case - NO A's
+grep("^A", state.name, value=TRUE)         # states that start with an A
+grep("a$", state.name, value=TRUE)         # ends with a
+grep("^A|^V", state.name, value = TRUE)    # Start with either A or V
+
+                                           # Start with either A followed by any
+grep("^A.+b", state.name, value = TRUE)    # number of characters then b.
+
+ThreeStooges <- gsub("James", "Jim", ThreeStooges)  # Globally substitutes 
+                                                       # Jim for James
+ThreeStooges
+```
+
+
+
+
+# The Matrix
+
+
+## Matrix Facilities
+- A matrix in R is a 2 dimensional vector. 
+- A matrix is indexed by `[row#,column#]` where row# is and column# is column#. 
+- There are several operators and functions that will apply only to maticies. 
+- A matrix is a expected class of the data argument to simple chi-square tests and Fisher's exact test:
+
+To create a matrix:
+```{r theone}
+TeaTasting <- matrix(c(3, 1, 1, 3),
+       nrow = 2,
+       dimnames = list(Guess = c("Milk", "Tea"),
+                       Truth = c("Milk", "Tea")))
+
+TeaTasting
+TeaTasting[2,1]
+```
+
+
+
+The output for the Fisher exact test is:
+```{r fisher}
+fisher.test(TeaTasting, alternative = "greater")
+```
+
+
+## Other Ways to Create Matrix
+Other ways to create a matrix are with `rbind` and `cbind`
+
+- `rbind` joins 2 or more vectors by as rows.
+- `cbind` joins 2 or more vectors by column.
+
+```{r rbind}
+rbind(c(1,2), c(3,4))
+cbind(c(1,2), c(3,4))
+matrix(c(1,2,3,4), ncol=2)
+```
+
+- `matrix` will fill the matix by column unless otherwise told to do so: `matrix (..., byrow=TRUE)`.
+
+
+# Arrays
+
+## Creating Arrays
+Arrays are multiple dimension collection of data enteries.
+
+- All items in array must be in same type
+- Arrays are indexed using `[]` brackets
+- Multiple dimensions can be accessed in array
+
+<article>
+If you create a 1 dimensional array, it will usually be treated as a vector, see section 5.1 of *An Introduction to R*.
+<\article>
+
+To create a 3 by 4 by 2 array:
+
+```{r array1}
+set.seed(1)
+h <- rnorm(24)
+Z <- array(h, dim = c(3,4,2))
+```
+
+Alternative approach to creating an array is to change the dimension attribute of a vector using the function `dim`:
+
+```{r array2}
+Z1 <-h
+dim(Z1)  <- c(3,4,2)
+identical(Z,Z1)
+```
+
+<article>
+The order of the filling of an array is to fill the first, then increase the index on the second, and finally, when the second dimension is filled, it will move to the next highest dimension.  
+<\article>
+
+```{r array3}
+q <- 1:24
+dim(q) <- c(3,4,2)
+print(q)
+```
+
+## Indexing Arrays
+Arrays can be indexed. For instance, to see the observation with index `[1,2,2]`:
+```{r array4}
+Z[1,2,2]
+```
+Blanks in an index will select all values. To select all observations with index of 1 in the third position:
+
+```{r array5}
+Z[,,1]
+```
+
+## Array Example - Mantel-Haenszel test
+Example from (Shapiro S, Slone D, Rosenberg L, Kaufman DW, Stolley PD,  Miettinen OS. Oral contraceptive use in relation to myocardial infarction. Lancet 1979;1(8119):743-7. See also Mannocci (2009) Ital J. Public Health. 2009;6(4):338 - 340 http://ijphjournal.it/article/viewFile/5765/5509. 
+
+To perform the MH-test for association of oral contraceptive use and myocradial infarction (controling for 5 age groups), 
+- Create an array of dimension 2,2,5 (binary response, binary risk factor, 5 age strata),
+- then use `mantelhaen.test` to test the association.
+
+```{r mhtest}
+mi_array <-
+array(c(4,2,62,224,
+        9,12,33,390,
+        4,33,26,330,
+        6,65,9,362,
+        6,93,5,301),
+      dim = c(2, 2, 5),
+      dimnames = list(
+          OC.use = c("Yes", "No"),
+          Response = c("MI", "Control"),
+          Age.Group = c("25-29", "30-34", "35-39", 
+                        "40-44", "45-49")))
+
+mantelhaen.test(mi_array)
+```
+
+
+# Data Frames
+Data Frames are matrix-like structures, but the columns can have different classes.
+The `data.frame` is one of the more common data structures you will encounter if you use
+R for data analysis. 
+
+## Features of Data Frames
+Import features of `data.frame`s:
+
+- Components must be vectors, factors, numeric matrices, or other `data.frames`.
+- Numeric vectors, logicals and factors are includes as is.
+- *BY DEFAULT CHARACTER VECTORS ARE COERCED INTO FACTORS*
+- Vectors must have same length
+- Row and column elements may be extracted with index notation `[row,column]`
+- Columns may be manipulated using the `$`.
+
+## Creating a Data Frame
+Data frames may be created by ysing the `data.frame` function.
+
+For example, if we wanted to create a `data.frame` called state_df from the pre-installed
+vectors of state.name, state.abb, region, and state.area:
+```{r dataframe}
+rm(list=ls()) # clean up environment
+state_df <- data.frame(state = state.name, abbrev = state.abb, 
+                       region = state.region, area = state.area)
+class(state_df)
+summary(state_df)
+str(state_df)
+head(state_df)
+tail(state_df)
+```
+<article>
+- The `summary()` function will return a summary of each vector within the `data.frame` by
+its class. For instance, a summary of min, quartiles, mean, and max values for numeric 
+vectors is returned.
+- The `str()` function with a `data.frame` will show the class and the first 5 data 
+in the vectors.
+- The `head()` and `tail()` will show the top and bottom rows of the `data.frame` respectively.
+
+<\article>
+
+## Data Frame Columns
+To access and individual data frame we can use the `$` after the `data.frame` object. 
+For instance, if we wanted to add a column of square kilometers to state_df:
+
+```{r dataframe_dollar}
+state_df$km_sq <- state_df$area * 2.5899
+summary(state_df)
+```
+
+```{r dataframe_bracket}
+state_df[,"km_sq"] # return numeric vector class
+state_df[1:10,c("km_sq", "state")] # first 10 rows of columns km_sq and state
+```
+
+You can also use the name of the column inside the `[]`. For instance:
+
+
+## Attaching Data Frames
+You can also use the function `attach(data.frame)` to make the variables inside the 
+data frame available directly. To reverse this, you use `detach(data.frame)`.
+```{r dataframe_multi}
+attach(state_df)
+hectares <- area * 100
+detach(state_df)
+```
+
+
+## Selecting Rows in Data Frames
+You may need to extract information by different conditionals from a `data.frame`. 
+You can use logical statements to subset rows.
+
+```{r select}
+south <- state_df[state_df$region == "South",]
+south
+```
+
+## Conditioning New Variables Based on Another
+- use `ifelse()` function to create a new variable based on another variable
+```{r ifelse}
+south$size <- ifelse(south$area > 41000, "Big", "Small")
+head(south)
+```
+
+
+## Ordering Data Frames
+To order the data in our south `data.frame` we use the function `order()`. If we wanted
+to order the south by area:
+
+
+```{r select2}
+south <- south[order(south$area),]
+south
+```
+
+
+To perform order by increasing value:
+```{r select3}
+south <- south[order(south$area, decreasing = TRUE),]
+south
+```
+
+
+# Tibbles
+Tibbles are an enhancement to `data.frame` objects. The word tibble is jargon for
+the `tbl_df` class object (T-B-L = tibble). Tibbles were created as part of the `dplyr`
+package by Hadley Wickham (https://priceonomics.com/hadley-wickham-the-man-who-revolutionized-r/).  
+- Many newer data importation functions will return `tbl_df` class objects. 
+- Behavior is similiar to `data.frame` but not exactly the same.
+
+## Creating a Tibble
+Tibbles can be created directly using the `data_frame()` in the dplyr package.
+```{r tibble}
+rm(list=ls())
+library(dplyr)
+state_df <- data_frame(state = state.name, abbrev = state.abb, 
+                       region = state.region, area = state.area)
+class(state_df)
+summary(state_df)
+state_df
+```
+
+- Note the character vectors (state and abbrev) were not coerced into factors.
+- Tibble print method prints class and top rows by defaults.
+- `[]` will return a tibble, `[[]]` will return a vector.
+- some legacy functions will not work with tibbles (use `as.data.frame()` to coerce back
+to `data.frame` class).
+
+## Working with Tibbles
+- Use dplyr's verbs to 
+- To calculate $km^2$ and hectares and filter to South region:
+```{r}
+south <- mutate(state_df, area_km = area * 2.5999, hectares = area_km * 100) %>%
+  filter(region == "South")
+
+south
+```
+- The `%>%` is a pipe - it takes the output of `mutate()` and sends it to `filter()`.
+- The final output is sent to the `tbl_df` south.
+
+To learn more on dplyr:
+go to http://rug.biotech.cdc.gov/presentations.html
+seach for dplyr (Presentations by Trey Spiller, and Steve Pittard)
+
+
+# Lists
+- An R list is an object  that contains a collection of objects.
+- Objects in list can be of multiple classes and lengths e.g. a numeric vector, a logical value, a matrix, a complex vector, a character array, a function, and so on. 
+
+## Creating a list
+
+```{r}
+mylst <- list(name = "Jim", dog = "Jade", 
+              children.ages = c(19,17), 
+              walks = TRUE)
+```
+
+## Accessing List Components
+
+- You can access lists objects with `[]` (returns list with object) or `[[]]` reutrn original class of object.
+- You can also use the `$` if elements of the list are named.
+
+```{r}
+mylst[1]
+mylst[[2]]
+mylst$children.ages
+```
+
+
+
+# Packages - installation and maintence
+
+## Installing Packages
+
+To install a a package, you will need to run the `install.packages()`. For our demonstrations, you will need the following packages:
+```{r, eval=FALSE}
+install.packages("Epi")
+install.packages("compareGroups")
+install.packages("epiR")
+install.packages("epitools")
+install.packages("pander")
+install.packages("tidyverse")
+install.packages("EpiCurve")
+```
+- Install package downloads the needed code from the CRAN repository into the library directory.
+- you only need to use `install.packages()` once per installation to install a package on the system. 
+- If you upgrade your R installation, you will need to reinstall or move your library.
+
+## Loading Packages
+
+To make a library available in your current session, use `library()`. 
+```{r, eval = FALSE}
+library("Epi")
+```
+- Libraries with functions of the same name will mask the function. R will issue a warning if this occurs.
+- You can specify which library with the `::`. For instance, `dplyr::select()`
+
+
+# Functions
+A function can be available inside R or created by a user. To see the code of a 
+function, you can type the name of the function without the `()` for instance:
+```{r}
+read.csv
+```
+
+- you see the function call, with the arguments in parenthesis (file, header, sep, quote, dec, fill, and comment char, and ...).
+- The `...` passes additional arguments to the function `read.table()` which called by `read.csv`. 

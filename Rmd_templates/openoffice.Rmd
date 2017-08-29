@@ -1,0 +1,11 @@
+---
+title: "Introduction to R at CDC"
+author: James Durant^[ATSDR Division of Community Investigations]
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  odt_document:
+    reference_odt: ./word_template/template_jtd.odt
+    fig_caption: yes
+---
+![](images/Rlogo_small.png)
+`r xclass="word"`

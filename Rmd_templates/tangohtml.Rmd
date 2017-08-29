@@ -1,0 +1,34 @@
+---
+title: |
+    | An Introduction R
+author: "[James Durant](mailto:hzd3@cdc.gov?Subject=Your%20Intro%to%20R%20%20talk)"
+institute: "ATSDR DCHI"
+abstract: "R is a system for statistical computation and graphics. It consists of a language plus a run-time environment with graphics, a debugger, access to certain system functions, and the ability to run programs stored in script files. 
+
+The core of R is an interpreted computer language which allows branching and looping as well as modular programming using functions. Most of the user-visible functions in R are written in R. It is possible for the user to interface to procedures written in the C, C++, or FORTRAN languages for efficiency. The R distribution contains functionality for a large number of statistical procedures. Among these are: linear and generalized linear models, nonlinear regression models, time series analysis, classical parametric and nonparametric tests, clustering and smoothing. There is also a large set of functions which provide a flexible graphical environment for creating various kinds of data presentations. Additional modules ('add-on packages') are available for a variety of specific purposes (see R Add-On Packages). 
+
+R was initially written by Ross Ihaka and Robert Gentleman at the Department of Statistics of the University of Auckland in Auckland, New Zealand. In addition, a large group of individuals has contributed to R by sending code and bug reports. 
+
+Since mid-1997 there has been a core group (the 'R Core Team') who can modify the R source code archive. The group currently consists of Doug Bates, John Chambers, Peter Dalgaard, Seth Falcon, Robert Gentleman, Kurt Hornik, Stefano Iacus, Ross Ihaka, Friedrich Leisch, Uwe Ligges, Thomas Lumley, Martin Maechler, Duncan Murdoch, Paul Murrell, Martyn Plummer, Brian Ripley, Deepayan Sarkar, Duncan Temple Lang, Luke Tierney, and Simon Urbanek. 
+
+R has a home page at https://www.R-project.org/. It is free software distributed under a GNU-style copyleft, and an official part of the GNU project ('GNU S'). (R-FAQ 2.1)"
+date: | #"`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: "show"
+    code_download: true
+    css: Brock_Stewart_RUG_CDC_Rmarkdown_March-2017.css
+    highlight: kate
+    includes:
+      in_header: PersistantHeaders.js
+---
+<script src="js/hideOutput.js"></script>
+
+![](images/Rlogo_small.png)
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+xclass <- "tango"
+```

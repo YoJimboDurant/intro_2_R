@@ -1,0 +1,277 @@
+# Data Import
+
+## Excel Data
+ 
+The _readxl_ package provides functions for importing Excel Spreadsheets:
+- Data exported to Excel from CDC's Food Outbreak Online Database (FOOD) (https://wwwn.cdc.gov/foodborneoutbreaks/)
+```{r read_excel}
+library(readxl)
+fddf <- read_excel("../data/FoodData.xlsx")
+```
+
+- in addition to local files, you can also use http, https, and ftp locations.
+
+## Comma Separated Values
+
+Data from https://www.cdc.gov/growthcharts/percentile_data_files.htm
+```{r read_csv}
+lms_chart <- read.csv("https://www.cdc.gov/growthcharts/data/zscore/wtageinf.csv")
+```
+
+## Tab delimited data
+- example from MMWR download from CDC's Wonder.
+- data are downloaded as plain text, with tabular data in lines 22 - 66.
+- `read.delim` with arguments skip and nrows to identify data
+```{r download mmwr}
+mmwr2017_31 <- read.delim("https://wonder.cdc.gov/mmwr/mmwr_reps.asp?mmwr_year=2017&mmwr_week=31&mmwr_table=2M&request=Export&mmwr_location=", skip =21, nrows = 66, na.strings = "-", header = FALSE)
+
+names(mmwr2017_31) <- c("Reporting Area",
+"Salmonellosis current week",
+"Salmonellosis previous 52 weeks median", 
+"Salmonellosis previous 52 weeks maximum", 
+"Salmonellosis cummulative for 2017",
+"Salmonellosis cummulative for 2016",
+"STEC current week",
+"STEC previous 52 weeks median", 
+"STEC previous 52 weeks maximum", 
+"STEC cummulative for 2017",
+"STEC cummulative for 2016",
+"Shigellosis current week",
+"Shigellosis previous 52 weeks median", 
+"Shigellosis previous 52 weeks maximum", 
+"Shigellosis cummulative for 2017",
+"Shigellosis cummulative for 2016")
+```
+
+## SAS Export Files
+To download and load NHANES 2013 - 2014 demographic files
+```{r NHANES}
+library(foreign)
+demo_h <- read.xport("../data/demo_h.xpt")
+```
+
+
+## SAS bat files
+Data from ATSDR's National Toxic Substances Incident Program (https://www.atsdr.cdc.gov/ntsip/index.html)
+```{r NTIS}
+library(haven)
+ntis_2014 <- read_sas("https://www.atsdr.cdc.gov/ntsip/docs/ntsippublic2014.sas7bdat")
+```
+
+## Exercise
+- Import the Salmonellosis data from Excel into a data.frame or Tibble in R.
+- Import the Friendship AGE Surveillance Log into a data.frame or Tibble in R.
+- Change Date to include year (2015)
+- Convert to Date format using `as.Date`
+
+
+
+
+
+```{r exercise_import}
+library(readxl)
+library(dplyr)
+salmonella <- read_excel("../data/Salmonellosis.xlsx")
+
+cruise <- read_excel("../data/Friendship AGE Surveillance Log.xls", skip = 7) %>%
+  select(Date, Time, Age = X__1, Sex = X__2, PsCrw = X__3, Cabin = X__4, Meal_seat = X__5, 
+         Pos = X__6, Date_rep = Date__1, Time_rep = Time__1, Diarrhea_eps = `#`, 
+         Blood = `Blood Y/N`, Vomiting_eps = `#__1`, Fever = `Y/N`, 
+         Temp =  ends_with("F"), Cramps = `Y/N__1`,
+         Headache = `Y/N__2`, Myalgia = `Y/N__3`, Spec_req = `Y/N__4`,
+         Spec_rec = `Y/N__5`, Antidiarrheal = `Y/N__6`, Reportable = `Y/N__7`,
+         Underlying.Illness = `X__7`
+         )
+
+cruise$Date <- paste(cruise$Date, "2015", sep="/")
+cruise$Date <- as.Date(cruise$Date, format = "%m/%d/%Y")
+
+```
+
+
+# Analysis and Visualization
+
+
+
+
+## NTIS 2014
+
+### Barplot 
+Let's say you want to find out what the number of incidents are per state. The `table` function would be useful:
+
+```{r stateNTIS}
+ntis_state <- table(ntis_2014$STATE)
+barplot(ntis_state, main = "Number of NTIS Incidents", col="darkblue")
+ntis_state
+```
+
+### Exercise
+Create a table of Chemicals that have had more than 1evacuations ordered (bonus create a barplot):
+
+```{r stateNTIS_evac}
+evac_ordered <- ntis_2014[ntis_2014$EVAC_ORD == "Y",]
+ntis_evac <- table(evac_ordered$CHEM1)
+ntis_evac <- ntis_evac[order(ntis_evac, decreasing = TRUE)]
+
+par(mar=c(5,15,4,2))
+barplot(ntis_evac[ntis_evac >1], main = "Number of NTIS Evaculation Incidents, 2014", col="darkblue", las=1, cex.names = 0.75, horiz = TRUE)
+```
+
+
+## Histograms
+- How many people lived within a quarter mile of the release?
+- To make a histogram of the data, you can use the function `hist`
+
+```{r}
+hist(ntis_2014$LIVEQTR, main = "Number of People Inside 1/4 Mile of Release",
+     xlab = "Number of people", col="red")
+```
+
+# MMWR Data
+
+## Plot Rates Relative to Median Weekly Rate
+
+We will for this exercise identify reporting areas that have salmonella cases 
+higher than median over past 52 weeks.
+
+```{r mmwr2017_salmonella}
+
+sal_mmwr <- subset(mmwr2017_31, !is.na(`Salmonellosis current week`))
+sal_mmwr <- sal_mmwr[sal_mmwr$`Salmonellosis current week` > 
+           sal_mmwr$`Salmonellosis previous 52 weeks median`,]
+
+sal_mmwr$`Reporting Area` <- factor(sal_mmwr$`Reporting Area`)
+sal_mmwr$`Salmonellosis previous 52 weeks maximum` <- as.numeric(
+  as.character(
+    sal_mmwr$`Salmonellosis previous 52 weeks maximum`
+      )
+  )
+  
+par(mar=c(10,4,4,4))
+bp_sal <- barplot(sal_mmwr$`Salmonellosis current`[order(sal_mmwr$`Salmonellosis current`)],
+        names = sal_mmwr$`Reporting Area`[order(sal_mmwr$`Salmonellosis current`)],
+        las=2)
+
+points(x = bp_sal, y = sal_mmwr$`Salmonellosis previous 52 weeks median`[order(sal_mmwr$`Salmonellosis current`)], pch =19)
+
+points(x = bp_sal, y = sal_mmwr$`Salmonellosis previous 52 weeks maximum`[order(sal_mmwr$`Salmonellosis current`)], pch =17)
+legend("topleft", pch = c(19,17), legend = c("52 wk. Median", "52 wk. Maximum"))
+```
+
+## xy Plots
+
+```{r}
+mmwr2017_31$`Salmonellosis cummulative for 2017` <- as.numeric(as.character(mmwr2017_31$`Salmonellosis cummulative for 2017`))
+
+mmwr2017_31$`Salmonellosis cummulative for 2016` <- as.numeric(as.character(mmwr2017_31$`Salmonellosis cummulative for 2016`))
+
+plot(`Salmonellosis cummulative for 2017` ~ `Salmonellosis cummulative for 2016`,
+     data = mmwr2017_31, pch =16)
+```
+
+## Correlation and Linear Models
+
+To see if there is a correlation, you can use either `cor()` or `lm()` functions.
+
+```{r}
+cor(mmwr2017_31$`Salmonellosis cummulative for 2017`, 
+    mmwr2017_31$`Salmonellosis cummulative for 2016`, use = "complete.obs")
+
+cor(mmwr2017_31$`Salmonellosis cummulative for 2017`, 
+    mmwr2017_31$`Salmonellosis cummulative for 2016`, use = "complete.obs",
+    method="kendall")
+
+salmon.lm1 <- lm(
+  `Salmonellosis cummulative for 2017` ~ `Salmonellosis cummulative for 2016`,
+     data = mmwr2017_31)
+
+summary(salmon.lm1)
+```
+```{r}
+plot(`Salmonellosis cummulative for 2017` ~ `Salmonellosis cummulative for 2016`,
+     data = mmwr2017_31, pch =16)
+lines(mmwr2017_31$`Salmonellosis cummulative for 2016`, predict(salmon.lm1, newdata = mmwr2017_31))
+```
+
+
+# Cruise Ship Data
+
+## Draw and Epi-Curve
+
+
+```{r}
+library(EpiCurve)
+EpiCurve(cruise, date = "Date", period="day")
+```
+
+## Recoding a Variable
+
+The meal seat variable is a little difficult to interpret:
+
+```{r}
+summary(factor(cruise$Meal_seat))
+```
+
+
+- We want to recode into "Crew", "My Time", "Romeo & Juliet", "Other"  
+- grep uses Regular Expressions to select rows with matching strings.
+
+```{r}
+cruise$Meal_seat[grep("Crew|Staff", 
+                      cruise$Meal_seat, 
+                      ignore.case = TRUE)] <- "Crew"
+cruise$Meal_seat[grep("My ?time", 
+                      cruise$Meal_seat, 
+                      ignore.case = TRUE)] <- "My Time"
+cruise$Meal_seat[grep("Romeo \\& Juliet|R\\&J", 
+                      cruise$Meal_seat, 
+                      ignore.case = TRUE)] <- "Romeo & Juliet"
+
+cruise$Meal_seat[grep("Crew|My Time|Romeo \\& Juliet", 
+                      cruise$Meal_seat, invert=TRUE)] <- "Other"
+table(cruise$Meal_seat)
+```
+
+<article>
+Note that the `|` means logical OR. So in the top statement, we are searching for 
+"Crew" OR "Staff". We are ignoring the case. The next statement had ` ?` which means
+an optional match in this context. So we are matching strings like "mytime", "My Time",
+and "My time".  We have to use the escapes with the ampersand `\\&` because without the 
+escapes it will be interpretted as logical AND. The final statement inverts the logic,
+so it will replace everything that does NOT match Crew, My Time, and Romeo & Juliet
+with Other.
+
+<\article>
+To graph our recoded variables in the Epi-Curve function:
+```{r}
+# we will use nceh colors
+nceh_cols <- c(rgb(0,130/255,101/255), rgb(0,89/255,132/255), rgb(71/255,103/255, 81/255), rgb(84/255, 25/255,0))
+               
+EpiCurve(cruise, date="Date", period = "day", cutvar = "Meal_seat", colors = nceh_cols)
+```
+
+## Boxplots
+Boxplots are useful summaries for continious data. 
+
+### Basic Boxplots
+
+- The argument `notch` will create an approximate confidence limit for the median value.
+- The argument `range` will set the fence range. By default it is 1.5.
+
+```{r boxplot}
+boxplot(cruise$Age, notch=TRUE, col = nceh_cols[1],
+        main = "Boxplot of Age of Cases")
+```
+
+
+
+### Formula Interface Boxplots
+You can condition your boxplots using the formula interface. This is very useful
+for identifying potential interactive variables in the dataset.
+
+```{r bxp form}
+boxplot(Age ~ Sex, data = cruise, notch= TRUE, col = nceh_cols[1:2], main = "Age of Cases by Sex")
+
+boxplot(Age ~ Sex + PsCrw, data = cruise, col = nceh_cols[1:4], main = "Age of Cases by Sex and Passenger/Crew")
+
+```

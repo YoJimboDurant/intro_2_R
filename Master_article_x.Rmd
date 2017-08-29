@@ -1,0 +1,28 @@
+---
+title: |
+    | An Introduction R
+    | (with a few pro tips)
+author: "[James Durant](mailto:hzd3@cdc.gov?Subject=Your%20Intro%to%20R%20%20talk)"
+institute: "ATSDR DCHI"
+abstract: "Lots of words"
+date: | #"`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: "show"
+    code_download: true
+    css: Brock_Stewart_RUG_CDC_Rmarkdown_March-2017.css
+    highlight: kate
+    includes:
+      in_header: PersistantHeaders.js
+---
+
+![](images/Rlogo_small.png)
+`r xclass="word"`
+```{r Rmd_lessons/01_getPacks_information.Rmd, child = './working_rmd/01_getPacks_information.Rmd'}
+```
+```{r Rmd_lessons/02_Background.Rmd, child = './working_rmd/02_Background.Rmd'}
+```
+```{r Rmd_lessons/03_running_R.Rmd, child = './working_rmd/03_running_R.Rmd'}
+```
