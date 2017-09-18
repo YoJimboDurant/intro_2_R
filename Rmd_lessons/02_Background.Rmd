@@ -16,6 +16,24 @@ R script that went to R's webpage, and extracted the number of packages, and ins
 <\article>
 
 
+## Why R?
+So is R for you?
+- Powerful graphics
+- Precise control
+- Opensource
+- Flexible and adaptable
+- Reproducible research
+- Shiny
+
+## Demo's
+If you have R open, you can type the following command and press enter:
+```{}
+demo("graphics")
+```
+
+Another place to get great inspiration is the R graph gallery:
+http://www.r-graph-gallery.com/
+
 ## CDC R User's Group
 - Founded in 2013, the CDC R User's Group is a standing committee of the CDC Statistics Advisory Group.
 - Share learning experiences and create channels of communication for R user's at CDC
@@ -25,6 +43,39 @@ R script that went to R's webpage, and extracted the number of packages, and ins
    + Mentoring
    + Training
 - Learn more at http://rug.biotech.cdc.gov/
+
+## Installing R
+R is Level II software, but it can be installed with user priviledges
+- But *.R files will not authomatically open with R
+- It should be installed to a local drive and not in a write protected directory
+- R updates approximately every 6 months
+- Packages update more often
+- links to ITSO SRT forms are at http://rug.biotech.cdc.gov/software.html
+
+## Configuring Installation
+On installation, you will be asked about several options:
+- You should install to a local drive (not a network drive)
+- Custom startup - (yes)
+- SDI (yes) this will allow R to run in several windows making use on multiple screens easier
+- html help (yes) - hyperlinks make it easier to move around help pages
+- Again, it will be helpful not to install R to a write protected file such as C:/Program Files.
+
+## Rstudio
+Rstudio is an integrated development environment (IDE) for R. Installing that can be done through the ITSO SRT tool (link is at http://rug.biotech.cdc.gov/software.html)
+An IDE makes creating and running code easier - Rstudio's features are manifold, but some of the highlights:
+- Real time checking of code for errors
+- Management of graphic output
+- Shortcut keys for running and editing code effeciently
+- Buffer save for recovery of unsaved code in case of crash
+- Menu driven options for importing data
+- Interfaces to suporting software such as LaTeX, knitr, and git
+
+## Packages
+If you have issues with installing packages, you can refer to http://rug.biotech.cdc.gov/configuring.html
+
+- I personally use method #1 (install R to non-write protected directory)
+- But editing the .Rprofile option works as well (you will have to specify a folder
+that already exists or create one).
 
 ## Packages Extend R's Capabilities
 There are over `r xPacks` _packages_ on the comprehensive R archive network (_CRAN_). A _package_ is a collection of functions, data, and compiled code, usually designed to work together. 
@@ -91,8 +142,9 @@ These are installed by default and provide a number of graphical, statistical, a
 <\article>
 
 # Cheat Sheets
-- For quick reference guides, several resources are available online
+For quick reference guides, several resources are available online
 - https://www.rstudio.com/wp-content/uploads/2016/05/base-r.pdf
 - https://cran.r-project.org/doc/contrib/Short-refcard.pdf
 - http://rug.biotech.cdc.gov/cheatsheets.html
+- In Rstudio - checkout on the menu Help -> Cheatsheets
 

@@ -1,0 +1,76 @@
+# R Basics and Getting Help
+## RGUI
+Windows, R runs in a graphical user interface (GUI) environment. This R's GUI, with an R Console open:
+![R's console](images/Rconsole.png)
+
+<article>
+Figure \ref{fig:RGUI} shows R's GUI, with the R Console. The R Console interprets the 
+R commands and provides the output. Commands can be typed in directly, or a whole set
+of commands can be run from a script that you can open in the R GUI or load from an external
+file.
+<\article>
+
+## The R Console
+The R Console is the interpreter for R.
+
+- Command can be typed in and ENTER key pressed.
+- The interpreter will examine the command and either prompt for more  *+* (continuation prompt) or attempt to execute the command.
+- Comments: Any line beginning with *#* is a comment and is ignored. Anything after is ignored until end of line.
+- Semicolons can separate commands on same line
+- Braces *{* and *}* can group commands together.
+
+
+
+## Your first function - help.start()
+```{r help.start, eval=FALSE}
+help.start()
+```
+![R help](images/The_R_Language1.png)
+
+## Your second function - help()
+```{r help, eval=FALSE}
+help("lm")  # inside () is arguments passed to function help
+help("help")
+?help   # abbriviate the help with ?
+help(package="stats") # arguments can be by order or named
+```
+<article>
+We should spend some time talking about function arguments. As you can see by the help page for help, there are several arguments that can passed to the `help` function. If these are passed in order of the function's expected arguments, its, expecting the topic first, then package (which if not specified defaults to NULL), etc. Arguments can be partially matched by title. 
+
+<\article>
+
+
+## Reading a help() file
+
+
+## Your third function - help.search()
+```{r help.search, eval=FALSE}
+help.search("generalized linear model")
+```
+## RStudio
+Integrated Development Environments (IDE's) such as RStudio come with features to make coding and running code easier. RStudio's features  include:
+
+- Window for writing and highlighting code (and identifying errors)
+- Window that contains the RConsole interpreter
+- Hot keys, word completion, auto-parenthesis
+- Show what is available in your environment
+- Window to interactively store plots, show files, and show help
+- Data importation wizards
+
+## RStudio Desktop
+![Rstudio](./images/Rstudio.png)
+<article>
+Features to note in RStudio:
+
+- RStudio contains 4 main windows. 
+- These windows can be adjusted or even repositioned inside the container.
+- To open a new code listing, you select File -> New File -> Rscript.
+- You can save the file with the extension ".R" so RStudio will know it is an R file next time you open it.
+- You can type code into the console, or type it into your Rscript file. Highlight the portion of the code in the Rscript and press <Control> and <Enter> and it will run the highlighted code to the RConsole. 
+- RStudio will highlight potential errors in your code as you type (linting)
+- Information on the many hot keys and functionality in RStudio can be found at: https://www.rstudio.com/wp-content/uploads/2016/01/rstudio-IDE-cheatsheet.pdf
+- For instance, you can place the cursor anywhere in your Rscript in RStudio and press *<Control>* and *B*, and RStudio will run your code from the start until it reaches the position of the cursor. You can also press *<Alt>* and *-* and RStudio will place and assignment (<-).
+<\article>
+
+# R courses and Online Help
+- Roger Peng - Introduction to Computing for Data Analaysis (https://www.youtube.com/watch?v=EiKxy5IecUw&list=PL7Tw2kQ2edvpNEGrU0cGKwmdDRKc5A6C4)
