@@ -1,3 +1,4 @@
+
 # R Basics and Getting Help
 ## RGUI
 Windows, R runs in a graphical user interface (GUI) environment. This R's GUI, with an R Console open:
@@ -73,4 +74,41 @@ Features to note in RStudio:
 <\article>
 
 # R courses and Online Help
+
+## Coursera and Youtube
 - Roger Peng - Introduction to Computing for Data Analaysis (https://www.youtube.com/watch?v=EiKxy5IecUw&list=PL7Tw2kQ2edvpNEGrU0cGKwmdDRKc5A6C4)
+
+
+## Stack Overflow
+Stack Overflow is a question and answer site for programmers, and includes a significant
+section on R.
+
+- You can create an account
+- Search for questions by tags
+- You can ask questions
+- You can answer questions and get "reputation points" and "badges"
+
+https://stackoverflow.com/tour
+
+(see my profile)[https://stackexchange.com/users/5900826/james-thomas-durant]
+
+
+## Asking Good Quesitons
+- Do your homework
+- Provide a self-contained reproducible example
+  + Minimal dataset
+  + Runnable code to reproduce problem or error
+  + Used packages, R version
+  + Use `set.seed()` for random data
+
+https://stackoverflow.com/questions/5963269/how-to-make-a-great-r-reproducible-example/5963610#5963610 
+
+
+## RUG Listserv
+RUG members are quite helpful - please do not hesitate to post to the listserv
+if you feel you need help. However, please:
+
+- Do not respond to all if you answer a listserv question (send to original poster)
+- Try and include self contained example
+- Respond with final solution to the listserv
+
