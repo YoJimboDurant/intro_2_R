@@ -36,6 +36,12 @@ help.start()
 - R Data Import/Export: how to get data in varying formats into R.
 - Search Engine: Search for more help.
 
+## Other Manuals
+
+- The R webpage (www.r-project.org) has contributed tutorials and manuals.
+https://cran.r-project.org/other-docs.html. 
+- Many of these have been translated into multiple languages.
+
 
 ## Your second function - help()
 ```{r help, eval=FALSE}
@@ -52,6 +58,17 @@ We should spend some time talking about function arguments. As you can see by th
 
 ## Reading a help() file
 
+
+`help(topic, package = NULL, lib.loc = NULL,`
+`     verbose = getOption("verbose"),`
+`     try.all.packages = getOption("help.try.all.packages"),`
+`     help_type = getOption("help_type"))`
+
+- arguments for function are between ()
+- default arguments are followed by an `=`
+- arguments without a `=` are required
+- and ellipse `...` means other non specific arguments
+- examples are typically at the bottom of the help page 
 
 ## Your third function - help.search()
 ```{r help.search, eval=FALSE}
@@ -86,6 +103,10 @@ Features to note in RStudio:
 
 ## Coursera and Youtube
 - Roger Peng - Introduction to Computing for Data Analaysis (https://www.youtube.com/watch?v=EiKxy5IecUw&list=PL7Tw2kQ2edvpNEGrU0cGKwmdDRKc5A6C4)
+- Garrett Grolemund & Hadley Wickham, R for Data Science 
+(http://r4ds.had.co.nz/)
+- If you are interested in a more menu-driven approach to R, try R Commander package:
+http://www.rcommander.com/
 
 
 ## Stack Overflow
@@ -120,4 +141,10 @@ if you feel you need help. However, please:
 - Do not respond to all if you answer a listserv question (send to original poster)
 - Try and include self contained example
 - Respond with final solution to the listserv
+
+## R listserv
+The R project has listservs 
+- https://www.r-project.org/mail.html
+- Includes special interest projects
+- For posting guide: https://www.r-project.org/posting-guide.html
 

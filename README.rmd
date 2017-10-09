@@ -58,7 +58,7 @@ The function createLessonMaster will call RmdFlip.R to remove the material betwe
 ## Introduction to R and RUG talk
 
 To create the RUG talk:
-```{r eval = TRUE}
+```{r eval = TRUE, message=FALSE, results='hide', warning=FALSE}
 library(knitr)
 library(rmarkdown)
 x <- list.files("Rmd_lessons", pattern = "[.]Rmd", full.names = TRUE)
