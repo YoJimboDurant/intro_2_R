@@ -1,0 +1,70 @@
+---
+title: "README"
+author: "James Durant"
+date: "October 9, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# About
+This project is intended to serve as a repository of teaching lessons that are written in R markdown that can be render to
+different formats (html5, pdf/beamer, MS Word) as well as produce student handout for either the instructor or the student. 
+
+# Usage:
+
+## Lessons
+Lessons are stored under *Rmd_Lessons* folder. These are bare Rmd files (without YAML header) for the lessons. The lessons will have an $<$article$>$ and $<$\\article$>$ tag to indicate material that will only appear in the student handout document. 
+
+## Rmd Templates
+Rmd templates are stored under _Rmd_templates_ directory. These files are basically the YAML section of the RMD document are combined to the Rmd_lessons to the document to be knit into final format.
+
+## Usage
+Under the R directory, there is a function called `createLessonMaster.R` and `RmdFlip.R` which will need to be sourced into your R console will create the lesson:
+
+```{r eval=TRUE}
+
+source("./R/createLessonMaster.R")
+source("./R/RmdFlip.R")
+```
+
+To use the functions:
+```{r eval=FALSE}
+createLessonMaster <- function(RmdFiles, type=c("article","beamer","tangohtml", "shower"),
+                               headFile = "./Rmd_templates/beamer.Rmd")
+```
+
+Where
+
+- RmdFiles is a list of Rmd_lessons (relative path included) of files for the lesson.
+- type is the type of document to produce (article is student handout)
+- headfile is the Rmd_template to use.
+
+So for example, to create a "shower" html presentation with all the lessons in the *Rmd_lessons*:
+
+
+```{r eval=FALSE}
+x <- list.files("Rmd_lessons", pattern = "[.]Rmd", full.names = TRUE)
+
+createLessonMaster(x, type="shower", headFile = "./Rmd_templates/shower.Rmd")
+render("Master_shower.Rmd")
+```
+
+The function createLessonMaster will call RmdFlip.R to remove the material between the $<$article$>$ and the $<$\\article$>$ taglines for the standard presenation, and will just remove the tags themselves for the student handout.  
+
+
+## Introduction to R and RUG talk
+
+To create the RUG talk:
+```{r eval = TRUE}
+library(knitr)
+library(rmarkdown)
+x <- list.files("Rmd_lessons", pattern = "[.]Rmd", full.names = TRUE)
+x <- grep("getPacks|Background|help", x, value=TRUE)
+createLessonMaster(x, type="shower", headFile = "./Rmd_templates/shower.Rmd")
+render("Master_shower.Rmd")
+```
+
+
