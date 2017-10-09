@@ -10,4 +10,5 @@ output:
     self_contained: false
     katex: true
     ratio: 16x10
+    css: custom.css
 ---

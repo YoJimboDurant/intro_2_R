@@ -18,6 +18,7 @@ R script that went to R's webpage, and extracted the number of packages, and ins
 
 ## Why R?
 So is R for you?
+
 - Powerful graphics
 - Precise control
 - Opensource
@@ -34,6 +35,7 @@ demo("graphics")
 Another place to get great inspiration is the R graph gallery:
 http://www.r-graph-gallery.com/
 
+
 ## CDC R User's Group
 - Founded in 2013, the CDC R User's Group is a standing committee of the CDC Statistics Advisory Group.
 - Share learning experiences and create channels of communication for R user's at CDC
@@ -45,7 +47,8 @@ http://www.r-graph-gallery.com/
 - Learn more at http://rug.biotech.cdc.gov/
 
 ## Installing R
-R is Level II software, but it can be installed with user priviledges
+R is Level III software, but it can be installed with user priviledges
+
 - But *.R files will not authomatically open with R
 - It should be installed to a local drive and not in a write protected directory
 - R updates approximately every 6 months
@@ -54,6 +57,7 @@ R is Level II software, but it can be installed with user priviledges
 
 ## Configuring Installation
 On installation, you will be asked about several options:
+
 - You should install to a local drive (not a network drive)
 - Custom startup - (yes)
 - SDI (yes) this will allow R to run in several windows making use on multiple screens easier
@@ -63,6 +67,7 @@ On installation, you will be asked about several options:
 ## Rstudio
 Rstudio is an integrated development environment (IDE) for R. Installing that can be done through the ITSO SRT tool (link is at http://rug.biotech.cdc.gov/software.html)
 An IDE makes creating and running code easier - Rstudio's features are manifold, but some of the highlights:
+
 - Real time checking of code for errors
 - Management of graphic output
 - Shortcut keys for running and editing code effeciently
@@ -82,7 +87,6 @@ There are over `r xPacks` _packages_ on the comprehensive R archive network (_CR
 
 - Some R packages supply utilities and functionality, such as additional graphics, data handling, or interfaces to other software.
 - Some packages are science or domain specific - see https://cran.r-project.org/web/views/.
-
 - packages can be created by anyone. Many are created by academic researchers. Some are sponsored by governmental agencies. Some even are for sports (e.g. https://cran.r-project.org/web/packages/cycleRtools/index.html.) 
 
 <article>
@@ -114,9 +118,11 @@ Because R is so flexible, many people in many scientific disciplines use it. The
 Broadly speaking there are 4 types of packages - utility packages that provide some functionality, graphics, or interface to other software; teaching packages that often accompany theoretical or basic statistical texts;  statistical - which are designed for a extend R's capabilities to a broader area of statistics, and science domain specific packages. Packages often work together to help each other.
 <\article>
 
-## Task Views Organize CRAN Packages
-On the CRAN, _Task Views_ (Table 1) organize packages useful for certain applications  https://cran.r-project.org/web/views/. 
 
+## Task Views Organize CRAN Packages
+On the CRAN, _Task Views_ organize packages useful for certain applications  https://cran.r-project.org/web/views/. 
+
+<article>
 
 ```{r task_views, echo = FALSE, warning=FALSE, message=FALSE}
 x <- ctv::available.views(repos = "https://cran.rstudio.com/")
@@ -130,7 +136,7 @@ z <- cbind(x1, x2)
   kableExtra::kable_styling(font_size = 6)
 
 ```
-
+<\article>
 
 ##Standard Library
 When R is installed, standard packages (Table 2) are installed along with the installation.
@@ -141,8 +147,9 @@ knitr::kable(cbind(as.character(defaultPacks$Package[1:14]),as.character(default
 These are installed by default and provide a number of graphical, statistical, and developmental capabilities to R.
 <\article>
 
-# Cheat Sheets
+## Cheat Sheets
 For quick reference guides, several resources are available online
+
 - https://www.rstudio.com/wp-content/uploads/2016/05/base-r.pdf
 - https://cran.r-project.org/doc/contrib/Short-refcard.pdf
 - http://rug.biotech.cdc.gov/cheatsheets.html

@@ -28,6 +28,15 @@ help.start()
 ```
 ![R help](images/The_R_Language1.png)
 
+
+## Useful Links on the help.start() page
+- An Introduction to R: This is the basic user manual - it will walk you through several internals. Appendix A (sample session) is useful to get a feel for how to use R.
+- User Manuals: This links to manuals for some of the base packages.
+- Packages: lists installed packages and links to help pages on the system.
+- R Data Import/Export: how to get data in varying formats into R.
+- Search Engine: Search for more help.
+
+
 ## Your second function - help()
 ```{r help, eval=FALSE}
 help("lm")  # inside () is arguments passed to function help
