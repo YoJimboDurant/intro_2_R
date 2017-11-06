@@ -1,93 +1,89 @@
 
-# Background
+# Getting Started
 ## What is R?
 R is a statistical computing environment that contains:
 
-- an effective data handling and storage facility
-- a suite of operators for calculations on arrays, in particular matrices
-- a large, coherent, integrated collection of intermediate tools for data analysis
+- a well-developed, simple and effective programming language
+- a large, extensible, and integrated collection of intermediate tools for data analysis (over 11,000 packages)
 - graphical facilities for data analysis and display either on-screen or on hard-copy
-- a well-developed, simple and effective programming language which includes conditionals, loops, user-defined recursive functions and input and output facilities
-<article>
-R is an interesting thing to define. In reality, it is several things at once. It is a computing environment that contains facilities to store data, perform mathematical and statistical calculations on that data, and provide graphical output. It also is a fully featured computing language - that is, it can basically make your computer do anything that any other language can do (although perhaps not efficiently).
+    - Paul Murrell [grid system]
+    - Deepayan Sarkar/William Cleveland [lattice/trellis system]
+    - Hadley Wickham [ggplot system]
 
-R also supports something called "reproducible research" - which means it can generate report outputs to pdf, html, or even Word that have the code completely embedded in it. Data figures, tables, etc. are exactly duplicated using either knitr or sweave packages. For this presentation the author used a typsetting language called \LaTeX  and R to simulaniously produce the the slides and this handout. So  every figure, table, and slide that was generated using R is captured and inserted into the document. This also allows documents to be _dynamic_, such as when this presentation was compiled on `r date()`, there was a small
-R script that went to R's webpage, and extracted the number of packages, and inserted it into the document.
+<article>
+R is an interesting thing to define but I think I will summarise in the following three points.
+
+1. It is a well developed programming language. First developed in the 1990s and it is still under development but very stable.
+2. Is extensible; over 11,000 packages have been developed. Packages add capabilities to R. If I have to make an analogy; if we the scientist are a chef and the kitchen and our utensils is R. Then we have a fully stocked pantry, all kind of ingredients (fresh and high quality). We have all kinds of mixers. We have a huge wine cellar. Sometimes we just weant to make a grilled cheese so learning the layout of the kitchen is important.
+3. Robust graphical system; in reality there are multiple graphic systems used in R. For example we have the grid system, trellis and ggplot. R graphics is one thing that got good reviews early on compared to other statistical platform such as SAS. I think is because some of the early developers of the graphic systems are "data visualization experts". For example; if you are into Data Visualization you may recognize William Cleveland. He is arguably recognized as the person that move data visualization more toward a science discipline. William Cleveland work at the Bell Labs and that is where they developed the trellis framework for S. Then it was ported to R and that is what is know as lattice.
 <\article>
+
 
 
 ## Why R?
 So is R for you?
 
-- Powerful graphics
-- Precise control
-- Opensource
-- Flexible and adaptable
-- Reproducible research
-- Shiny
-
-## Demo's
-If you have R open, you can type the following command and press enter:
-```{}
-demo("graphics")
-```
-
-Another place to get great inspiration is the R graph gallery:
-http://www.r-graph-gallery.com/
+- Powerful (graphics, opensource/precise control, reproducible research, Shiny)
+- Support (really large/diverse community behind R)
+- Multiple platforms (Windows, Linux, Mac, etc.)
 
 
 ## CDC R User's Group
 - Founded in 2013, the CDC R User's Group is a standing committee of the CDC Statistics Advisory Group.
 - Share learning experiences and create channels of communication for R user's at CDC
-   + Listserv (http://rug.biotech.cdc.gov/listserv.html)
-   + Forum (https://community.biotech.cdc.gov/forum/51-rug/)
-   + Monthly Meetings
-   + Mentoring
-   + Training
-- Learn more at http://rug.biotech.cdc.gov/
+    + Listserv (http://rug.cdc.gov/listserv.html)
+    + Forum (https://community.biotech.cdc.gov/forum/51-rug/)
+    + Monthly meetings
+    + Mentoring
+    + Training
+- Learn more at http://rug.cdc.gov/
+- Comments/ideas to rug@cdc.gov
 
-## Installing R
-R is Level III software, but it can be installed with user priviledges
+## What do I need in order to use R?
+- R
+- RStudio: Is an integrated development environment (IDE) for R. An IDE makes creating and running code easier.
+- Packages
 
-- But *.R files will not authomatically open with R
-- It should be installed to a local drive and not in a write protected directory
-- R updates approximately every 6 months
-- Packages update more often
-- links to ITSO SRT forms are at http://rug.biotech.cdc.gov/software.html
+## [Installing R](http://repo.biotech.cdc.gov/cran/bin/windows/base/)
+1. Administrative Privileges (ITSO or cdcid-su)
+    - Default destination will be `c:\Program Files\`. This directory is write protected for regular users.
+2. User Privileges (cdcid)
+    - Default destination will be `\\cdc.gov\private\M310\eta6\R\R-3.4.2`. **Do not use this directory** unless you want a coffee break when the network goes down.
+    - *.R files will not authomatically be associated with R (not a problem but you will get a warning during install)
+- R is Level III software. RUG tries to maintain [SRT](http://itsotools.cdc.gov/srt/software/SoftwareDetails_1.aspx?softwareID=125) with the current version.
+- Install to a local drive and not in a write protected directory; (e.g.,`c:\bin\R\R-x.y.z`)
+- R updates approximately every 6 months; packages update more often
+- links to ITSO SRT forms are at http://rug.cdc.gov/software.html
 
-## Configuring Installation
-On installation, you will be asked about several options:
+## Updating R
+1. Multiple versions of R can be installed alongside. My preferred location is `C:\bin\R\R-x.y.z\` (e.g., `C:\bin\R\R-3.4.1`, `C:\bin\R\R-3.4.2`)
+2. Install using regular user privileges
+3. Change version in RStudio (Tools > Global Options > R Version [Change])
 
-- You should install to a local drive (not a network drive)
-- Custom startup - (yes)
-- SDI (yes) this will allow R to run in several windows making use on multiple screens easier
-- html help (yes) - hyperlinks make it easier to move around help pages
-- Again, it will be helpful not to install R to a write protected file such as C:/Program Files.
+## Installing RStudio
+1. Administrative Privileges (ITSO or cdcid-su)
+    - Installer require admin privileges
+    - Default destination will be `c:\Program Files\`. This directory is write protected for regular users. Suggested location `c:\bin\RStudio\`.
+    - Download Windows version from the **Installers for Supported Platforms** section in https://www.rstudio.com/products/rstudio/download/
+2. User Privileges (cdcid)
+    - Download Windows version from the **Zip/Tarball** section in https://www.rstudio.com/products/rstudio/download/
+    - Unzip and copy folder content to `c:\bin\RStudio`
+    - Create desktop shortcut to access `c:\bin\RStudio\bin\rstudio.exe`
 
-## Rstudio
-Rstudio is an integrated development environment (IDE) for R. Installing that can be done through the ITSO SRT tool (link is at http://rug.biotech.cdc.gov/software.html)
-An IDE makes creating and running code easier - Rstudio's features are manifold, but some of the highlights:
+## Updating RStudio
+  - Having multiple versions at the same time is a little bit glitchy.
+  - File association (.Rproj) get stuck to old version
 
-- Real time checking of code for errors
-- Management of graphic output
-- Shortcut keys for running and editing code effeciently
-- Buffer save for recovery of unsaved code in case of crash
-- Menu driven options for importing data
-- Interfaces to suporting software such as LaTeX, knitr, and git
 
-## Packages
-If you have issues with installing packages, you can refer to http://rug.biotech.cdc.gov/configuring.html
+## Sources of R Packages part 1
 
-- I personally use method #1 (install R to non-write protected directory)
-- But editing the .Rprofile option works as well (you will have to specify a folder
-that already exists or create one).
+A _package_ is a collection of functions, data, and compiled code, usually designed to work together. 
 
-## Packages Extend R's Capabilities
-There are over `r xPacks` _packages_ on the comprehensive R archive network (_CRAN_). A _package_ is a collection of functions, data, and compiled code, usually designed to work together. 
-
-- Some R packages supply utilities and functionality, such as additional graphics, data handling, or interfaces to other software.
-- Some packages are science or domain specific - see https://cran.r-project.org/web/views/.
-- packages can be created by anyone. Many are created by academic researchers. Some are sponsored by governmental agencies. Some even are for sports (e.g. https://cran.r-project.org/web/packages/cycleRtools/index.html.) 
+1. CRAN
+    - Over `r xPacks` _packages_
+    - Some R packages supply utilities and functionality, such as additional graphics, data handling, or interfaces to other software.
+    - Some packages are science or domain specific - see https://cran.r-project.org/web/views/.
+    - packages can be created by anyone. Many are created by academic researchers. Some are sponsored by governmental agencies. Some even are for sports (e.g. https://cran.r-project.org/web/packages/cycleRtools/index.html.) 
 
 <article>
 R's has literally thousands of add on packages. This is partially because of the non-central development of R, many people will find many different ways of doing similar things. It's also a sign of how broadly useful R is. Type in an area of science, device, or even your favorite hobby, and "R" into Google and you will likely find packages related to the specialty. 
@@ -96,15 +92,52 @@ Packages can be created by anyone - some are sponsored by governments, some are 
 <\article>
 
 
-## Other Sources of Packages
+## Sources of R Packages part 2
 ![Bioconductor Logo](./images/bioconductor_logo_rgb.jpg)
+2. Bioconductor
+    - There are 1,296 more packages available at _Bioconductor_.
+    - _Bioconductor_ is an open source, open development software project that provides tools for the analysis and comprehension of high-throughput genomic data.
+    - National Institutes of Health (NIH) staff contribute, NIH has awarded multiple grants to project, along with other governmental and non-governmental entities - see www.bioconductor.org.
+
+3. github
+    - Install development versions of packages
+    - devtools package `devtools::install_github('rstudio/leaflet')`
+    
+
 <article>
 The Bioconductor project is another source of packages in the R universe. Almost all of these packages are specific to analysis of high-throughput bioinformatic data. It is based out of the Hutchinson Cancer Research center - and is a grantee of the National Institute of Health.
 <\article>
 
-- There are 1,296 more packages available at _Bioconductor_.
-- _Bioconductor_ is an open source, open development software project that provides tools for the analysis and comprehension of high-throughput genomic data.
-- National Institutes of Health (NIH) staff contribute, NIH has awarded multiple grants to project, along with other governmental and non-governmental entities - see www.bioconductor.org.
+## Installing Packages
+1. install.packages("leaflet")
+    - Packages are installed **from** CRAN---specifically `getOption("repos")`
+    - Packages are installed **to** `.libPaths()`---specifically the first element
+    - Most likely your CDC laptop/workstation will have a `.libPaths()` similar to:
+        - `\\cdc.gov/private/M310/eta6/R/win-library/3.4`; this is `Sys.getenv("R_LIBS_USER")` and/or
+        - `C:/SomeDirectory/R/R-3.4.2/library`; this is `paste0(Sys.getenv("R_HOME"), "/library")`
+2. `.libPaths()` is initialized when R is started
+3. `dir.create(Sys.getenv("R_LIBS_USER"), recursive = T)` to create a personal library
+
+If you have issues with installing packages, you can refer to http://rug.cdc.gov/configuring.html
+
+## Updating Packages
+1. RStudio Update button under the Packages tab
+2. `update.packages()` function
+
+**Careful about updating packages in the middle of a project**
+
+
+##Base and recommended packages vs user installed packages
+When R is installed, standard packages are installed along with the installation.
+```{r std_packs, echo=FALSE, warning=FALSE, message=FALSE}
+priority <- installed.packages()[,"Priority"]
+names(priority)[priority %in% "base"]
+names(priority)[priority %in% "recommended"]
+```
+<article>
+These are installed by default and provide a number of graphical, statistical, and developmental capabilities to R.
+<\article>
+
 
 ## Why So Many Packages?
 Because R is so flexible, many people in many scientific disciplines use it. The disciplines contribute packages. Broadly speaking, the packages can be classified as:
@@ -137,21 +170,4 @@ z <- cbind(x1, x2)
 
 ```
 <\article>
-
-##Standard Library
-When R is installed, standard packages (Table 2) are installed along with the installation.
-```{r std_packs, echo=FALSE, warning=FALSE, message=FALSE}
-knitr::kable(cbind(as.character(defaultPacks$Package[1:14]),as.character(defaultPacks$Package[15:28])),  col.names = c(NULL,NULL), booktabs=TRUE, caption = "R Standard Library")
-```
-<article>
-These are installed by default and provide a number of graphical, statistical, and developmental capabilities to R.
-<\article>
-
-## Cheat Sheets
-For quick reference guides, several resources are available online
-
-- https://www.rstudio.com/wp-content/uploads/2016/05/base-r.pdf
-- https://cran.r-project.org/doc/contrib/Short-refcard.pdf
-- http://rug.biotech.cdc.gov/cheatsheets.html
-- In Rstudio - checkout on the menu Help -> Cheatsheets
 

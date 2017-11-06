@@ -1,28 +1,33 @@
-
 # R Basics and Getting Help
-## RGUI
-Windows, R runs in a graphical user interface (GUI) environment. This R's GUI, with an R Console open:
-![R's console](images/Rconsole.png)
 
+## Learning R 
+
+  - HHS Learning Portal
+    + Introduction to R Programming (PG_RPRG_A01_IT_ENUS, 2.2)
+    + Books 24x7 (search for "R statistics")
+  - Many resources but in my opinion the best option out there is [Coursera Data Science Specialization by John Hopkins](https://www.coursera.org/specializations/jhu-data-science)
+  - Swirl (http://swirlstats.com/)
+     + Interactive learning using R
 <article>
-Figure \ref{fig:RGUI} shows R's GUI, with the R Console. The R Console interprets the 
-R commands and provides the output. Commands can be typed in directly, or a whole set
-of commands can be run from a script that you can open in the R GUI or load from an external
-file.
+There are several resources available to help you learn R. At CDc. there are 
+online classes (free) available for learning R at HHS university. There are also
+books available online at Books 24/7 through HHS university. Massive Online Courses
+(MOC's) such as coursera offer good instruction. Finally, if you are interested in 
+using R to learn R - swirl is an excellent way to provide interactive lessons that 
+teach you R as you use R.
+
 <\article>
 
-## The R Console
-The R Console is the interpreter for R.
+## Getting Help 
 
-- Command can be typed in and ENTER key pressed.
-- The interpreter will examine the command and either prompt for more  *+* (continuation prompt) or attempt to execute the command.
-- Comments: Any line beginning with *#* is a comment and is ignored. Anything after is ignored until end of line.
-- Semicolons can separate commands on same line
-- Braces *{* and *}* can group commands together.
+  - `help.start()`
+  - `help()`, `?help`
+  - `help.search()`
+  - Google search
+  - StackOverflow
+  - RUG listserv and R listserv
 
-
-
-## Your first function - help.start()
+## help.start()
 ```{r help.start, eval=FALSE}
 help.start()
 ```
@@ -36,14 +41,7 @@ help.start()
 - R Data Import/Export: how to get data in varying formats into R.
 - Search Engine: Search for more help.
 
-## Other Manuals
-
-- The R webpage (www.r-project.org) has contributed tutorials and manuals.
-https://cran.r-project.org/other-docs.html. 
-- Many of these have been translated into multiple languages.
-
-
-## Your second function - help()
+## help()
 ```{r help, eval=FALSE}
 help("lm")  # inside () is arguments passed to function help
 help("help")
@@ -55,9 +53,7 @@ We should spend some time talking about function arguments. As you can see by th
 
 <\article>
 
-
 ## Reading a help() file
-
 
 `help(topic, package = NULL, lib.loc = NULL,`
 `     verbose = getOption("verbose"),`
@@ -70,44 +66,10 @@ We should spend some time talking about function arguments. As you can see by th
 - and ellipse `...` means other non specific arguments
 - examples are typically at the bottom of the help page 
 
-## Your third function - help.search()
+## help.search()
 ```{r help.search, eval=FALSE}
 help.search("generalized linear model")
 ```
-## RStudio
-Integrated Development Environments (IDE's) such as RStudio come with features to make coding and running code easier. RStudio's features  include:
-
-- Window for writing and highlighting code (and identifying errors)
-- Window that contains the RConsole interpreter
-- Hot keys, word completion, auto-parenthesis
-- Show what is available in your environment
-- Window to interactively store plots, show files, and show help
-- Data importation wizards
-
-## RStudio Desktop
-![Rstudio](./images/Rstudio.png)
-<article>
-Features to note in RStudio:
-
-- RStudio contains 4 main windows. 
-- These windows can be adjusted or even repositioned inside the container.
-- To open a new code listing, you select File -> New File -> Rscript.
-- You can save the file with the extension ".R" so RStudio will know it is an R file next time you open it.
-- You can type code into the console, or type it into your Rscript file. Highlight the portion of the code in the Rscript and press <Control> and <Enter> and it will run the highlighted code to the RConsole. 
-- RStudio will highlight potential errors in your code as you type (linting)
-- Information on the many hot keys and functionality in RStudio can be found at: https://www.rstudio.com/wp-content/uploads/2016/01/rstudio-IDE-cheatsheet.pdf
-- For instance, you can place the cursor anywhere in your Rscript in RStudio and press *<Control>* and *B*, and RStudio will run your code from the start until it reaches the position of the cursor. You can also press *<Alt>* and *-* and RStudio will place and assignment (<-).
-<\article>
-
-# R courses and Online Help
-
-## Coursera and Youtube
-- Roger Peng - Introduction to Computing for Data Analaysis (https://www.youtube.com/watch?v=EiKxy5IecUw&list=PL7Tw2kQ2edvpNEGrU0cGKwmdDRKc5A6C4)
-- Garrett Grolemund & Hadley Wickham, R for Data Science 
-(http://r4ds.had.co.nz/)
-- If you are interested in a more menu-driven approach to R, try R Commander package:
-http://www.rcommander.com/
-
 
 ## Stack Overflow
 Stack Overflow is a question and answer site for programmers, and includes a significant
@@ -123,7 +85,22 @@ https://stackoverflow.com/tour
 (see my profile)[https://stackexchange.com/users/5900826/james-thomas-durant]
 
 
-## Asking Good Quesitons
+## RUG listserv
+RUG members are quite helpful - please do not hesitate to post to the listserv
+if you feel you need help. We are trying to migrate/join the listserv with the community site. Please stay tuned.
+
+## R Project listserv
+
+- https://www.r-project.org/mail.html
+- For posting guide: https://www.r-project.org/posting-guide.html
+- Includes special interest projects (for example):
+  + R-SIG-Epi: R for epidemiological data analysis
+  + R-SIG-meta-analysis: R SIG for discussing the use of R for conducting meta-analyses
+  + R-SIG-Geo: R Special Interest Group on using Geographical data and Mapping
+
+ 
+## Asking Good Questions
+
 - Do your homework
 - Provide a self-contained reproducible example
   + Minimal dataset
@@ -132,19 +109,3 @@ https://stackoverflow.com/tour
   + Use `set.seed()` for random data
 
 https://stackoverflow.com/questions/5963269/how-to-make-a-great-r-reproducible-example/5963610#5963610 
-
-
-## RUG Listserv
-RUG members are quite helpful - please do not hesitate to post to the listserv
-if you feel you need help. However, please:
-
-- Do not respond to all if you answer a listserv question (send to original poster)
-- Try and include self contained example
-- Respond with final solution to the listserv
-
-## R listserv
-The R project has listservs 
-- https://www.r-project.org/mail.html
-- Includes special interest projects
-- For posting guide: https://www.r-project.org/posting-guide.html
-
