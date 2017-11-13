@@ -155,19 +155,16 @@ Broadly speaking there are 4 types of packages - utility packages that provide s
 ## Task Views Organize CRAN Packages
 On the CRAN, _Task Views_ organize packages useful for certain applications  https://cran.r-project.org/web/views/. 
 
-<article>
+
 
 ```{r task_views, echo = FALSE, warning=FALSE, message=FALSE}
 x <- ctv::available.views(repos = "https://cran.rstudio.com/")
-x1 <- plyr::ldply(x[1:17], function(x) data.frame(Topic = x$name))
-x2 <- plyr::ldply(x[18:34], function(x) data.frame(Topic1 = x$name)) 
+x1 <- unlist(plyr::llply(x[1:17], function(x) x$name))
+x2 <- unlist(plyr::llply(x[18:34], function(x) x$name)) 
 
 
-z <- cbind(x1, x2)
+z <- c(x1, x2)
 
-  kable(z, col.names =c(NULL,NULL), caption = "Available Task Views on CRAN") %>%
-  kableExtra::kable_styling(font_size = 6)
-
+z
 ```
-<\article>
 

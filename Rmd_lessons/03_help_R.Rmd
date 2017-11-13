@@ -63,7 +63,7 @@ We should spend some time talking about function arguments. As you can see by th
 - arguments for function are between ()
 - default arguments are followed by an `=`
 - arguments without a `=` are required
-- and ellipse `...` means other non specific arguments
+- an ellipse `...` means other non specific arguments
 - examples are typically at the bottom of the help page 
 
 ## help.search()
@@ -86,17 +86,21 @@ https://stackoverflow.com/tour
 
 
 ## RUG listserv
-RUG members are quite helpful - please do not hesitate to post to the listserv
-if you feel you need help. We are trying to migrate/join the listserv with the community site. Please stay tuned.
+
+RUG members are quite helpful
+
+- please do not hesitate to post to the listserv if you feel you need help. 
+- We are trying to migrate/join the listserv with the community site. 
+- Please stay tuned.
 
 ## R Project listserv
 
-- https://www.r-project.org/mail.html
-- For posting guide: https://www.r-project.org/posting-guide.html
-- Includes special interest projects (for example):
-  + R-SIG-Epi: R for epidemiological data analysis
-  + R-SIG-meta-analysis: R SIG for discussing the use of R for conducting meta-analyses
-  + R-SIG-Geo: R Special Interest Group on using Geographical data and Mapping
+* https://www.r-project.org/mail.html
+* For posting guide: https://www.r-project.org/posting-guide.html
+* Includes special interest projects (for example)
+    + R-SIG-Epi: R for epidemiological data analysis
+    + R-SIG-meta-analysis: R SIG for discussing the use of R for conducting meta-analyses
+    + R-SIG-Geo: R Special Interest Group on using Geographical data and Mapping
 
  
 ## Asking Good Questions
