@@ -1,12 +1,53 @@
 # Basic R Syntax
 
+## The R Console
+
+Interactive Use
+
+- R is an interpreted high level language
+- Uses either command line interface or console to communicate with user
+- Programs (sometimes called scripts) can either be passed through the console or interpreter.
+- Results are returned through the interpreter to the user.
+
+```{r rconsole, echo =FALSE, fig.cap="R in interactive use"}
+library(DiagrammeR)
+
+nodes <-
+  create_node_df(
+    n = 3,
+    type = "a",
+    label = c("Computer", "R", "User"),
+    color = "lightblue")
+
+edges1 <- create_edge_df(from=c(3,2, 1,2),
+                       to = c(2,1, 2,3),
+                       rel = "related",
+                       label = c("R Expressions","Binary Functions", "Binary Results","Text, Graphics"))
+
+mygraph <- create_graph(nodes_df = nodes,
+                        edges_df = edges1)
+render_graph(mygraph, layout = "tree")
+
+```
+<article>
+R is an interpretted high level langauge - which means that it is supposed to be
+easier for people to understand than a computer. Computers speak "binary" - basically
+one's and zeros.
+
+> There are 10 types of persons in the world,
+> those that speak binary and those that don't.
+
+
+<\article>
+
+
 ## Basic Example Operations in Console
 - Typing the following after the `>` and pressing enter will cause R to evaluate 
-the statement. 
+the expression. 
 - R will return either a value or an error. If the statement is incomplete,
 it will display a continuation prompt (`+`).
 - Any characters on a line with `#` will be disregarded as a comment.
-- Statements on one line can be seperated by `;`
+- Multiple expressions on one line can be seperated by `;`
 
 ```{r, eval=FALSE}
 1 + 1  #Add 1 plus 1
@@ -65,6 +106,7 @@ rm(list=ls())
 ```
 
 ## Logical Comparisons
+
 ```{r logics, echo=FALSE}
 dfx <- data.frame(
       Operator = c("<", "<=", ">", ">=", "==", "!=", "!", "|", "&"),
@@ -75,7 +117,9 @@ dfx <- data.frame(
       )
     kable(dfx, escape = FALSE)
 ```
+
 ## Logic Examples
+
 To use logical comparisons, use the symbols `<, >, >=, <=, ==, !=, %in%`
 ```{r logic}
 x <- 1
@@ -137,25 +181,27 @@ summary(Y)
 ```
 <article>
 The `c` function is concatnate. It combines individual datum 
-into a vector that contains  data. Also note that for the mathmatical functions, the operations are performed on each datum. Some functions (like `summary` perform an operaton on the entire vector.)
+into a vector that contains  data. Also note that for the mathmatical functions, the operations are performed on each datum. Some functions (like `summary`) perform an operaton on the entire vector.
 <\article>
 
 
 ## Regular and Random Sequences
 
-- R can be used to create regular sequencies of numbers using \texttt{seq}. 
-- Random numbers at created using random number generating functions (e.g. \texttt{rnorm}). numbers 
+- R can be used to create regular sequencies of numbers using `seq`. 
+- Random numbers at created using random number generating functions (e.g. `rnorm`).
+- `set.seed` can be used to ensure reproducability.
 ```{r sequences}
 #regular sequences
 seq(from = -5, to = 5, by = 2)
 1:15
 
 # use rnorm (see ?rnorm)
+set.seed(123)
 randomNums <- rnorm(1000)
 summary(randomNums)
 ```
 <article>
-You can find out which distributions are supported by typing ```{r} knitr::inline_expr('?distributions')```. You can control type of random number generation in R, and set random number generator seed numbers  - see `?RNG`.
+You can find out which distributions are supported by typing `?distributions`. You can control type of random number generation in R, and set random number generator seed numbers  - see `?RNG`.
 <\article> 
 
 

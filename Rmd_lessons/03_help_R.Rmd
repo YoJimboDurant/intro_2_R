@@ -4,17 +4,21 @@
 
   - HHS Learning Portal
     + Introduction to R Programming (PG_RPRG_A01_IT_ENUS, 2.2)
-    + Books 24x7 (search for "R statistics")
-  - Many resources but in my opinion the best option out there is [Coursera Data Science Specialization by John Hopkins](https://www.coursera.org/specializations/jhu-data-science)
+    + Books 24x7 (under IT Skills -> Software Design and Development -> R).
+  - Massive online courses (MOC's) [Coursera Data Science Specialization by John Hopkins](https://www.coursera.org/specializations/jhu-data-science)
   - Swirl (http://swirlstats.com/)
      + Interactive learning using R
+  - R users group (http://rug.biotech.cdc.gov/presentations.html)
+  - Online books (free)
+     + R for Data Science by Garrett Grolemund and Hadley Wickham (http://r4ds.had.co.nz/index.html)
+     
 <article>
 There are several resources available to help you learn R. At CDc. there are 
 online classes (free) available for learning R at HHS university. There are also
-books available online at Books 24/7 through HHS university. Massive Online Courses
-(MOC's) such as coursera offer good instruction. Finally, if you are interested in 
+books available online at Books 24/7 through HHS university (has approx. 27 books and 30 short videos). Massive Online Courses
+(MOC's) such as coursera offer good instruction. If you are interested in 
 using R to learn R - swirl is an excellent way to provide interactive lessons that 
-teach you R as you use R.
+teach you R as you use R. The RUG also has several of its past presentation materials and video's archived and available for users. Free online resources such as R for Data Science by Garrett Grolemund and Hadley Wickham are excellent intermediate/beginer texts.
 
 <\article>
 
@@ -55,10 +59,12 @@ We should spend some time talking about function arguments. As you can see by th
 
 ## Reading a help() file
 
-`help(topic, package = NULL, lib.loc = NULL,`
-`     verbose = getOption("verbose"),`
-`     try.all.packages = getOption("help.try.all.packages"),`
-`     help_type = getOption("help_type"))`
+```
+help(topic, package = NULL, lib.loc = NULL,  
+     verbose = getOption("verbose"),  
+     try.all.packages = getOption("help.try.all.packages"),  
+     help_type = getOption("help_type"))
+```
 
 - arguments for function are between ()
 - default arguments are followed by an `=`

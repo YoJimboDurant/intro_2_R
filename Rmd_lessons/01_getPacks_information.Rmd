@@ -6,7 +6,7 @@ mypacks <- c("stringr", "knitr",
              "kableExtra", "ctv",
              "EpiCurve", "Epi",
              "compareGroups", "epiR",
-             "pander")
+             "pander", "DiagrammeR")
 
 x <- sapply(mypacks[!mypacks %in% installed.packages()], install.packages)
 

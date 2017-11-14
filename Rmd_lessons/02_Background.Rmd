@@ -49,7 +49,7 @@ So is R for you?
     - Default destination will be `c:\Program Files\`. This directory is write protected for regular users.
 2. User Privileges (cdcid)
     - Default destination will be `\\cdc.gov\private\M310\eta6\R\R-3.4.2`. **Do not use this directory** unless you want a coffee break when the network goes down.
-    - *.R files will not authomatically be associated with R (not a problem but you will get a warning during install)
+    - *.R files will not automatically be associated with R (not a problem but you will get a warning during install)
 - R is Level III software. RUG tries to maintain [SRT](http://itsotools.cdc.gov/srt/software/SoftwareDetails_1.aspx?softwareID=125) with the current version.
 - Install to a local drive and not in a write protected directory; (e.g.,`c:\bin\R\R-x.y.z`)
 - R updates approximately every 6 months; packages update more often
