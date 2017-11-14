@@ -1,5 +1,16 @@
 ```{r get_pack, echo=FALSE, warning=FALSE, results='hold', message=FALSE}
 rm(list=ls())
+
+mypacks <- c("stringr", "knitr", 
+             "miniCRAN", "igraph",
+             "kableExtra", "ctv",
+             "EpiCurve", "Epi",
+             "compareGroups", "epiR",
+             "pander")
+
+x <- sapply(mypacks[!mypacks %in% installed.packages()], install.packages)
+
+
 library(stringr)
 library(knitr)
 library(miniCRAN)

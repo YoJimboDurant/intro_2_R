@@ -45,7 +45,7 @@ x = 7
 x <- 7 
 print(x)
 print(X)
-y <- 10-9 ; y #Running variable auto prints
+y <- 10-9 
 ```
 
 <article>
@@ -65,7 +65,7 @@ rm(list=ls())
 ```
 
 ## Logical Comparisons
-```{r logics}
+```{r logics, echo=FALSE}
 dfx <- data.frame(
       Operator = c("<", "<=", ">", ">=", "==", "!=", "!", "|", "&"),
       Operation = c("less than", "less than or equal", "greater than", 
@@ -137,8 +137,7 @@ summary(Y)
 ```
 <article>
 The `c` function is concatnate. It combines individual datum 
-into a vector that contains  data. Also note that for the mathmatical functions the 
-operations are performed on each datum.
+into a vector that contains  data. Also note that for the mathmatical functions, the operations are performed on each datum. Some functions (like `summary` perform an operaton on the entire vector.)
 <\article>
 
 
