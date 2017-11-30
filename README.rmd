@@ -48,8 +48,8 @@ So for example, to create a "shower" html presentation with all the lessons in t
 ```{r eval=FALSE}
 x <- list.files("Rmd_lessons", pattern = "[.]Rmd", full.names = TRUE)
 
-createLessonMaster(x, type="shower", headFile = "./Rmd_templates/shower.Rmd")
-render("Master_shower.Rmd")
+createLessonMaster(x, type="beamer", headFile = "./Rmd_templates/shower.Rmd")
+render("Master_beamer.Rmd")
 ```
 
 The function createLessonMaster will call RmdFlip.R to remove the material between the $<$article$>$ and the $<$\\article$>$ taglines for the standard presenation, and will just remove the tags themselves for the student handout.  
@@ -62,9 +62,9 @@ To create the RUG talk:
 library(knitr)
 library(rmarkdown)
 x <- list.files("Rmd_lessons", pattern = "[.]Rmd", full.names = TRUE)
-x <- grep("getPacks|Background|help", x, value=TRUE)
-createLessonMaster(x, type="shower", headFile = "./Rmd_templates/shower.Rmd")
-render("Master_shower.Rmd")
+#x <- grep("getPacks|Background|help", x, value=TRUE)
+createLessonMaster(x, type="beamer", headFile = "./Rmd_templates/beamer.Rmd")
+render("Master_beamer.Rmd")
 ```
 
 

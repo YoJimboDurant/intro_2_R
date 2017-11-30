@@ -1,0 +1,656 @@
+```{r get_pack, echo=FALSE, warning=FALSE, results='hold', message=FALSE}
+rm(list=ls())
+
+mypacks <- c("stringr", "knitr", 
+             "miniCRAN", "igraph",
+             "kableExtra", "ctv",
+             "EpiCurve", "Epi",
+             "compareGroups", "epiR",
+             "pander", "DiagrammeR")
+
+x <- sapply(mypacks[!mypacks %in% installed.packages()], install.packages)
+
+
+library(stringr)
+library(knitr)
+library(miniCRAN)
+library(igraph)
+library(kableExtra)
+opts_chunk$set(concordance=TRUE)
+opts_knit$set(self.contained=FALSE)
+
+#
+options(width=60)
+
+set.seed(13456)
+
+today <- format(Sys.Date(), "%m-%d-%Y")
+myDepFun <- function (pkg, availPkgs, repos = getOption("repos"), type = "source", 
+                      suggests = TRUE, enhances = FALSE, includeBasePkgs = FALSE, 
+                      ...) 
+{
+  if (!requireNamespace("igraph")) {
+    stop(igraphNotAvailableMessage)
+  }
+  if (missing(availPkgs)) {
+    availPkgs <- pkgAvail(repos = repos, type = type)
+  }
+  pkgs <- availPkgs
+  rownames(pkgs) <- as.vector(pkgs[, "Package"])
+  allPkgs <- rownames(pkgs)
+  if (!length(allPkgs)) 
+    stop("no packages in specified repositories")
+  pkgEdge <- function(p, type = c("Imports", "Depends", "LinkingTo"), 
+                      pdb) {
+    do.call(rbind, lapply(type, function(t) miniCRAN:::addDepType(p, 
+                                                                  t, pdb = pdb)))
+  }
+  pkgEdges <- function(pp, type = c("Imports", "Depends", 
+                                    "LinkingTo"), pdb) {
+    do.call(rbind, lapply(pp, pkgEdge, type = type, pdb = pdb))
+  }
+  pkg_orig <- pkg
+  if (suggests) {
+    edges1 <- pkgEdges(pkg, type = c("Suggests"), availPkgs)
+    p_sug <- unique(unlist(tools::package_dependencies(pkg, 
+                                                       db = availPkgs, which = "Suggests", recursive = FALSE)))
+    pkg <- unique(c(p_sug, pkg))
+  }
+  if (enhances) {
+    edges2 <- pkgEdges(pkg_orig, type = c("Enhances"), availPkgs)
+    p_enh <- unique(unlist(tools::package_dependencies(pkg_orig, 
+                                                       db = availPkgs, which = "Enhances", recursive = FALSE)))
+    pkg <- unique(c(p_enh, pkg))
+  }
+  p_dep <- unique(unlist(tools::package_dependencies(pkg, 
+                                                     db = availPkgs, which = c("Imports", "Depends", "LinkingTo"), 
+                                                     recursive = TRUE)))
+  pkg <- unique(c(p_dep, pkg))
+  edges <- pkgEdges(pkg, type = c("Imports", "Depends", "LinkingTo"), 
+                    availPkgs)
+  if (suggests) {
+    edges <- rbind(edges, edges1)
+  }
+  if (enhances) {
+    edges <- rbind(edges, edges2)
+  }
+  nedges <- nrow(edges)
+  if (nedges && !includeBasePkgs) 
+    edges <- edges[!(edges[["dep"]] %in% basePkgs()), ]
+  vert <- unique(c(pkg_orig, edges[["dep"]], edges[["package"]]))
+  ret <- igraph::graph.data.frame(d = edges, directed = TRUE, 
+                                  vertices = vert)
+  class(ret) <- c("pkgDepGraph", "igraph")
+  attr(ret, "pkgs") <- pkg_orig
+  ret
+}
+
+# code to get number of packages
+xLines <- readLines("https://cran.r-project.org/web/packages/")
+xContrib <- grep("Currently, the CRAN package repository features", xLines, value=TRUE)
+xPacks <- prettyNum(str_extract(xContrib, "[0-9]+"), big.mark=",")
+
+# code to get base packages
+packLines <- readLines("https://stat.ethz.ch/R-manual/R-devel/doc/html/packages.html")
+defaultPacks <- XML::readHTMLTable(packLines, col.names=FALSE)[[1]]
+names(defaultPacks) <- c("Package", "Description")
+```
+
+# Learning Resources
+
+## Additional Resources
+
+  - HHS Learning Portal
+    + Introduction to R Programming (PG_RPRG_A01_IT_ENUS, 2.2)
+    + Books 24x7 (under IT Skills -> Software Design and Development -> R).
+  - Massive online courses (MOC's) [Coursera Data Science Specialization by John Hopkins](https://www.coursera.org/specializations/jhu-data-science)
+  - Swirl (http://swirlstats.com/)
+     + Interactive learning using R
+  - R users group (http://rug.biotech.cdc.gov/presentations.html)
+  - Online books (free)
+     + R for Data Science by Garrett Grolemund and Hadley Wickham (http://r4ds.had.co.nz/index.html)
+     
+<article>
+There are several resources available to help you learn R. At CDc. there are 
+online classes (free) available for learning R at HHS university. There are also
+books available online at Books 24/7 through HHS university (has approx. 27 books and 30 short videos). Massive Online Courses
+(MOC's) such as coursera offer good instruction. If you are interested in 
+using R to learn R - swirl is an excellent way to provide interactive lessons that 
+teach you R as you use R. The RUG also has several of its past presentation materials and video's archived and available for users. Free online resources such as R for Data Science by Garrett Grolemund and Hadley Wickham are excellent intermediate/beginer texts.
+
+<\article>
+
+
+# Basic R Syntax
+
+## The R Console
+
+Interactive Use
+
+- R is an interpreted high level language
+- Uses either command line interface or console to communicate with user
+- Programs (sometimes called scripts) can either be passed through the console or interpreter.
+- Results are returned through the interpreter to the user.
+
+```{r rconsole, echo =FALSE, fig.cap="R in interactive use", warning=FALSE, message=FALSE}
+library(DiagrammeR)
+
+nodes <-
+  create_node_df(
+    n = 3,
+    type = "a",
+    label = c("Computer", "R", "User"),
+    color = "lightblue")
+
+edges1 <- create_edge_df(from=c(3,2, 1,2),
+                       to = c(2,1, 2,3),
+                       rel = "related",
+                       label = c("R Expressions","Binary Functions", "Binary Results","Text, Graphics"))
+
+mygraph <- create_graph(nodes_df = nodes,
+                        edges_df = edges1)
+render_graph(mygraph, layout = "tree")
+
+```
+<article>
+R is an interpretted high level langauge - which means that it is supposed to be
+easier for people to understand than a computer. Computers speak "binary" - basically
+one's and zeros.
+
+> There are 10 types of persons in the world,
+> those that speak binary and those that don't.
+
+
+<\article>
+
+
+## Basic Example Operations in Console
+- Typing the following after the `>` and pressing enter will cause R to evaluate 
+the expression. 
+- R will return either a value or an error. If the statement is incomplete,
+it will display a continuation prompt (`+`).
+- Any characters on a line with `#` will be disregarded as a comment.
+- Multiple expressions on one line can be seperated by `;`
+
+```{r, eval=FALSE}
+1 + 1  #Add 1 plus 1
+sqrt(5000) # square root 5000
+3/3
+4*2 
+2*pi
+pi%%pi 
+5 %/% 2
+```
+
+## Arthmetic Operators
+These operators perform basic arithmatic in R
+
+```{r arthmatic, echo=FALSE}
+dfx <- data.frame(
+      Operator = c("+", "-", "\\text{*}", "/", "^", "\\text{**}", "%%", "%/%"),
+      Operation = c("addition", "subtraction", "multiplication", 
+                    "division", "exponentiation", "exponentiation",
+                    "modulus", "integer division")
+      )
+    kable(dfx, escape = FALSE)
+```
+
+
+## Scientific Notation
+
+- R uses a floating point number
+- "e" and 
+- Number indicating the direction and amount to shift the decimal point
+
+```{r eee}
+print(1.3e3);
+print(1.3e-3)
+```
+
+## Logs, Roots
+- To obtain natural log, use `log()` function
+- Inverse of `log()` is `exp()`
+- `log10()` is base 10 logrythms
+- other logs can be calculated `log` with base argument e.g.
+```{r log2}
+log(9, base = 3)
+```
+
+## Trig Functions
+ - `sin()`, `cos()`, `tan()`, `asin()`, `acos()`, `atan()`
+ - `?Trig` 
+ - But input is radians!
+
+```{r trig, fig.height=3.5}
+plot(x = seq(0, 2, 0.1) * pi, y = sin(seq(0, 2, 0.1) * pi), 
+     type="l", xlab = "radians", ylab = "sin(x)")
+abline(h=0, lty = 3, col = "grey")
+```
+
+# Vectors
+
+## Assignments
+Variables are stored in R by _assigning_ them. You can see what variables are in R's memory environment by using the function `objects()`. You can use `<-` or `=` for assignment. 
+
+
+* Note that R is case sensitive!
+* Object names cannot start with a number!
+* (Shortcut key: Alt + -) in Rstudio for `<-`
+
+```{r error=TRUE} 
+x = 7
+x <- 7 
+print(x)
+print(X)
+y <- 10-9 
+```
+
+<article>
+The up and down arrow keys can be useful to scroll through your command history. UP will give you the previous commands, and down will move foward in your command history. That way, if you make a typo, you can correct your previous commands easily. You can also use the command `history()` to see all the past commands you have run.
+<\article>
+
+## Objects and Clearing Environment
+
+To see what objects are stored in memory:
+```{r, eval = FALSE}
+objects()
+```
+
+To clear all objects from memory:
+```{r}
+rm(list=ls())
+```
+
+## Logic Examples
+
+To use logical comparisons, use the symbols `<, >, >=, <=, ==, !=, %in%`
+```{r logic}
+x <- 1
+x > 2
+x < 0
+x >= 4
+x <= 5
+x == 1
+x != 1
+x <= 1 & x < 2
+x == 1 | x < 0
+```
+
+## Logical Comparisons
+
+```{r logics, echo=FALSE}
+dfx <- data.frame(
+      Operator = c("<", "<=", ">", ">=", "==", "!=", "!", "|", "&"),
+      Operation = c("less than", "less than or equal", "greater than", 
+                    "greater than or equal", 
+                    "equal", "not equal", "NOT",
+                    "OR", "AND")
+      )
+    kable(dfx, escape = FALSE)
+```
+
+## Atomic structures
+Objects can have classes. Atomic structures are the lowest level of class.
+```{r atomic}
+#Variable classes
+class(x)
+x <- 1.7
+class(x)
+y <- 'Hello World!'
+class(y)
+z <- TRUE
+class(z)
+```
+
+## Complex and Raw class
+
+<article>
+In addition to the classes above, there are complex number classes and the raw class. Raw classes are used to hold raw bytes. For the most part, beginers will probably not need these classes, but for advanced programming applications, they can be quite useful.
+<\article>
+
+```{r more_class} 
+a_complex_number <- 1+0i
+class(a_complex_number)
+xx <- charToRaw("I am not raw")
+xx
+class(xx)
+rawToChar(xx)
+```
+
+
+## Precision
+
+- Computers are not perfectly perfect
+- Uses IEEE 754 double precision floating-point numbers
+- Generally accurate to about 16 significant digits
+
+```{r wtf}
+1e-324 == 0 ; 1e-323 == 0
+1 - 1e-16 == 1 ;1 - 1e-17 == 1
+a <- sqrt(2)
+a^2 == 2
+```
+<article>
+Floating point arithmatic and issues are tricky to grasp. Chapter 1 of the R Inferno by Burns has a good discussion http://www.burns-stat.com/pages/Tutor/R_inferno.pdf
+<\article>
+
+
+## Significant Digits
+ - You can use the `signif()` function to set significant digits
+ - You can use `print()` with `digits = ` to see more digits
+ - By default R will print a set number of digits (`getOption("digits")`) to see
+
+# Numeric Vectors
+
+- Data structures hold data. 
+- There are different classes of data structures. 
+- Simpliest data structure is a vector.
+- All items in vector must have same atomic class.
+
+<article>
+The vector is the building block of more complex structures, so understanding their basic operations is essential.
+<\article>
+```{r vector}
+X <- c(10.4, 5.6, 3.1, 6.4, 21.7)   # creates a numeric vector
+1/X                                
+Y <- 1/X
+X**2
+# assigns 1/X to Y
+summary(Y)
+```
+<article>
+The `c` function is concatnate. It combines individual datum 
+into a vector that contains  data. Also note that for the mathmatical functions, the operations are performed on each datum. Some functions (like `summary`) perform an operaton on the entire vector.
+<\article>
+
+
+## Regular and Random Sequences
+
+- R can be used to create regular sequencies of numbers using `seq`. 
+- Random numbers at created using random number generating functions (e.g. `rnorm`).
+- `set.seed` can be used to ensure reproducability.
+```{r sequences}
+#regular sequences
+seq(from = -5, to = 5, by = 2)
+1:15
+```
+
+
+## Random Numbers
+
+```{r par}
+set.seed(123)
+randomNums <- rnorm(1000)
+summary(randomNums); mean(randomNums); sd(randomNums)
+fivenum(randomNums)
+```
+
+<article>
+You can find out which distributions are supported by typing `?distributions`. You can control type of random number generation in R, and set random number generator seed numbers  - see `?RNG`.
+<\article> 
+
+## Numeric Vectors Summary and Visualizations
+
+```{r sumVect, fig.height = 3.5}
+oldpar <- par(mfrow = c(1,3))
+boxplot(randomNums, main = "Boxplot", col="lightblue")
+hist(randomNums, main = "Histogram", col="lightblue") 
+plot(density(randomNums), main = "Density")
+par(oldpar)
+```
+
+## Character Vectors
+Character vectors behave in a different manner than numeric vectors. 
+```{r vector2, error=TRUE}
+Stooges <- c("Moe", "Larry", "Curly")    
+lastNames <- c("Howard", "Fine", "Howard")
+1/Stooges # Error
+ThreeStooges <- paste(Stooges, lastNames) 
+ThreeStooges # prints
+plot(ThreeStooges)
+```
+<article>
+
+The `paste()` function pastes the contents two vectors together item-by-item. If the vector lengths are different, R will issue a warning, and "recycle" to the top of the shorter vector.
+<\article>
+
+## Logical Vectors
+ Logical vectors can be created as well, either directly by assignment or evaluating a vector.
+```{r vector3}
+logicVector1 <- c(TRUE, FALSE, FALSE, TRUE)    
+logicVector2 <- c(T,F,F,T) #T or F means TRUE or FALSE
+(logicVector3 <- X < 10)
+summary(logicVector3)
+(logicVector4 <- lastNames == "Howard")
+```
+
+## Plotting Logical Vectors
+```{r logicplot, fig.height=3.5}
+oldpar <- par(mfrow=c(1,4))
+plot(logicVector1, pch = 19)
+plot(logicVector2, pch = 19)
+plot(logicVector3, pch = 19)
+plot(logicVector4, pch = 19)
+par(oldpar)
+```
+
+## Subsetting Vectors
+ Logical vectors are often used to subset other vectors. TRUE values are retained, while FALSE are discarded. Numeric values can also be used to subset vectors.
+```{r vector4}
+V <- 1:10
+V[V<5]
+lastNames[1]
+lastNames[c(1,3)]
+logicVector1[logicVector1]
+```
+
+## Factors
+ Factor variables are used to indicate discrete classification, or grouping. 
+```{r vectorfactor}
+factorStates <- as.factor(sample(sample(state.abb, 10), 100, 
+                                 replace = TRUE))  
+factorStates
+summary(factorStates)
+```
+
+<article>
+\begin{warning}
+The behavior of the `summary()` and other functions change depending on  the class of the vector. Numeric vector results in a simple numeric summary, while logical vectors give you counts of `TRUE` and `FALSE` in the vector. A summary of a factor vector gives you a count of the factor levels.
+\end{warning}
+<\article>
+
+## Factors Plotting
+```{r vectorfactor}
+plot(factorStates)
+```
+
+
+
+## Coercion
+- Numbers concatnated together will create a numeric vector
+- Charcter strings will create a character vector
+- Numeric data and character data concatnation will make a character
+- conversion of one type of data into another will:
+    + result in either NA (character to number - unless the string is a number)
+    + result in a factor level number (if factor)
+
+----
+   
+```{r dangerfactor}
+as.numeric(factorStates)
+class(c("One", 2, 3, "four"))
+(dontdothis <-as.numeric(factor(c(10,20,30))))
+(lookout <- as.numeric(c("One", 2, 3, "four")))
+(dothis <- as.numeric(as.character((factor(c(10,20,30))))))
+```
+
+## Vector Manipulations
+
+- You can index a vector and use the assignment to change its value:
+```{r vector_manip}
+ThreeStooges[2] <- "James Durant"
+ThreeStooges
+X[X<5] <- 0
+X
+X[X<5] <- rnorm(100) #warning
+X[X>50] <- rnorm(100) 
+```
+
+<article>
+Note the replacement vector must be either 1 - which replaces all values, or of equal length to the replacement. If the index results in a zero length vector, R will not substitute the values.}
+<\article>
+
+## Missing Values
+
+- Missing, not available or unknown values are coded with `NA`.
+- `is.na(x)` gives logical vector of length `x` with value of `TRUE` for `NA` values in vector `x`.
+
+```{r nas}
+x <- c(1:3,NA)
+is.na(x)
+x == NA
+```
+
+
+<article>=
+\vspace{5mm}
+\begin{warning}
+`x == NA` will evaluate the following:
+
+- is 1 equal to unknown? R doesn't know!
+- is 2 equal to unknown? R doesn't know!
+- is 3 equal to unknown? R doesn't know!
+- is unknown equal to unknown? R doesn't know!
+`is.na(x)` will evaluate each element of vector and see if it is a missing value. So what is evaluated is:
+
+- is 1 an unknown? FALSE
+- is 2 an unknown? FALSE
+- is 3 an unknown? FALSE
+- is unknown an unknown? TRUE
+\end{warning}
+<\article>
+
+## Setting vector elements to NA
+If you have a missing code in your data (e.g. -999), then you will need to set that value to `NA`. To do that, you must pass `is.na` a logical vector. 
+
+```{r makeanna}
+mydata <- c( 1, 2.4, pi, 40, -999)
+mean(mydata)
+is.na(mydata) <- mydata == -999
+mean(mydata)
+mean(mydata, na.rm=TRUE)
+```
+
+R by default will assume you do *NOT* want to drop `NA` values. 
+
+## Not a Number Values
+
+- Results of math computations that are not nubmers are coded as `NaN`.
+- `is.nan(x)` gives logical vector of length `x` with value of `TRUE` for `NaN` values.
+
+```{r notanumber}
+x[5] <- 0/0
+x[6] <- Inf - Inf
+is.na(x)
+is.nan(x)
+```
+
+
+## Vector Calculations and Concatnation
+- You can calculate values using numeric vectors:
+```{r vectorcals}
+X1 <- c(1,2,3,4,5)
+X2 <-c(1,2,3)
+X1 + X2
+X2 <- c(X2, 4, 5)
+X1 + X2
+```
+
+<article>
+Note the fact that when vector lengths are not the same, R will recycle the shorter vector. It will also issue a warning if the longer vector is not divisible by the shorter vector.
+<\article>
+
+
+
+# Regular Expressions
+## XKCD
+
+
+![xkcd](https://imgs.xkcd.com/comics/regular_expressions.png)
+
+(https://xkcd.com/208/)
+
+- These are used in commands such as grep, grepl, gsub etc. and are
+very powerful tools for the programmer. They are common in many
+languages, including R.
+
+
+## What are Regular Expressions?
+Represent language using:
+
+- literals
+- matacharacters 
+- literals are the words/text and metacharacters are the grammar
+  (describe a class of words)
+- find classes of words or patterns
+
+
+## Regular Expression Functions 
+ - `grep` , `grepl`, `sub` and `gsub`
+   + `grep` searches and returns matching string or index in vector
+   + `grepl` searches and returns a vector of TRUE/FALSE is matches occur
+   + `sub` substitutes first match for the second argument
+   +  `gsub` substitutes all matches for the second argument
+   + `regexpr` and `gregexpr` seaches character vector and returns index and length of match
+ 
+## Regular Expressions - More Training
+
+documentation is challenging - 2 good videos to watch
+   + https://www.youtube.com/watch?v=NvHjYOilOf8
+   + https://www.youtube.com/watch?v=q8SzNKib5-4
+   
+## Regular Expression Examples
+
+```{r regex}
+grep("A", state.name)                        
+grep("A", state.name, value=TRUE)           
+grep("A", state.name, ignore.case = TRUE)  
+grep("A", state.name, ignore.case = TRUE, 
+     invert = TRUE, value = TRUE )         
+grep("^A", state.name, value=TRUE)         
+grep("a$", state.name, value=TRUE)         
+grep("^A|^V", state.name, value = TRUE)    
+
+(ThreeStooges <- gsub("James", "Jim", ThreeStooges))  
+```
+
+
+## Regular Expression Examples
+
+```{r regex2}
+grep("^A.+b", state.name, value = TRUE)  
+grep("9.*11", c("911", "9/11", "9/123116/1212"))
+grep("9.*11$", c("911", "9/11", "9/123116/1212"))                   
+```
+# Application
+
+## Uploading a data.frame
+ - Data.frame is just a set of vectors arranged in columns
+ - Line listing of cases of acute gastroenteritis (AGE) on cruise
+ - You can upload using from Excel "Import Dataset" wizard in Rstudio
+ 
+```{r dfx}
+ AGE_Surveillance_Log <- read_excel(
+   "../data/AGE Surveillance Log.xls", 
+   skip = 7)
+names(AGE_Surveillance_Log)[
+  grepl("^X__[0-9]|Y/N__[0-9]|#|^.F$|^Y/N$",
+                                  names(AGE_Surveillance_Log))] <-
+  c(
+    "Age", "Sex", "Pax_or_Crew", "Cabin", "Meal_seat",
+    "Crew_position", "Diarrhea_n", "Vomiting_n",
+    "Fever", "Temp", "Cramps", "Headache", "Myalgia",
+    "Spec_req", "Spec_rec", "AD_meds", "Reportable",
+    "UI"
+  )
+ ```

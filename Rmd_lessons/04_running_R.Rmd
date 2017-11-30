@@ -9,7 +9,7 @@ Interactive Use
 - Programs (sometimes called scripts) can either be passed through the console or interpreter.
 - Results are returned through the interpreter to the user.
 
-```{r rconsole, echo =FALSE, fig.cap="R in interactive use"}
+```{r rconsole, echo =FALSE, fig.cap="R in interactive use", warning=FALSE, message=FALSE}
 library(DiagrammeR)
 
 nodes <-
