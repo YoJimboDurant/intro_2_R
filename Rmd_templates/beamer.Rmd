@@ -1,5 +1,5 @@
 ---
-title: "Introduction to R at CDC"
+title: "Introduction to R at CDC Part 2"
 subtitle: \includegraphics[width=1cm]{images/Rlogo.png}
 author: James Durant
 institute: ATSDR Division of Community Health Investigations

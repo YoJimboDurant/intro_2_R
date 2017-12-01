@@ -111,12 +111,18 @@ names(defaultPacks) <- c("Package", "Description")
      + R for Data Science by Garrett Grolemund and Hadley Wickham (http://r4ds.had.co.nz/index.html)
      
 <article>
-There are several resources available to help you learn R. At CDc. there are 
-online classes (free) available for learning R at HHS university. There are also
-books available online at Books 24/7 through HHS university (has approx. 27 books and 30 short videos). Massive Online Courses
-(MOC's) such as coursera offer good instruction. If you are interested in 
-using R to learn R - swirl is an excellent way to provide interactive lessons that 
-teach you R as you use R. The RUG also has several of its past presentation materials and video's archived and available for users. Free online resources such as R for Data Science by Garrett Grolemund and Hadley Wickham are excellent intermediate/beginer texts.
+There are several resources available to help you learn R. At CDc. there are:
+
+- online classes (free) available for learning R at HHS university. 
+- Books 24/7 through HHS university (has approx. 27 books and 30 short videos). Massive Online Courses
+- (MOC's) such as coursera offer good instruction. We already have talked about Coursera.
+- Swirl - swirl is an excellent way to provide interactive lessons that teach you R as you use R. (http://rug.biotech.cdc.gov/slides/12.2_slides.pptx)
+- The RUG also has several of its past presentation materials and video's archived and available for users. There are a number of cheat sheets on the RUG website, such as 
+http://rug.biotech.cdc.gov/cheatsheets/base-r_baggott_2013-01.pdf
+Which will be useful to have if you are learning R. 
+ 
+- Free online resources such as R for Data Science by Garrett Grolemund and Hadley Wickham are excellent intermediate/beginer texts.
+
 
 <\article>
 
@@ -199,19 +205,19 @@ dfx <- data.frame(
 ## Scientific Notation
 
 - R uses a floating point number
-- "e" and 
+- "e", a `+` or `-` and 
 - Number indicating the direction and amount to shift the decimal point
+- By default, R will convert small scientific numbers to fixed notation, see `?options`
 
 ```{r eee}
-print(1.3e3);
-print(1.3e-3)
+1.3e3 ; 1.3e-3; 1e4 ; 1e-4
 ```
 
 ## Logs, Roots
 - To obtain natural log, use `log()` function
 - Inverse of `log()` is `exp()`
 - `log10()` is base 10 logrythms
-- other logs can be calculated `log` with base argument e.g.
+- other logs can be calculated `log()` with base argument e.g.
 ```{r log2}
 log(9, base = 3)
 ```
@@ -323,22 +329,25 @@ rawToChar(xx)
 - Computers are not perfectly perfect
 - Uses IEEE 754 double precision floating-point numbers
 - Generally accurate to about 16 significant digits
+- The RUG hosted a talk on precision by Seth Simms (http://rug.biotech.cdc.gov/slides/13_slides.pptx)
 
 ```{r wtf}
 1e-324 == 0 ; 1e-323 == 0
 1 - 1e-16 == 1 ;1 - 1e-17 == 1
-a <- sqrt(2)
-a^2 == 2
+a <- sqrt(2) ; a^2 == 2
 ```
+
 <article>
-Floating point arithmatic and issues are tricky to grasp. Chapter 1 of the R Inferno by Burns has a good discussion http://www.burns-stat.com/pages/Tutor/R_inferno.pdf
+Some other resources for floating point issues
+- Floating point arithmatic and issues are tricky to grasp. Chapter 1 of the R Inferno by Burns has a good discussion of the pitfalls http://www.burns-stat.com/pages/Tutor/R_inferno.pdf 
+- "Lies my Computer and Calculator Told Me"" by James Stewart http://www.stewartcalculus.com/data/default/upfiles/LiesCalcAndCompTold.pdf
 <\article>
 
 
 ## Significant Digits
  - You can use the `signif()` function to set significant digits
  - You can use `print()` with `digits = ` to see more digits
- - By default R will print a set number of digits (`getOption("digits")`) to see
+ - By default R will print a set number of digits (`getOption("digits")`)
 
 # Numeric Vectors
 
@@ -376,7 +385,7 @@ seq(from = -5, to = 5, by = 2)
 ```
 
 
-## Random Numbers
+## Numeric Summaries
 
 ```{r par}
 set.seed(123)
@@ -460,7 +469,7 @@ The behavior of the `summary()` and other functions change depending on  the cla
 <\article>
 
 ## Factors Plotting
-```{r vectorfactor}
+```{r vectorfactor2}
 plot(factorStates)
 ```
 
@@ -483,6 +492,37 @@ class(c("One", 2, 3, "four"))
 (lookout <- as.numeric(c("One", 2, 3, "four")))
 (dothis <- as.numeric(as.character((factor(c(10,20,30))))))
 ```
+
+
+## Dates and Time
+- Date class contains dates without time
+- POSIXct is dates and times (including timezones). These are stored as a numeric value (seconds since 01/01/1970) and displayed as a string.
+- POSIXlt is also dates and times (including timezones) but these are stored in a more complicated list format
+-`as.Date()` creates a date from a string
+- `strptime()` create POSIXlt
+
+
+## Creating a Date
+```{r date1}
+(adate <- as.Date("11/11/2011", format = "%m/%d/%Y"))
+class(adate)
+(bdate <- strptime("11-17-2014 13:30", 
+                   format = "%m-%d-%Y %H:%M", tz = "US/Eastern"))
+class(bdate) ; bdate$wday; format(bdate, "%a")
+```
+
+<article>
+Notes on dates:
+
+- The Date class is actually the number of days since January 1, 1970. It will print accoring to the Gregorian calendar, even on dates when that calandar was not in use!
+
+- The POSIXct is number of seconds since start of January 1, 1970.
+
+- POSIXlt is a list of vectors that contains representing parts of the date (e.g. hour, day of month, month, years since 1990).
+
+> Note that except where replaced, the operation of time zones is an OS service, and even where replaced a third-party database is used and can be updated (see the section on ‘Time zone names’). Incorrect results will never be an R issue, so please ensure that you have the courtesy not to blame R for them.
+
+<\article>
 
 ## Vector Manipulations
 
@@ -590,9 +630,8 @@ Represent language using:
 
 - literals
 - matacharacters 
-- literals are the words/text and metacharacters are the grammar
-  (describe a class of words)
-- find classes of words or patterns
+Literals are the words/text and metacharacters are the grammar
+  (describe a class of words). Metacharacters are "special meaning" characters. Together they find classes of words or patterns in strings.
 
 
 ## Regular Expression Functions 
@@ -640,6 +679,7 @@ grep("9.*11$", c("911", "9/11", "9/123116/1212"))
  - You can upload using from Excel "Import Dataset" wizard in Rstudio
  
 ```{r dfx}
+library(readxl)
  AGE_Surveillance_Log <- read_excel(
    "../data/AGE Surveillance Log.xls", 
    skip = 7)
