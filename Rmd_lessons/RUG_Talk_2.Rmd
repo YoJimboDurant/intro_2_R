@@ -646,11 +646,12 @@ Represent language using:
 
 ## Regular Expression Functions 
  `grep` , `grepl`, `sub` and `gsub`
-   + `grep` searches and returns matching string or index in vector
-   + `grepl` searches and returns a vector of TRUE/FALSE is matches occur
-   + `sub` substitutes first match for the second argument
-   +  `gsub` substitutes all matches for the second argument
-   + `regexpr` and `gregexpr` seaches character vector and returns index and length of match
+ 
+- `grep` searches and returns matching string or index in vector
+- `grepl` searches and returns a vector of TRUE/FALSE is matches occur
+- `sub` substitutes first match for the second argument
+-  `gsub` substitutes all matches for the second argument
+- `regexpr` and `gregexpr` seaches character vector and returns index and length of match
  
 ## Regular Expressions - More Training
 
