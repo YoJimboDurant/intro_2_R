@@ -203,8 +203,8 @@ dfx <- data.frame(
 
 
 ## Scientific Notation
-
-- R uses a floating point number
+Scientific Notation consists of:
+- A floating point number
 - "e", a `+` or `-` and 
 - Number indicating the direction and amount to shift the decimal point
 - By default, R will convert small scientific numbers to fixed notation, see `?options`
@@ -216,24 +216,24 @@ dfx <- data.frame(
 ## Logs, Roots
 - To obtain natural log, use `log()` function
 - Inverse of `log()` is `exp()`
-- `log10()` is base 10 logrythms
+- `log10()` is base 10 logrythms, `log2()` is base 2 logrythms
 - other logs can be calculated `log()` with base argument e.g.
 ```{r log2}
 log(9, base = 3)
 ```
 
-## Trig Functions
+## Trigonometry Functions
  - `sin()`, `cos()`, `tan()`, `asin()`, `acos()`, `atan()`
- - `?Trig` 
+ - For help on trigonometry functions see `?Trig` 
  - But input is radians!
 
 ```{r trig, fig.height=3.5}
 plot(x = seq(0, 2, 0.1) * pi, y = sin(seq(0, 2, 0.1) * pi), 
      type="l", xlab = "radians", ylab = "sin(x)")
-abline(h=0, lty = 3, col = "grey")
+abline(h=0, lty = 3, col = "grey") 
 ```
 
-# Vectors
+# Objects, class and Type
 
 ## Assignments
 Variables are stored in R by _assigning_ them. You can see what variables are in R's memory environment by using the function `objects()`. You can use `<-` or `=` for assignment. 
@@ -244,11 +244,11 @@ Variables are stored in R by _assigning_ them. You can see what variables are in
 * (Shortcut key: Alt + -) in Rstudio for `<-`
 
 ```{r error=TRUE} 
-x = 7
+x = 7 # same as:
 x <- 7 
 print(x)
-print(X)
-y <- 10-9 
+print(X) # error!
+y <- 10 - 9 
 ```
 
 <article>
@@ -269,7 +269,7 @@ rm(list=ls())
 
 ## Logic Examples
 
-To use logical comparisons, use the symbols `<, >, >=, <=, ==, !=, %in%`
+To use logical comparisons, use the symbols `<, >, >=, <=, ==, !=
 ```{r logic}
 x <- 1
 x > 2
@@ -286,11 +286,11 @@ x == 1 | x < 0
 
 ```{r logics, echo=FALSE}
 dfx <- data.frame(
-      Operator = c("<", "<=", ">", ">=", "==", "!=", "!", "|", "&"),
+      Operator = c("<", "<=", ">", ">=", "==", "!=", "!", "|", "&", "||", "&&"),
       Operation = c("less than", "less than or equal", "greater than", 
                     "greater than or equal", 
                     "equal", "not equal", "NOT",
-                    "OR", "AND")
+                    "OR", "AND", "ALL OR", "ALL AND")
       )
     kable(dfx, escape = FALSE)
 ```
@@ -299,9 +299,9 @@ dfx <- data.frame(
 Objects can have classes. Atomic structures are the lowest level of class.
 ```{r atomic}
 #Variable classes
-class(x)
 x <- 1.7
 class(x)
+typeof(x)
 y <- 'Hello World!'
 class(y)
 z <- TRUE
@@ -338,9 +338,11 @@ a <- sqrt(2) ; a^2 == 2
 ```
 
 <article>
+Note that there are some problems using R and any computer for math. For instance: `0.3/3 == 0.1` returns `FALSE`(!).
 Some other resources for floating point issues
 - Floating point arithmatic and issues are tricky to grasp. Chapter 1 of the R Inferno by Burns has a good discussion of the pitfalls http://www.burns-stat.com/pages/Tutor/R_inferno.pdf 
 - "Lies my Computer and Calculator Told Me"" by James Stewart http://www.stewartcalculus.com/data/default/upfiles/LiesCalcAndCompTold.pdf
+- see `?.Machine` for numerical limits on precision.
 <\article>
 
 
@@ -349,7 +351,9 @@ Some other resources for floating point issues
  - You can use `print()` with `digits = ` to see more digits
  - By default R will print a set number of digits (`getOption("digits")`)
 
-# Numeric Vectors
+# Vectors
+
+## Numeric Vectors
 
 - Data structures hold data. 
 - There are different classes of data structures. 
@@ -364,7 +368,6 @@ X <- c(10.4, 5.6, 3.1, 6.4, 21.7)   # creates a numeric vector
 1/X                                
 Y <- 1/X
 X**2
-# assigns 1/X to Y
 summary(Y)
 ```
 <article>
@@ -401,10 +404,10 @@ You can find out which distributions are supported by typing `?distributions`. Y
 ## Numeric Vectors Summary and Visualizations
 
 ```{r sumVect, fig.height = 3.5}
-oldpar <- par(mfrow = c(1,3))
+oldpar <- par(mfrow = c(1,2))
 boxplot(randomNums, main = "Boxplot", col="lightblue")
-hist(randomNums, main = "Histogram", col="lightblue") 
-plot(density(randomNums), main = "Density")
+hist(randomNums, main = "Histogram", col="lightblue", freq=FALSE) 
+lines(density(randomNums), main = "Density")
 par(oldpar)
 ```
 
@@ -417,10 +420,12 @@ lastNames <- c("Howard", "Fine", "Howard")
 ThreeStooges <- paste(Stooges, lastNames) 
 ThreeStooges # prints
 plot(ThreeStooges)
+table(ThreeStooges)
 ```
 <article>
-
 The `paste()` function pastes the contents two vectors together item-by-item. If the vector lengths are different, R will issue a warning, and "recycle" to the top of the shorter vector.
+
+There is not arithmatic, `summary` or `plot` methods for character vectors, but the `table()` function can provide a count of unquie character strings in the vector.
 <\article>
 
 ## Logical Vectors
@@ -460,11 +465,12 @@ factorStates <- as.factor(sample(sample(state.abb, 10), 100,
                                  replace = TRUE))  
 factorStates
 summary(factorStates)
+# table(factorStates)
 ```
 
 <article>
 \begin{warning}
-The behavior of the `summary()` and other functions change depending on  the class of the vector. Numeric vector results in a simple numeric summary, while logical vectors give you counts of `TRUE` and `FALSE` in the vector. A summary of a factor vector gives you a count of the factor levels.
+The behavior of the `summary()` and other functions change depending on  the class of the vector. Numeric vector results in a simple numeric summary, while logical vectors give you counts of `TRUE` and `FALSE` in the vector. A summary of a factor vector gives you a table with a count of the factor levels. 
 \end{warning}
 <\article>
 
@@ -498,7 +504,7 @@ class(c("One", 2, 3, "four"))
 - Date class contains dates without time
 - POSIXct is dates and times (including timezones). These are stored as a numeric value (seconds since 01/01/1970) and displayed as a string.
 - POSIXlt is also dates and times (including timezones) but these are stored in a more complicated list format
--`as.Date()` creates a date from a string
+- `as.Date()` creates a date from a string
 - `strptime()` create POSIXlt
 
 
@@ -507,7 +513,7 @@ class(c("One", 2, 3, "four"))
 (adate <- as.Date("11/11/2011", format = "%m/%d/%Y"))
 class(adate)
 (bdate <- strptime("11-17-2014 13:30", 
-                   format = "%m-%d-%Y %H:%M", tz = "US/Eastern"))
+              format = "%m-%d-%Y %H:%M", tz = "US/Eastern"))
 class(bdate) ; bdate$wday; format(bdate, "%a")
 ```
 
@@ -519,6 +525,12 @@ Notes on dates:
 - The POSIXct is number of seconds since start of January 1, 1970.
 
 - POSIXlt is a list of vectors that contains representing parts of the date (e.g. hour, day of month, month, years since 1990).
+
+- to see your timezone on your machine use:
+`Sys.timezone(location = TRUE)`
+
+- for available timezones on your system use:
+`OlsonNames()`
 
 > Note that except where replaced, the operation of time zones is an OS service, and even where replaced a third-party database is used and can be updated (see the section on ‘Time zone names’). Incorrect results will never be an R issue, so please ensure that you have the courtesy not to blame R for them.
 
@@ -537,7 +549,7 @@ X[X>50] <- rnorm(100)
 ```
 
 <article>
-Note the replacement vector must be either 1 - which replaces all values, or of equal length to the replacement. If the index results in a zero length vector, R will not substitute the values.}
+Note the replacement vector must be either 1 - which replaces all values, or of equal length to the replacement. If the index results in a zero length vector, R will not substitute the values (and not issue any warning either!)
 <\article>
 
 ## Missing Values
@@ -628,14 +640,12 @@ languages, including R.
 ## What are Regular Expressions?
 Represent language using:
 
-- literals
-- matacharacters 
-Literals are the words/text and metacharacters are the grammar
-  (describe a class of words). Metacharacters are "special meaning" characters. Together they find classes of words or patterns in strings.
+- literals: are the words/text matched literally.
+- matacharacters: "special meaning" characters. Together they find classes of words or patterns in strings.
 
 
 ## Regular Expression Functions 
- - `grep` , `grepl`, `sub` and `gsub`
+ `grep` , `grepl`, `sub` and `gsub`
    + `grep` searches and returns matching string or index in vector
    + `grepl` searches and returns a vector of TRUE/FALSE is matches occur
    + `sub` substitutes first match for the second argument
@@ -680,12 +690,12 @@ grep("9.*11$", c("911", "9/11", "9/123116/1212"))
  
 ```{r dfx}
 library(readxl)
- AGE_Surveillance_Log <- read_excel(
+ Age_sl <- read_excel(
    "../data/AGE Surveillance Log.xls", 
    skip = 7)
-names(AGE_Surveillance_Log)[
+names(Age_sl)[
   grepl("^X__[0-9]|Y/N__[0-9]|#|^.F$|^Y/N$",
-                                  names(AGE_Surveillance_Log))] <-
+                                  names(Age_sl))] <-
   c(
     "Age", "Sex", "Pax_or_Crew", "Cabin", "Meal_seat",
     "Crew_position", "Diarrhea_n", "Vomiting_n",
@@ -693,4 +703,24 @@ names(AGE_Surveillance_Log)[
     "Spec_req", "Spec_rec", "AD_meds", "Reportable",
     "UI"
   )
- ```
+```
+
+
+## Vectors in Data.Frames
+
+- Vectors within `data.frame` objects can be addressed with a `$`.
+```{r vectdf}
+summary(Age_sl$Age)
+table(Age_sl$Sex)
+```
+## Application Activities
+
+- Using R, create a new vector `Age_sl$adj.temp` that changes any aberent temperatures in cases to missing.
+
+- Let's assume the aberant temperatures were recorded in centigrade, convert only those values in the `Age_sl$Temp` to Fahrenheit scale. $F=\frac{9}{5}C+32$.
+
+- Standardize the `Age_sl$Meal_seat` vector.
+
+- Make a boxplot of ages of only male non-crew cases. 
+
+- Create `Age_sl$dt_ill` which captures the date-time of illness onset. 
