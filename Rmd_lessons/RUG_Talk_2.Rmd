@@ -129,6 +129,13 @@ Which will be useful to have if you are learning R.
 
 # Basic R Syntax
 
+## Data for Today
+Available at http://rug.cdc.gov/data/
+
+- http://rug.cdc.gov/data/AGE_Surveillance_Log.xls
+- save in ../data/ directory
+- also available as a csv file
+
 ## The R Console
 
 Interactive Use
@@ -216,7 +223,7 @@ Scientific Notation consists of:
 ## Logs, Roots
 - To obtain natural log, use `log()` function
 - Inverse of `log()` is `exp()`
-- `log10()` is base 10 logrythms, `log2()` is base 2 logrythms
+- `log10()` is base 10 logarithms, `log2()` is base 2 logarithms
 - other logs can be calculated `log()` with base argument e.g.
 ```{r log2}
 log(9, base = 3)
@@ -236,7 +243,7 @@ abline(h=0, lty = 3, col = "grey")
 # Objects, class and Type
 
 ## Assignments
-Variables are stored in R by _assigning_ them. You can see what variables are in R's memory environment by using the function `objects()`. You can use `<-` or `=` for assignment. 
+Variables are stored in R by _assigning_ them. You can see what variables are in R's memory environment by using the function `objects()`or `ls()`. You can use `<-` or `=` for assignment. 
 
 
 * Note that R is case sensitive!
@@ -269,7 +276,7 @@ rm(list=ls())
 
 ## Logic Examples
 
-To use logical comparisons, use the symbols `<, >, >=, <=, ==, !=
+To use logical comparisons, use the symbols `<, >, >=, <=, ==, !=`
 ```{r logic}
 x <- 1
 x > 2
@@ -656,8 +663,9 @@ Represent language using:
 ## Regular Expressions - More Training
 
 documentation is challenging - 2 good videos to watch
-   + https://www.youtube.com/watch?v=NvHjYOilOf8
-   + https://www.youtube.com/watch?v=q8SzNKib5-4
+
+- https://www.youtube.com/watch?v=NvHjYOilOf8
+- https://www.youtube.com/watch?v=q8SzNKib5-4
    
 ## Regular Expression Examples
 
@@ -684,19 +692,20 @@ grep("9.*11$", c("911", "9/11", "9/123116/1212"))
 ```
 # Application
 
-## Uploading a data.frame
+## Importing a data.frame
  - Data.frame is just a set of vectors arranged in columns
  - Line listing of cases of acute gastroenteritis (AGE) on cruise
- - You can upload using from Excel "Import Dataset" wizard in Rstudio
+ - You can import using from Excel "Import Dataset" wizard in Rstudio
  
 ```{r dfx}
 library(readxl)
  Age_sl <- read_excel(
-   "../data/AGE Surveillance Log.xls", 
+   "../data/AGE_Surveillance_Log.xls", 
    skip = 7)
 names(Age_sl)[
-  grepl("^X__[0-9]|Y/N__[0-9]|#|^.F$|^Y/N$",
-                                  names(Age_sl))] <-
+  grepl(
+    "^X__[0-9]|Y/N__[0-9]|#|^.F$|^Y/N$",names(Age_sl))
+  ] <-
   c(
     "Age", "Sex", "Pax_or_Crew", "Cabin", "Meal_seat",
     "Crew_position", "Diarrhea_n", "Vomiting_n",
