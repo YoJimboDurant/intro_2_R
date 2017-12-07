@@ -266,7 +266,7 @@ The up and down arrow keys can be useful to scroll through your command history.
 
 To see what objects are stored in memory:
 ```{r, eval = FALSE}
-objects()
+ls()
 ```
 
 To clear all objects from memory:
